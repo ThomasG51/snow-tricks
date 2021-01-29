@@ -9,6 +9,8 @@
 
     composer install
 
+    npm install
+
 ###### Frameworks
 * Symfony
 * Tailwind.css

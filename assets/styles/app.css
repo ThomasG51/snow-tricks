@@ -8,6 +8,14 @@
     @apply border border-gray-300 rounded-none w-4/5 mx-auto text-gray-600 mb-10 !important;
 }
 
+.btn-blue {
+    @apply bg-blue-400 text-white rounded-none py-2 px-3;
+}
+
+.btn-red {
+    @apply bg-red-400 text-white rounded-none py-2 px-3;
+}
+
 * {
     font-family: 'Inter', sans-serif;
 }
