@@ -3,36 +3,40 @@
 {% block body %}
     <h1 class="pt-28 text-3xl text-blue-400 w-1/2 mx-auto mb-10">Ajouter un nouveau trick</h1>
 
-    {{ form_start(form) }}
         <div class="w-1/2 mx-auto mb-8">
-            {{ form_label(form.name, null, {
+            {{ form(formMedia) }}
+        </div>
+
+    {{ form_start(formTricks) }}
+        <div class="w-1/2 mx-auto mb-8">
+            {{ form_label(formTricks.name, null, {
                 'label': 'Titre',
                 'label_attr': {'class': 'font-semibold text-blue-400'}
             }) }}
-            {{ form_errors(form.name) }}
-            {{ form_widget(form.name) }}
+            {{ form_errors(formTricks.name) }}
+            {{ form_widget(formTricks.name) }}
         </div>
-        <p>TODO: difficulty</p>
+        <p class="w-1/2 mx-auto mb-8">TODO: difficulty</p>
         <div class="w-1/2 mx-auto mb-8">
-            {{ form_label(form.content, null, {
+            {{ form_label(formTricks.content, null, {
                 'label': 'Description',
                 'label_attr': {'class': 'font-semibold text-blue-400'}
             }) }}
-            {{ form_errors(form.content) }}
-            {{ form_widget(form.content) }}
+            {{ form_errors(formTricks.content) }}
+            {{ form_widget(formTricks.content) }}
         </div>
     <div class="w-1/2 mx-auto mb-8">
-        {{ form_label(form.type, null, {
+        {{ form_label(formTricks.type, null, {
             'label': 'Type du tricks',
             'label_attr': {'class': 'font-semibold text-blue-400'}
         }) }}
-        {{ form_errors(form.type) }}
-        {{ form_widget(form.type) }}
+        {{ form_errors(formTricks.type) }}
+        {{ form_widget(formTricks.type) }}
     </div>
     <div class="w-1/2 mx-auto mb-8">
         <button type="submit" class="bg-blue-400 text-white rounded w-full px-2 py-2">Enregistrer</button>
     </div>
-    {{ form_end(form) }}
+    {{ form_end(formTricks) }}
 {% endblock %}
 
 {% block javascripts %}
