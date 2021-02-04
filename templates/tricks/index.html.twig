@@ -14,32 +14,20 @@
 
     <main id="tricks" class="container mx-auto mt-10 mb-5">
         <div class="w-full grid grid-cols-1 xl:grid-cols-4">
-            <div class="trick-card">
-                <figure class="w-full h-48 mb-5 overflow-hidden">
-                    <img class="object-cover min-h-full" src="{{ asset('media/images/japan-air-1.jpg') }}" alt="">
-                </figure>
-                <a href="/show"><h6 class="text-xl text-center font-bold px-8 mb-2">Japan Air Grab</h6></a>
-                <small class="block px-8 mb-4 text-center">
-                    <i class="fas fa-star text-blue-400"></i>
-                    <i class="fas fa-star text-blue-400"></i>
-                    <i class="fas fa-star-half-alt text-blue-400"></i>
-                    <i class="far fa-star text-blue-400"></i>
-                    <i class="far fa-star text-blue-400"></i>
-                </small>
-            </div>
-
             {% for trick in tricks %}
                 <div class="trick-card">
                     <figure class="w-full h-48 mb-5 overflow-hidden">
                         <img class="object-cover min-h-full" src="{{ asset('media/images/japan-air-1.jpg') }}" alt="">
                     </figure>
-                    <a href="/show"><h6 class="text-xl text-center font-bold px-8 mb-2">{{ trick.name }}</h6></a>
+                    <a href="/show/{{ trick.id }}"><h6 class="text-xl text-center font-bold px-8 mb-2">{{ trick.name }}</h6></a>
                     <small class="block px-8 mb-4 text-center">
-                        <i class="fas fa-star text-blue-400"></i>
-                        <i class="fas fa-star text-blue-400"></i>
-                        <i class="fas fa-star-half-alt text-blue-400"></i>
-                        <i class="far fa-star text-blue-400"></i>
-                        <i class="far fa-star text-blue-400"></i>
+                        {% if trick.difficulty == 1 %}
+                            <i class="fas fa-star text-blue-400"></i><i class="far fa-star text-blue-400"></i><i class="far fa-star text-blue-400"></i>
+                        {% elseif trick.difficulty == 2 %}
+                            <i class="fas fa-star text-blue-400"></i><i class="fas fa-star text-blue-400"></i><i class="far fa-star text-blue-400"></i>
+                        {% elseif trick.difficulty == 3 %}
+                            <i class="fas fa-star text-blue-400"></i><i class="fas fa-star text-blue-400"></i><i class="fas fa-star text-blue-400"></i>
+                        {% endif %}
                     </small>
                 </div>
             {% endfor %}

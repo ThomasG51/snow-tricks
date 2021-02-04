@@ -3,9 +3,9 @@
 {% block body %}
     <h1 class="pt-28 text-3xl text-blue-400 w-1/2 mx-auto mb-10">Ajouter un nouveau trick</h1>
 
-        <div class="w-1/2 mx-auto mb-8">
-            {{ form(formMedia) }}
-        </div>
+    <div class="w-1/2 mx-auto mb-8">
+        {{ form(formMedia) }}
+    </div>
 
     {{ form_start(formTricks) }}
         <div class="w-1/2 mx-auto mb-8">
@@ -16,7 +16,16 @@
             {{ form_errors(formTricks.name) }}
             {{ form_widget(formTricks.name) }}
         </div>
-        <p class="w-1/2 mx-auto mb-8">TODO: difficulty</p>
+        <div class="w-1/2 mx-auto mb-8">
+            {{ form_label(formTricks.content, null, {
+                'label': 'Difficulté',
+                'label_attr': {'class': 'font-semibold text-blue-400'}
+            }) }}
+            {{ form_errors(formTricks.content) }}
+
+            <input type="text" id="rangeValue" class="font-semibold text-blue-400" value=" : Intermédiaire">
+            {{ form_widget(formTricks.difficulty) }}
+        </div>
         <div class="w-1/2 mx-auto mb-8">
             {{ form_label(formTricks.content, null, {
                 'label': 'Description',
@@ -42,5 +51,27 @@
 {% block javascripts %}
     <script type="text/javascript">
         document.getElementById('topbar').classList.add('bg-gray-800');
+
+        function showRangeValue(value) {
+
+            switch(value)
+            {
+                case '1':
+                    document.getElementById('rangeValue').value= ' : Débutant';
+                    document.getElementById('rangeValue').classList.value = '';
+                    document.getElementById('rangeValue').classList.add('font-semibold','text-green-400');
+                    break;
+                case '2':
+                    document.getElementById('rangeValue').value= ' : Intermédiaire';
+                    document.getElementById('rangeValue').classList.value = '';
+                    document.getElementById('rangeValue').classList.add('font-semibold','text-blue-400');
+                    break;
+                case '3':
+                    document.getElementById('rangeValue').value= ' : Expert';
+                    document.getElementById('rangeValue').classList.value = '';
+                    document.getElementById('rangeValue').classList.add('font-semibold','text-red-400');
+                    break;
+            }
+        }
     </script>
 {% endblock %}

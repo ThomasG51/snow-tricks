@@ -24,7 +24,7 @@ class Tricks
     private $name;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="integer")
      */
     private $difficulty;
 
@@ -72,12 +72,12 @@ class Tricks
         return $this;
     }
 
-    public function getDifficulty(): ?float
+    public function getDifficulty(): ?int
     {
         return $this->difficulty;
     }
 
-    public function setDifficulty(float $difficulty): self
+    public function setDifficulty(int $difficulty): self
     {
         $this->difficulty = $difficulty;
 

@@ -4,8 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Media;
 use App\Entity\Tricks;
-use App\Entity\Type;
-use App\Entity\User;
 use App\Form\MediaType;
 use App\Form\TricksType;
 use App\Repository\TricksRepository;
@@ -35,12 +33,16 @@ class TricksController extends AbstractController
     /**
      * Show specific tricks
      *
-     * @Route("/show", name="show_tricks")
+     * @Route("/show/{id}", name="show_tricks")
+     * @param $id
+     * @param TricksRepository $tricksRepository
      * @return Response
      */
-    public function show(): Response
+    public function show($id, TricksRepository $tricksRepository): Response
     {
-        return $this->render('tricks/show.html.twig', []);
+        return $this->render('tricks/show.html.twig', [
+            'trick' => $tricksRepository->find($id)
+        ]);
     }
 
 
@@ -54,23 +56,24 @@ class TricksController extends AbstractController
      */
     public function create(Request $request, EntityManagerInterface $manager): Response
     {
-        $tricks = new Tricks();
         $media = new Media();
-
         $formMedia = $this->createForm(MediaType::class, $media);
 
+        $tricks = new Tricks();
         $formTricks = $this->createForm(TricksType::class, $tricks);
         $formTricks->handleRequest($request);
 
         if ($formTricks->isSubmitted() && $formTricks->isValid())
         {
-            $tricks->setDifficulty(2.0);
             $tricks->setCreatedAt(new \DateTime());
 
             $manager->persist($tricks);
-        }
+            $manager->flush();
 
-        $manager->flush();
+            return $this->redirectToRoute('show_tricks', [
+                'id' => $tricks->getId()
+            ]);
+        }
 
         return $this->render('tricks/create.html.twig', [
             'formTricks' => $formTricks->createView(),

@@ -6,6 +6,7 @@ use App\Entity\Tricks;
 use App\Entity\Type;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\RangeType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -21,9 +22,18 @@ class TricksType extends AbstractType
                     'class' => 'tw-form-field'
                 ]
             ])
+            ->add('difficulty', RangeType::class, [
+                'attr' => [
+                    'min' => 1,
+                    'max' => 3,
+                    'class' => 'w-full',
+                    'onchange' => 'showRangeValue(this.value);'
+                ]
+            ])
             ->add('content', TextareaType::class, [
                 'attr' => [
-                    'class' => 'tw-form-field'
+                    'class' => 'tw-form-field',
+                    'rows' => 14
                 ]
             ])
             ->add('type', EntityType::class, [
