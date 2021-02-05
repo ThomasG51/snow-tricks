@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\Tricks;
+use App\Entity\Trick;
 use App\Entity\Type;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -12,7 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class TricksType extends AbstractType
+class TrickType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -26,7 +26,7 @@ class TricksType extends AbstractType
                 'attr' => [
                     'min' => 1,
                     'max' => 3,
-                    'class' => 'w-full',
+                    'class' => 'w-full cursor-pointer',
                     'onchange' => 'showRangeValue(this.value);'
                 ]
             ])
@@ -38,9 +38,10 @@ class TricksType extends AbstractType
             ])
             ->add('type', EntityType::class, [
                 'class' => Type::class,
+                'choice_label' => 'name',
                 'attr' => [
                     'class' => 'tw-form-field'
-                ]
+                ],
             ])
         ;
     }
@@ -48,7 +49,7 @@ class TricksType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Tricks::class,
+            'data_class' => Trick::class,
         ]);
     }
 }

@@ -2,11 +2,9 @@
 
 namespace App\Controller;
 
-use App\Entity\Media;
-use App\Entity\Tricks;
-use App\Form\MediaType;
-use App\Form\TricksType;
-use App\Repository\TricksRepository;
+use App\Entity\Trick;
+use App\Form\TrickType;
+use App\Repository\TrickRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,13 +17,13 @@ class TricksController extends AbstractController
      * Show all tricks on home page
      *
      * @Route("/", name="home")
-     * @param TricksRepository $tricksRepository
+     * @param TrickRepository $trickRepository
      * @return Response
      */
-    public function index(TricksRepository $tricksRepository): Response
+    public function index(TrickRepository $trickRepository): Response
     {
         return $this->render('tricks/index.html.twig', [
-            'tricks' => $tricksRepository->findAll()
+            'tricks' => $trickRepository->findAll()
         ]);
     }
 
@@ -35,13 +33,13 @@ class TricksController extends AbstractController
      *
      * @Route("/show/{id}", name="show_tricks")
      * @param $id
-     * @param TricksRepository $tricksRepository
+     * @param TrickRepository $trickRepository
      * @return Response
      */
-    public function show($id, TricksRepository $tricksRepository): Response
+    public function show($id, TrickRepository $trickRepository): Response
     {
         return $this->render('tricks/show.html.twig', [
-            'trick' => $tricksRepository->find($id)
+            'trick' => $trickRepository->find($id)
         ]);
     }
 
@@ -56,28 +54,24 @@ class TricksController extends AbstractController
      */
     public function create(Request $request, EntityManagerInterface $manager): Response
     {
-        $media = new Media();
-        $formMedia = $this->createForm(MediaType::class, $media);
+        $trick = new Trick();
+        $formTrick = $this->createForm(TrickType::class, $trick);
+        $formTrick->handleRequest($request);
 
-        $tricks = new Tricks();
-        $formTricks = $this->createForm(TricksType::class, $tricks);
-        $formTricks->handleRequest($request);
-
-        if ($formTricks->isSubmitted() && $formTricks->isValid())
+        if ($formTrick->isSubmitted() && $formTrick->isValid())
         {
-            $tricks->setCreatedAt(new \DateTime());
+            $trick->setCreatedAt(new \DateTime());
 
-            $manager->persist($tricks);
+            $manager->persist($trick);
             $manager->flush();
 
             return $this->redirectToRoute('show_tricks', [
-                'id' => $tricks->getId()
+                'id' => $trick->getId()
             ]);
         }
 
         return $this->render('tricks/create.html.twig', [
-            'formTricks' => $formTricks->createView(),
-            'formMedia' => $formMedia->createView()
+            'formTricks' => $formTrick->createView()
         ]);
     }
 }

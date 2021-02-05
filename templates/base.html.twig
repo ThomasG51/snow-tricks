@@ -8,13 +8,13 @@
     <!-- font-awesome -->
     <script src="https://kit.fontawesome.com/00a29b1fe9.js" crossorigin="anonymous"></script>
 
-    {% block stylesheets %}
-        {{ encore_entry_link_tags('app') }}
-    {% endblock %}
+    {{ encore_entry_link_tags('app') }}
+
+    {% block stylesheets %}{% endblock %}
 
     <title>{% block title %}SnowTricks{% endblock %}</title>
 </head>
-<body>
+<body class="bg-gray-50">
     <div id="topbar" class="fixed top-0 w-full p-4 text-right hidden xl:flex justify-between z-40 transition-all duration-300">
         <div class="text-white">
             <a href="/">
@@ -55,13 +55,16 @@
 
             <button class="bg-blue-400 text-white w-full rounded-full w-full h-7">Connexion</button>
         </form>
+
+        <h6 class="text-white text-2xl mt-20 ml-5 mb-5">Thomas George</h6>
+        <a href="{{ path('create_tricks') }}" class="block bg-blue-400 text-white text-center rounded-full w-11/12 h-7 mx-auto mt-5">Create new tricks</a>
     </nav>
 
     {% block body %}{% endblock %}
 
-    {% block javascripts %}
-        {{ encore_entry_script_tags('app') }}
-    {% endblock %}
+    {{ encore_entry_script_tags('app') }}
+
+    {% block javascripts %}{% endblock %}
 
     <script type="text/javascript">
 

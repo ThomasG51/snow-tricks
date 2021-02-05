@@ -5,7 +5,7 @@
         <figure class="h-96 xl:fixed xl:h-screen xl:w-1/2 overflow-hidden">
             <img class="object-cover min-h-full min-w-full" src="{{ asset('media/images/nose.jpg') }}" alt="">
         </figure>
-        <div class="col-start-2 pt-8 xl:pt-28">
+        <div class="col-start-2 pt-8 xl:pt-28 bg-white">
             <h1 class="text-4xl font-bold mx-8">{{ trick.name }} </h1>
             <h6 class="inline-block text-sm italic text-gray-500 mx-8">
                 {% if trick.difficulty == 1 %}
@@ -17,11 +17,11 @@
                 {% endif %}
             </h6>
             {% if trick.modifiedAt != null %}
-                <h6 class="text-sm italic text-gray-500  mx-8">Modification: <i class="far fa-clock ml-1"></i> 04/01/2021</h6>
+                <h6 class="text-sm italic text-gray-500  mx-8">Modification: <i class="far fa-clock ml-1"></i> {{ trick.modifiedAt | date("d/m/Y") }}</h6>
             {% endif %}
 
             <p class="mx-8 my-10 text-justify text-gray-800">
-                {{ trick.content }}
+                {{ trick.content | raw }}
             </p>
 
             <button id="show-media" class="btn-blue block xl:hidden mx-auto">Afficher les médias</button>
@@ -68,7 +68,7 @@
 
 {% block javascripts %}
     <script type="text/javascript">
-        /* SLIDE UP */
+
         let slideUp = (target, duration=800) => {
             target.style.transitionProperty = 'height, margin, padding';
             target.style.transitionDuration = duration + 'ms';
@@ -91,11 +91,9 @@
                 target.style.removeProperty('overflow');
                 target.style.removeProperty('transition-duration');
                 target.style.removeProperty('transition-property');
-                //alert("!");
             }, duration);
         }
 
-        /* SLIDE DOWN */
         let slideDown = (target, duration=800) => {
             target.style.removeProperty('display');
             let display = window.getComputedStyle(target).display;
@@ -125,7 +123,6 @@
             }, duration);
         }
 
-        /* TOOGLE */
         var slideToggle = (target, duration = 800) => {
             if (window.getComputedStyle(target).display === 'none') {
                 return slideDown(target, duration);
@@ -152,5 +149,6 @@
                 }, 1000);
             }
         });
+
     </script>
 {% endblock %}

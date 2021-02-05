@@ -1,51 +1,52 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1 class="pt-28 text-3xl text-blue-400 w-1/2 mx-auto mb-10">Ajouter un nouveau trick</h1>
+    <div class="bg-gray-100 pt-32 pb-14">
+    <!-- TODO responsive -->
+        <main class="w-3/5 py-12 mx-auto bg-white shadow">
+            <h1 class="text-3xl text-blue-400 w-1/2 mx-auto text-center mb-10"><i class="fas fa-plus mr-1"></i> Ajouter un nouveau trick</h1>
 
-    <div class="w-1/2 mx-auto mb-8">
-        {{ form(formMedia) }}
-    </div>
+            {{ form_start(formTricks) }}
+                <div class="w-10/12 mx-auto mb-8">
+                    {{ form_label(formTricks.name, null, {
+                        'label': 'Titre',
+                        'label_attr': {'class': 'font-semibold text-blue-400'}
+                    }) }}
+                    {{ form_errors(formTricks.name) }}
+                    {{ form_widget(formTricks.name) }}
+                </div>
+                <div class="w-10/12 mx-auto mb-8">
+                    {{ form_label(formTricks.content, null, {
+                        'label': 'Difficulté',
+                        'label_attr': {'class': 'font-semibold text-blue-400'}
+                    }) }}
+                    {{ form_errors(formTricks.content) }}
 
-    {{ form_start(formTricks) }}
-        <div class="w-1/2 mx-auto mb-8">
-            {{ form_label(formTricks.name, null, {
-                'label': 'Titre',
-                'label_attr': {'class': 'font-semibold text-blue-400'}
-            }) }}
-            {{ form_errors(formTricks.name) }}
-            {{ form_widget(formTricks.name) }}
-        </div>
-        <div class="w-1/2 mx-auto mb-8">
-            {{ form_label(formTricks.content, null, {
-                'label': 'Difficulté',
-                'label_attr': {'class': 'font-semibold text-blue-400'}
-            }) }}
-            {{ form_errors(formTricks.content) }}
-
-            <input type="text" id="rangeValue" class="font-semibold text-blue-400" value=" : Intermédiaire">
-            {{ form_widget(formTricks.difficulty) }}
-        </div>
-        <div class="w-1/2 mx-auto mb-8">
-            {{ form_label(formTricks.content, null, {
-                'label': 'Description',
-                'label_attr': {'class': 'font-semibold text-blue-400'}
-            }) }}
-            {{ form_errors(formTricks.content) }}
-            {{ form_widget(formTricks.content) }}
-        </div>
-    <div class="w-1/2 mx-auto mb-8">
-        {{ form_label(formTricks.type, null, {
-            'label': 'Type du tricks',
-            'label_attr': {'class': 'font-semibold text-blue-400'}
-        }) }}
-        {{ form_errors(formTricks.type) }}
-        {{ form_widget(formTricks.type) }}
+                    <input type="text" id="rangeValue" class="font-semibold text-blue-400" value=" : Intermédiaire">
+                    {{ form_widget(formTricks.difficulty) }}
+                </div>
+                <div class="w-10/12 mx-auto mb-8">
+                    {{ form_label(formTricks.type, null, {
+                        'label': 'Type du tricks',
+                        'label_attr': {'class': 'font-semibold text-blue-400'}
+                    }) }}
+                    {{ form_errors(formTricks.type) }}
+                    {{ form_widget(formTricks.type) }}
+                </div>
+                <div class="w-10/12 mx-auto mb-8">
+                    {{ form_label(formTricks.content, null, {
+                        'label': 'Description',
+                        'label_attr': {'class': 'font-semibold text-blue-400'}
+                    }) }}
+                    {{ form_errors(formTricks.content) }}
+                    {{ form_widget(formTricks.content) }}
+                </div>
+                <div class="w-10/12 mx-auto">
+                    <button type="submit" class="bg-blue-400 text-white rounded w-full px-2 py-2">Enregistrer</button>
+                </div>
+            {{ form_end(formTricks) }}
+        </main>
     </div>
-    <div class="w-1/2 mx-auto mb-8">
-        <button type="submit" class="bg-blue-400 text-white rounded w-full px-2 py-2">Enregistrer</button>
-    </div>
-    {{ form_end(formTricks) }}
 {% endblock %}
 
 {% block javascripts %}
@@ -53,7 +54,6 @@
         document.getElementById('topbar').classList.add('bg-gray-800');
 
         function showRangeValue(value) {
-
             switch(value)
             {
                 case '1':

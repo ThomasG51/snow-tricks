@@ -11,6 +11,7 @@
 
     npm install
 
-###### Frameworks
+###### Frameworks/Libraries
 * Symfony
 * Tailwind.css
+* Dropzone (Symfony UX)

@@ -28,7 +28,7 @@ class Comment
     private $createdAt;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Tricks::class)
+     * @ORM\ManyToOne(targetEntity=Trick::class)
      * @ORM\JoinColumn(nullable=false)
      */
     private $tricks;
@@ -68,12 +68,12 @@ class Comment
         return $this;
     }
 
-    public function getTricks(): ?Tricks
+    public function getTricks(): ?Trick
     {
         return $this->tricks;
     }
 
-    public function setTricks(?Tricks $tricks): self
+    public function setTricks(?Trick $tricks): self
     {
         $this->tricks = $tricks;
 
