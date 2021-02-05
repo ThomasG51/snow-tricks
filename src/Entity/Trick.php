@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\TricksRepository;
+use App\Repository\TrickRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=TricksRepository::class)
+ * @ORM\Entity(repositoryClass=TrickRepository::class)
  */
 class Trick
 {
@@ -45,10 +45,10 @@ class Trick
     private $content;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Type::class)
+     * @ORM\ManyToOne(targetEntity=Category::class)
      * @ORM\JoinColumn(nullable=true)
      */
-    private $type;
+    private $category;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class)
@@ -131,14 +131,14 @@ class Trick
         return $this;
     }
 
-    public function getType(): ?Type
+    public function getCategory(): ?Category
     {
-        return $this->type;
+        return $this->category;
     }
 
-    public function setType(?Type $type): self
+    public function setCategory(?Category $category): self
     {
-        $this->type = $type;
+        $this->category = $category;
 
         return $this;
     }

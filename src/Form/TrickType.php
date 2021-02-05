@@ -3,7 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Trick;
-use App\Entity\Type;
+use App\Entity\Category;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\RangeType;
@@ -36,8 +36,8 @@ class TrickType extends AbstractType
                     'rows' => 14
                 ]
             ])
-            ->add('type', EntityType::class, [
-                'class' => Type::class,
+            ->add('category', EntityType::class, [
+                'class' => Category::class,
                 'choice_label' => 'name',
                 'attr' => [
                     'class' => 'tw-form-field'

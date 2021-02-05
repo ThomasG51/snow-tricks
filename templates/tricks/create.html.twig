@@ -26,12 +26,12 @@
                     {{ form_widget(formTricks.difficulty) }}
                 </div>
                 <div class="w-10/12 mx-auto mb-8">
-                    {{ form_label(formTricks.type, null, {
-                        'label': 'Type du tricks',
+                    {{ form_label(formTricks.category, null, {
+                        'label': 'Category du tricks',
                         'label_attr': {'class': 'font-semibold text-blue-400'}
                     }) }}
-                    {{ form_errors(formTricks.type) }}
-                    {{ form_widget(formTricks.type) }}
+                    {{ form_errors(formTricks.category) }}
+                    {{ form_widget(formTricks.category) }}
                 </div>
                 <div class="w-10/12 mx-auto mb-8">
                     {{ form_label(formTricks.content, null, {
