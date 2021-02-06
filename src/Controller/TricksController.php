@@ -23,7 +23,7 @@ class TricksController extends AbstractController
     public function index(TrickRepository $trickRepository): Response
     {
         return $this->render('tricks/index.html.twig', [
-            'tricks' => $trickRepository->findAll()
+            'tricks' => $trickRepository->findAllTenByTen(0, 10)
         ]);
     }
 
@@ -73,5 +73,20 @@ class TricksController extends AbstractController
         return $this->render('tricks/create.html.twig', [
             'formTricks' => $formTrick->createView()
         ]);
+    }
+
+
+    /**
+     * Load more tricks ten by ten
+     *
+     * @Route("/load/{firstItem}/{nbItems}", name="load")
+     * @param int $firstItem
+     * @param int $nbItems
+     * @param TrickRepository $trickRepository
+     * @return Response
+     */
+    public function loadMore(int $firstItem, int $nbItems, TrickRepository $trickRepository) : Response
+    {
+        return $this->json($trickRepository->findAllTenByTen($firstItem, $nbItems));
     }
 }

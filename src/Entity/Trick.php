@@ -12,6 +12,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Trick
 {
+    // TODO assert constrain
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -46,7 +48,7 @@ class Trick
 
     /**
      * @ORM\ManyToOne(targetEntity=Category::class)
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\JoinColumn(nullable=false)
      */
     private $category;
 

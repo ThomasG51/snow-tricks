@@ -23,6 +23,7 @@
         "build": "encore production --progress"
     },
     "dependencies": {
+        "axios": "^0.21.1",
         "postcss": "^8.2.4"
     }
 }
