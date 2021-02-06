@@ -23,7 +23,7 @@ class TricksController extends AbstractController
     public function index(TrickRepository $trickRepository): Response
     {
         return $this->render('tricks/index.html.twig', [
-            'tricks' => $trickRepository->findAllTenByTen(0, 10)
+            'tricks' => $trickRepository->findAllTenByTen(0, 5)
         ]);
     }
 
