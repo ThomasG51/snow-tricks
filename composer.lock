@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "127f4453101b23373130e6f68003595d",
+    "content-hash": "9c68706cd65311a0f60a3dd3a467bc2a",
     "packages": [
         {
             "name": "composer/package-versions-deprecated",
@@ -5586,72 +5586,6 @@
             "time": "2020-12-08T16:43:38+00:00"
         },
         {
-            "name": "symfony/ux-dropzone",
-            "version": "v1.2.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/ux-dropzone.git",
-                "reference": "ed111ac22abe6c174aa788603c5f573471083e2e"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/ux-dropzone/zipball/ed111ac22abe6c174aa788603c5f573471083e2e",
-                "reference": "ed111ac22abe6c174aa788603c5f573471083e2e",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.2.5",
-                "symfony/config": "^4.4.17|^5.0",
-                "symfony/dependency-injection": "^4.4.17|^5.0",
-                "symfony/form": "^4.4.17|^5.0",
-                "symfony/http-kernel": "^4.4.17|^5.0"
-            },
-            "require-dev": {
-                "symfony/framework-bundle": "^4.4.17|^5.0",
-                "symfony/phpunit-bridge": "^5.2",
-                "symfony/twig-bundle": "^4.4.17|^5.0",
-                "symfony/var-dumper": "^4.4.17|^5.0"
-            },
-            "type": "symfony-bundle",
-            "extra": {
-                "branch-alias": {
-                    "dev-main": "1.1-dev"
-                },
-                "thanks": {
-                    "name": "symfony/ux",
-                    "url": "https://github.com/symfony/ux"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\UX\\Dropzone\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Titouan Galopin",
-                    "email": "galopintitouan@gmail.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "File input dropzones for Symfony Forms",
-            "homepage": "https://symfony.com",
-            "keywords": [
-                "symfony-ux"
-            ],
-            "time": "2021-02-01T14:18:56+00:00"
-        },
-        {
             "name": "symfony/validator",
             "version": "v5.2.1",
             "source": {
@@ -6707,7 +6641,7 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=7.2.5",
+        "php": ">=7.4",
         "ext-ctype": "*",
         "ext-iconv": "*"
     },

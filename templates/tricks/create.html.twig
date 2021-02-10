@@ -25,6 +25,20 @@
                     <input type="text" id="rangeValue" class="font-semibold text-blue-400" value=" : Intermédiaire">
                     {{ form_widget(formTricks.difficulty) }}
                 </div>
+                <div class="w-10/12 mx-auto mb-8 videos">
+                    {{ form_label(formTricks.videos, null, {
+                        'label': 'Vidéos (url)',
+                        'label_attr': {'class': 'font-semibold text-blue-400'}
+                    }) }}
+                    <ul id="videos"
+                        data-prototype="{{ form_widget(formTricks.videos.vars.prototype)|e('html_attr') }}"
+                        data-widget-tags="{{ '<li></li>'|e }}"
+                        data-widget-counter="{{ formTricks.videos|length }}">
+                            {{ form_errors(formTricks.videos) }}
+                            {{ form_widget(formTricks.videos) }}
+                    </ul>
+                    <button type="button" class="add-another-collection-widget bg-blue-400 text-white px-2 py-1 mt-3" data-list-selector="#videos"><i class="fas fa-plus"></i></button>
+                </div>
                 <div class="w-10/12 mx-auto mb-8">
                     {{ form_label(formTricks.category, null, {
                         'label': 'Category du tricks',
@@ -50,6 +64,8 @@
 {% endblock %}
 
 {% block javascripts %}
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.js" integrity="sha256-DrT5NfxfbHvMHux31Lkhxg42LY6of8TaYyK50jnxRnM=" crossorigin="anonymous"></script>
+
     <script type="text/javascript">
         document.getElementById('topbar').classList.add('bg-gray-800');
 
@@ -73,5 +89,29 @@
                     break;
             }
         }
+
+        // add-collection-widget.js
+        jQuery(document).ready(function () {
+            jQuery('.add-another-collection-widget').click(function (e) {
+                var list = jQuery(jQuery(this).attr('data-list-selector'));
+                // Try to find the counter of the list or use the length of the list
+                var counter = list.data('widget-counter') || list.children().length;
+
+                // grab the prototype template
+                var newWidget = list.attr('data-prototype');
+                // replace the "__name__" used in the id and name of the prototype
+                // with a number that's unique to your emails
+                // end name attribute looks like name="contact[emails][2]"
+                newWidget = newWidget.replace(/__name__/g, counter);
+                // Increase the counter
+                counter++;
+                // And store it, the length cannot be used if deleting widgets is allowed
+                list.data('widget-counter', counter);
+
+                // create a new list element and add it to the list
+                var newElem = jQuery(list.attr('data-widget-tags')).html(newWidget);
+                newElem.appendTo(list);
+            });
+        });
     </script>
 {% endblock %}

@@ -13,7 +13,7 @@ import './bootstrap';
 
 
 /*
- * Home Page : Change navbar color on scroll
+ * Body : Change navbar color on scroll
  */
 
 document.getElementById('login-btn').addEventListener('click', function(){

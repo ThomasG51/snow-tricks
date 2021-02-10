@@ -6,6 +6,8 @@ use App\Entity\Trick;
 use App\Entity\Category;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\RangeType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -29,6 +31,16 @@ class TrickType extends AbstractType
                     'class' => 'w-full cursor-pointer',
                     'onchange' => 'showRangeValue(this.value);'
                 ]
+            ])
+            ->add('videos', CollectionType::class, [
+                'entry_type' => VideoType::class,
+                'entry_options' => [
+                    'attr' => [
+                        'class' => 'tw-form-field mt-3'
+                    ],
+                ],
+                'by_reference' => false,
+                'allow_add' => true
             ])
             ->add('content', TextareaType::class, [
                 'attr' => [
