@@ -1,0 +1,46 @@
+{%  extends 'base.html.twig' %}
+
+{% block body %}
+    <header class="h-screen w-full flex flex-col justify-center items-start">
+        <div class="bg-black bg-opacity-75 p-6 pr-16 rounded-r-full">
+            <h1 class="text-white text-5xl xl:text-8xl snowtricks-title"><span class="text-blue-400 snowtricks-title">S</span>now<span class="text-blue-400 snowtricks-title">T</span>ricks</h1>
+            <h6 class="text-md xl:text-2xl font-light text-white italic"><i class="fas fa-snowboarding mr-3"></i>Let's get riding</h6>
+        </div>
+
+        <a href="#tricks" class="block bg-blue-400 hover:bg-white text-white hover:text-blue-400 text-lg font-light shadow hover:shadow-lg rounded-none py-3 px-4 ml-5 mt-5">Découvrir les tricks</a>
+
+        <a href="" class="hidden md:block absolute bottom-3 right-6"><i class="fas fa-chevron-down text-white text-5xl"></i></a>
+    </header>
+
+    <main id="tricks" class="relative container mx-auto mt-10 mb-5">
+        <div id="tricks-container" class="w-full grid grid-cols-1 xl:grid-cols-5">
+            {% for trick in tricks %}
+                <div class="trick-card">
+                    <figure class="w-full h-48 mb-5 overflow-hidden">
+                        <img class="object-cover min-h-full" src="{{ asset('media/images/japan-air-1.jpg') }}" alt="">
+                    </figure>
+                    <a href="/show/{{ trick.id }}"><h6 class="text-xl text-center font-bold px-8 mb-2">{{ trick.name }} {{ trick.category.name }}</h6></a>
+                    <small class="block px-8 mb-4 text-center">
+                        {% if trick.difficulty == 1 %}
+                            <i class="fas fa-star text-blue-400"></i><i class="far fa-star text-blue-400"></i><i class="far fa-star text-blue-400"></i>
+                        {% elseif trick.difficulty == 2 %}
+                            <i class="fas fa-star text-blue-400"></i><i class="fas fa-star text-blue-400"></i><i class="far fa-star text-blue-400"></i>
+                        {% elseif trick.difficulty == 3 %}
+                            <i class="fas fa-star text-blue-400"></i><i class="fas fa-star text-blue-400"></i><i class="fas fa-star text-blue-400"></i>
+                        {% endif %}
+                    </small>
+                </div>
+            {% endfor %}
+        </div>
+
+        <button id="load-more" class="bg-blue-400 text-white shadow rounded-none block p-4 mx-auto mt-10">
+            Load more tricks
+        </button>
+
+        <a href="" class="hidden md:block absolute bottom-3 right-6"><i class="fas fa-chevron-up text-blue-400 text-5xl"></i></a>
+    </main>
+
+    <footer class="w-full h-16 bg-gray-800 text-white flex justify-center items-center"><p class="hidden md:block">Copyright &copy; <span class="text-blue-400">S</span>now<span class="text-blue-400">T</span>ricks 2021</p></footer>
+{% endblock %}
+
+{% block javascripts %}{% endblock %}

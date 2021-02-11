@@ -1,0 +1,66 @@
+@startuml
+
+    left to right direction
+
+    package MPD {
+        Class Tricks {
+            id : INT NOT NULL [PK]
+            name : VARCHAR NOT NULL
+            difficulty : FLOAT NOT NULL
+            created_at : DATETIME NOT NULL
+            modified_at : DATETIME
+            --
+            type_id : INT NOT NULL [FK]
+            user_id : INT NOT NULL [FK]
+        }
+
+        Class Media {
+            id : INT NOT NULL [PK]
+            name : VARCHAR NOT NULL
+            cover : BOOL
+            --
+            tricks_id : INT NOT NULL [FK]
+        }
+
+        Class Video {
+            id : INT NOT NULL [PK]
+            url : VARCHAR NOT NULL
+            --
+            tricks_id : INT NOT NULL [FK]
+        }
+
+        Class Type {
+            id : INT NOT NULL [PK]
+            name : VARCHAR NOT NULL
+        }
+
+        Class User {
+            id : INT NOT NULL [PK]
+            avatar : VARCHAR NOT NULL [PK]
+            firstname : VARCHAR NOT NULL
+            lastname : VARCHAR NOT NULL
+            email : VARCHAR NOT NULL
+            password : VARCHAR NOT NULL
+            role : JSON NOT NULL
+        }
+
+        Class Comment {
+            id : INT NOT NULL [PK]
+            message : TEXT NOT NULL
+            created_at : DATETIME NOT NULL
+            --
+            tricks_id : INT NOT NULL [FK]
+            user_id : INT NOT NULL [FK]
+        }
+
+        Tricks }|--o| Type
+        Tricks }|--o| User
+
+        Media }|--o| Tricks
+        Video }|--o| Tricks
+
+        Comment }|--o| Tricks
+        Comment }|--o| User
+    }
+
+@enduml

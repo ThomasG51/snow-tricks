@@ -9,6 +9,9 @@
 
     composer install
 
-###### Frameworks
+    npm install
+
+###### Frameworks/Libraries
 * Symfony
 * Tailwind.css
+* Dropzone (Symfony UX)

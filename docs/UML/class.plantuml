@@ -1,0 +1,58 @@
+@startuml
+
+    left to right direction
+
+    package class {
+        Class Tricks {
+            {field} -id : integer
+            {field} -name : string
+            {field} -difficulty : float
+            {field} -createdAt : DateTime
+            {field} -modifiedAt : DateTime
+            --
+            {field} -type_id : integer
+            {field} -user_id : integer
+        }
+
+        Class Media {
+            {field} -id : integer
+            {field} -name : string
+            {field} -cover : bool
+            --
+            {field} -tricks_id : integer
+        }
+
+        Class Type {
+            {field} -id : integer
+            {field} -name : string
+        }
+
+        Class User {
+            {field} -id : integer
+            {field} -avatar : string
+            {field} -firstname : string
+            {field} -lastname : string
+            {field} -email : string
+            {field} -password : string
+            {field} -role : json
+        }
+
+        Class Comment {
+            {field} -id : integer
+            {field} -message : string
+            {field} -created_at : datetime
+            --
+            {field} -tricks_id : string
+            {field} -user_id : string
+        }
+
+        Tricks "*" -- "1" Type
+        Tricks "*" -- "1" User
+
+        Media "*" -- "1" Tricks
+
+        Comment "*" -- "1" Tricks
+        Comment "*" -- "1" User
+    }
+
+@enduml

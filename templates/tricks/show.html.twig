@@ -5,37 +5,44 @@
         <figure class="h-96 xl:fixed xl:h-screen xl:w-1/2 overflow-hidden">
             <img class="object-cover min-h-full min-w-full" src="{{ asset('media/images/nose.jpg') }}" alt="">
         </figure>
-        <div class="col-start-2 pt-8 md:pt-28">
-            <h1 class="text-4xl font-bold mx-8">Nose Grab</h1>
+        <div class="col-start-2 pt-8 xl:pt-28 bg-white">
+            <h1 class="text-4xl font-bold mx-8">{{ trick.name }} </h1>
             <h6 class="inline-block text-sm italic text-gray-500 mx-8">
-                <i class="fas fa-star text-blue-400"></i>
-                <i class="fas fa-star-half-alt text-blue-400"></i>
-                <i class="far fa-star text-blue-400"></i>
-                <i class="far fa-star text-blue-400"></i>
-                <i class="far fa-star text-blue-400"></i>
+                {% if trick.difficulty == 1 %}
+                    <i class="fas fa-star text-blue-400"></i><i class="far fa-star text-blue-400"></i><i class="far fa-star text-blue-400"></i>
+                {% elseif trick.difficulty == 2 %}
+                    <i class="fas fa-star text-blue-400"></i><i class="fas fa-star text-blue-400"></i><i class="far fa-star text-blue-400"></i>
+                {% elseif trick.difficulty == 3 %}
+                    <i class="fas fa-star text-blue-400"></i><i class="fas fa-star text-blue-400"></i><i class="fas fa-star text-blue-400"></i>
+                {% endif %}
             </h6>
-            <h6 class="text-sm italic text-gray-500  mx-8">Modification: <i class="far fa-clock ml-1"></i> 04/01/2021</h6>
+            {% if trick.modifiedAt != null %}
+                <h6 class="text-sm italic text-gray-500  mx-8">Modification: <i class="far fa-clock ml-1"></i> {{ trick.modifiedAt | date("d/m/Y") }}</h6>
+            {% endif %}
 
             <p class="mx-8 my-10 text-justify text-gray-800">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa ipsam laudantium sunt veritatis. Commodi consequuntur est ipsa molestias neque quisquam suscipit voluptas. Aperiam architecto consequuntur debitis dicta distinctio doloribus error excepturi fuga hic inventore iste libero maxime minus natus, nostrum nulla possimus provident quas qui quia quidem quo rerum saepe sapiente sint temporibus, totam vitae voluptate voluptates voluptatum. Consectetur cumque dolores fuga, illum nam sed. <br><br>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa ipsam laudantium sunt veritatis. Commodi consequuntur est ipsa molestias neque quisquam suscipit voluptas.
+                {{ trick.content | raw }}
             </p>
 
-            <div class="grid grid-col-1 md:grid-cols-3 mx-6 my-6">
-                <figure class="w-full md:w-11/12 mx-auto mb-5 md:mb-0">
-                    <img class="object-cover min-w-full  max-h-52 md:min-h-full" src="http://placehold.it/200x150" alt="">
-                </figure>
-                <figure class="w-full md:w-11/12 mx-auto mb-5 md:mb-0">
-                    <img class="object-cover min-w-full  max-h-52 md:min-h-full" src="http://placehold.it/200x150" alt="">
-                </figure>
-                <figure class="w-full md:w-11/12 mx-auto mb-5 md:mb-0">
-                    <img class="object-cover min-w-full  max-h-52 md:min-h-full" src="http://placehold.it/200x150" alt="">
-                </figure>
-            </div>
+            <button id="show-media" class="btn-blue block xl:hidden mx-auto">Afficher les médias</button>
 
-            <div class="grid grid-col-1 md:grid-cols-2 mx-6 my-8">
-                <iframe class="w-full md:w-11/12 h-48 mx-auto mb-5 md:mb-0" src="https://www.youtube.com/embed/gZFWW4Vus-Q" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                <iframe class="w-full md:w-11/12 h-48 mx-auto mb-5 md:mb-0" src="https://www.youtube.com/embed/_Qq-YoXwNQY" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <div id="media" class="hidden xl:block">
+                <div class="grid grid-col-1 xl:grid-cols-3 mx-6 my-6">
+                    <figure class="w-full md:w-11/12 mx-auto mb-5 md:mb-0">
+                        <img class="object-cover min-w-full  max-h-52 md:min-h-full" src="http://placehold.it/200x150" alt="">
+                    </figure>
+                    <figure class="w-full md:w-11/12 mx-auto mb-5 md:mb-0">
+                        <img class="object-cover min-w-full  max-h-52 md:min-h-full" src="http://placehold.it/200x150" alt="">
+                    </figure>
+                    <figure class="w-full md:w-11/12 mx-auto mb-5 md:mb-0">
+                        <img class="object-cover min-w-full  max-h-52 md:min-h-full" src="http://placehold.it/200x150" alt="">
+                    </figure>
+                </div>
+
+                <div class="grid grid-col-1 md:grid-cols-2 mx-6 my-8">
+                    <iframe class="w-full md:w-11/12 h-48 mx-auto mb-5 md:mb-0" src="https://www.youtube.com/embed/gZFWW4Vus-Q" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    <iframe class="w-full md:w-11/12 h-48 mx-auto mb-5 md:mb-0" src="https://www.youtube.com/embed/_Qq-YoXwNQY" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
             </div>
 
             <h3 class="text-blue-400 text-xl px-8 mt-10">Vos réactions</h3>
@@ -57,4 +64,91 @@
             <footer class="w-full h-16 bg-gray-800 text-white flex justify-center items-center"><p class="hidden md:block">Copyright &copy; <span class="text-blue-400">S</span>now<span class="text-blue-400">T</span>ricks 2021</p></footer>
         </div>
     </main>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript">
+
+        let slideUp = (target, duration=800) => {
+            target.style.transitionProperty = 'height, margin, padding';
+            target.style.transitionDuration = duration + 'ms';
+            target.style.boxSizing = 'border-box';
+            target.style.height = target.offsetHeight + 'px';
+            target.offsetHeight;
+            target.style.overflow = 'hidden';
+            target.style.height = 0;
+            target.style.paddingTop = 0;
+            target.style.paddingBottom = 0;
+            target.style.marginTop = 0;
+            target.style.marginBottom = 0;
+            window.setTimeout( () => {
+                target.style.display = 'none';
+                target.style.removeProperty('height');
+                target.style.removeProperty('padding-top');
+                target.style.removeProperty('padding-bottom');
+                target.style.removeProperty('margin-top');
+                target.style.removeProperty('margin-bottom');
+                target.style.removeProperty('overflow');
+                target.style.removeProperty('transition-duration');
+                target.style.removeProperty('transition-property');
+            }, duration);
+        }
+
+        let slideDown = (target, duration=800) => {
+            target.style.removeProperty('display');
+            let display = window.getComputedStyle(target).display;
+            if (display === 'none') display = 'block';
+            target.style.display = display;
+            let height = target.offsetHeight;
+            target.style.overflow = 'hidden';
+            target.style.height = 0;
+            target.style.paddingTop = 0;
+            target.style.paddingBottom = 0;
+            target.style.marginTop = 0;
+            target.style.marginBottom = 0;
+            target.offsetHeight;
+            target.style.boxSizing = 'border-box';
+            target.style.transitionProperty = "height, margin, padding";
+            target.style.transitionDuration = duration + 'ms';
+            target.style.height = height + 'px';
+            target.style.removeProperty('padding-top');
+            target.style.removeProperty('padding-bottom');
+            target.style.removeProperty('margin-top');
+            target.style.removeProperty('margin-bottom');
+            window.setTimeout( () => {
+                target.style.removeProperty('height');
+                target.style.removeProperty('overflow');
+                target.style.removeProperty('transition-duration');
+                target.style.removeProperty('transition-property');
+            }, duration);
+        }
+
+        var slideToggle = (target, duration = 800) => {
+            if (window.getComputedStyle(target).display === 'none') {
+                return slideDown(target, duration);
+            } else {
+                return slideUp(target, duration);
+            }
+        }
+
+        document.getElementById('show-media').addEventListener('click', function(){
+            slideToggle(document.getElementById('media'), 1000);
+            if(this.classList.contains('btn-blue'))
+            {
+                this.classList.remove('btn-blue');
+                this.classList.add('btn-red');
+                this.innerText = 'Hide';
+                this.innerText = 'Masquer les médias';
+            }
+            else
+            {
+                setTimeout(function(){
+                    document.getElementById('show-media').classList.remove('btn-red');
+                    document.getElementById('show-media').classList.add('btn-blue');
+                    document.getElementById('show-media').innerText = 'Afficher les médias';
+                }, 1000);
+            }
+        });
+
+    </script>
 {% endblock %}
