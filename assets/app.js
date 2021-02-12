@@ -13,7 +13,7 @@ import './bootstrap';
 
 
 /*
- * Body : Change navbar color on scroll
+ * Body : Show/hide side menu
  */
 
 document.getElementById('login-btn').addEventListener('click', function(){
@@ -32,6 +32,11 @@ document.getElementById('close-nav').addEventListener('click', function(){
     let nav_width = document.querySelector('nav').offsetWidth;
     document.querySelector('nav').style.right = "-" + nav_width + "px";
 });
+
+
+/*
+ * Body : Change navbar color on scroll
+ */
 
 window.addEventListener('scroll', function() {
     if(window.scrollY > 50)
@@ -75,7 +80,7 @@ document.getElementById('load-more').addEventListener('click', function(){
             {
                 child.innerHTML = '' +
                     '<figure class="w-full h-48 mb-5 overflow-hidden">\n' +
-                    '<img class="object-cover min-h-full" src="/media/images/japan-air-1.jpg" alt="">\n' +
+                    '<img class="object-cover min-h-full" src="/upload/japan-air-1.jpg" alt="">\n' +
                     '</figure>\n' +
                     '<a href="/show/' + trick.id + '"><h6 class="text-xl text-center font-bold px-8 mb-2">' + trick.name + ' ' + trick.category.name + '</h6></a>\n' +
                     '<small class="block px-8 mb-4 text-center">\n'+
@@ -85,7 +90,7 @@ document.getElementById('load-more').addEventListener('click', function(){
             {
                 child.innerHTML = '' +
                     '<figure class="w-full h-48 mb-5 overflow-hidden">\n' +
-                    '<img class="object-cover min-h-full" src="/media/images/japan-air-1.jpg" alt="">\n' +
+                    '<img class="object-cover min-h-full" src="/upload/japan-air-1.jpg" alt="">\n' +
                     '</figure>\n' +
                     '<a href="/show/' + trick.id + '"><h6 class="text-xl text-center font-bold px-8 mb-2">' + trick.name + ' ' + trick.category.name + '</h6></a>\n' +
                     '<small class="block px-8 mb-4 text-center">\n' +
@@ -94,7 +99,7 @@ document.getElementById('load-more').addEventListener('click', function(){
             }else if(trick.difficulty == 3) {
                 child.innerHTML = '' +
                     '<figure class="w-full h-48 mb-5 overflow-hidden">\n' +
-                    '<img class="object-cover min-h-full" src="/media/images/japan-air-1.jpg" alt="">\n' +
+                    '<img class="object-cover min-h-full" src="/upload/japan-air-1.jpg" alt="">\n' +
                     '</figure>\n' +
                     '<a href="/show/' + trick.id + '"><h6 class="text-xl text-center font-bold px-8 mb-2">' + trick.name + ' ' + trick.category.name + '</h6></a>\n' +
                     '<small class="block px-8 mb-4 text-center">\n' +

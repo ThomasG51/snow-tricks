@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Trick;
-use App\Entity\Video;
 use App\Form\TrickType;
 use App\Repository\TrickRepository;
 use Doctrine\ORM\EntityManagerInterface;
