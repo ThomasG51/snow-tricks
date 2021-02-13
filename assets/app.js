@@ -11,6 +11,10 @@ import './styles/app.css';
 // start the Stimulus application
 import './bootstrap';
 
+import $ from 'jquery';
+import axios from "axios";
+import sal from 'sal.js';
+
 
 /*
  * Body : Show/hide side menu
@@ -51,10 +55,15 @@ window.addEventListener('scroll', function() {
 
 
 /*
- * Home Page : Load more tricks
+ * Home Page : Scroll animation on trick cards
  */
 
-import axios from "axios";
+const sal_animation = sal();
+
+
+/*
+ * Home Page : Load more tricks
+ */
 
 let firstItem = 0;
 let nbItems = 5;
@@ -75,6 +84,12 @@ document.getElementById('load-more').addEventListener('click', function(){
 
             let child = document.createElement('div');
             child.classList.add('trick-card');
+            child.classList.add('sal-animate');
+            child.setAttribute('data-sal', 'slide-up');
+            child.setAttribute('data-sal-delay', '100');
+            child.setAttribute('data-sal-duration', '600');
+            child.setAttribute('data-sal-easing', 'ease-out-back');
+            child.setAttribute('data-sal-repeat', '');
 
             if(trick.difficulty == 1)
             {
@@ -109,6 +124,11 @@ document.getElementById('load-more').addEventListener('click', function(){
 
             target.appendChild(child);
         })
+    })
+    .then(function(){
+        sal_animation.reset({
+            threshold: 0.1
+        });
     })
     .then(function(){
         document.getElementById('load-more').classList.remove('bg-blue-800');

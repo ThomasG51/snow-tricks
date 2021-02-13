@@ -15,7 +15,12 @@
     <main id="tricks" class="relative container mx-auto mt-10 mb-5">
         <div id="tricks-container" class="w-full grid grid-cols-1 xl:grid-cols-5">
             {% for trick in tricks %}
-                <div class="trick-card">
+                <div class="trick-card"
+                     data-sal="slide-up"
+                     data-sal-delay="100"
+                     data-sal-duration="600"
+                     data-sal-easing="ease-out-back"
+                     data-sal-repeat>
                     <figure class="w-full h-48 mb-5 overflow-hidden">
                         <img class="object-cover min-h-full" src="{{ asset('upload/japan-air-1.jpg') }}" alt="">
                     </figure>

@@ -1,0 +1,6 @@
+
+    <div id="bars" class="row" data-index="{{ form.bars|length > 0 ? form.bars|last.vars.name+1 : 0 }}" data-prototype="{{ include("foo/bar.html.twig", { form: form.bars.vars.prototype })|e("html_attr") }}">
+    {% for bar in form.bars %}
+    {{ include("foo/bar.html.twig", { form: bar }) }}
+    {% endfor %}
+    </div>
