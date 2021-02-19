@@ -7,6 +7,7 @@ use App\Form\TrickType;
 use App\Repository\TrickRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,7 +24,7 @@ class TricksController extends AbstractController
     public function index(TrickRepository $trickRepository): Response
     {
         return $this->render('tricks/index.html.twig', [
-            'tricks' => $trickRepository->findAllTenByTen(0, 5)
+            'tricks' => $trickRepository->find5By5(0, 5)
         ]);
     }
 
@@ -77,16 +78,16 @@ class TricksController extends AbstractController
 
 
     /**
-     * Load more tricks ten by ten
+     * Load more tricks five by five
      *
      * @Route("/load/{firstItem}/{nbItems}", name="load")
      * @param int $firstItem
      * @param int $nbItems
      * @param TrickRepository $trickRepository
-     * @return Response
+     * @return JsonResponse
      */
-    public function loadMore(int $firstItem, int $nbItems, TrickRepository $trickRepository) : Response
+    public function loadMore(int $firstItem, int $nbItems, TrickRepository $trickRepository) : JsonResponse
     {
-        return $this->json($trickRepository->findAllTenByTen($firstItem, $nbItems));
+        return $this->json($trickRepository->find5By5($firstItem, $nbItems), '200', [], ['groups' => 'tricks:load']);
     }
 }

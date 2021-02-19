@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Media;
 use App\Entity\Trick;
 use App\Entity\Category;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -41,7 +42,8 @@ class TrickType extends AbstractType
                     ],
                 ],
                 'by_reference' => false,
-                'allow_add' => true
+                'allow_add' => true,
+                'label' => false
             ])
             ->add('content', TextareaType::class, [
                 'attr' => [

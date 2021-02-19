@@ -20,21 +20,12 @@ import sal from 'sal.js';
  * Body : Show/hide side menu
  */
 
-document.getElementById('login-btn').addEventListener('click', function(){
-    document.querySelector('nav').style.right = "0px";
+$('#login-btn, #register-btn, #nav-btn').click(function(){
+    $('nav').css('right', '0px');
 });
 
-document.getElementById('register-btn').addEventListener('click', function(){
-    document.querySelector('nav').style.right = "0px";
-});
-
-document.getElementById('nav-btn').addEventListener('click', function(){
-    document.querySelector('nav').style.right = "0px";
-});
-
-document.getElementById('close-nav').addEventListener('click', function(){
-    let nav_width = document.querySelector('nav').offsetWidth;
-    document.querySelector('nav').style.right = "-" + nav_width + "px";
+$('#close-nav').click(function(){
+    $('nav').css('right', '-' + $('nav').width() + 'px');
 });
 
 
@@ -78,61 +69,63 @@ document.getElementById('load-more').addEventListener('click', function(){
     firstItem += 5;
 
     axios.get('/load/' + firstItem + '/' + nbItems)
-    .then(function(response){
-        response.data.forEach(function(trick){
-            let target = document.getElementById('tricks-container');
+        .then(function(response){
+            console.log('start: ' + firstItem + ' / ' + 'nbItems: ' + nbItems);
+            console.log(response.data);
+            response.data.forEach(function(trick){
+                let target = document.getElementById('tricks-container');
 
-            let child = document.createElement('div');
-            child.classList.add('trick-card');
-            child.classList.add('sal-animate');
-            child.setAttribute('data-sal', 'slide-up');
-            child.setAttribute('data-sal-delay', '100');
-            child.setAttribute('data-sal-duration', '600');
-            child.setAttribute('data-sal-easing', 'ease-out-back');
-            child.setAttribute('data-sal-repeat', '');
+                let child = document.createElement('div');
+                child.classList.add('trick-card');
+                child.classList.add('sal-animate');
+                child.setAttribute('data-sal', 'slide-up');
+                child.setAttribute('data-sal-delay', '100');
+                child.setAttribute('data-sal-duration', '600');
+                child.setAttribute('data-sal-easing', 'ease-out-back');
+                child.setAttribute('data-sal-repeat', '');
 
-            if(trick.difficulty == 1)
-            {
-                child.innerHTML = '' +
-                    '<figure class="w-full h-48 mb-5 overflow-hidden">\n' +
-                    '<img class="object-cover min-h-full" src="/upload/japan-air-1.jpg" alt="">\n' +
-                    '</figure>\n' +
-                    '<a href="/show/' + trick.id + '"><h6 class="text-xl text-center font-bold px-8 mb-2">' + trick.name + ' ' + trick.category.name + '</h6></a>\n' +
-                    '<small class="block px-8 mb-4 text-center">\n'+
+                if(trick.difficulty == 1)
+                {
+                    child.innerHTML = '' +
+                        '<figure class="w-full h-48 mb-5 overflow-hidden">\n' +
+                        '<img class="object-cover min-h-full" src="/upload/japan-air-1.jpg" alt="">\n' +
+                        '</figure>\n' +
+                        '<a href="/show/' + trick.id + '"><h6 class="text-xl text-center font-bold px-8 mb-2">' + trick.name + ' ' + trick.category.name + '</h6></a>\n' +
+                        '<small class="block px-8 mb-4 text-center">\n'+
                         '<i class="fas fa-star text-blue-400"></i><i class="far fa-star text-blue-400"></i><i class="far fa-star text-blue-400"></i>' +
-                    '</small>';
-            }else if(trick.difficulty == 2)
-            {
-                child.innerHTML = '' +
-                    '<figure class="w-full h-48 mb-5 overflow-hidden">\n' +
-                    '<img class="object-cover min-h-full" src="/upload/japan-air-1.jpg" alt="">\n' +
-                    '</figure>\n' +
-                    '<a href="/show/' + trick.id + '"><h6 class="text-xl text-center font-bold px-8 mb-2">' + trick.name + ' ' + trick.category.name + '</h6></a>\n' +
-                    '<small class="block px-8 mb-4 text-center">\n' +
+                        '</small>';
+                }else if(trick.difficulty == 2)
+                {
+                    child.innerHTML = '' +
+                        '<figure class="w-full h-48 mb-5 overflow-hidden">\n' +
+                        '<img class="object-cover min-h-full" src="/upload/japan-air-1.jpg" alt="">\n' +
+                        '</figure>\n' +
+                        '<a href="/show/' + trick.id + '"><h6 class="text-xl text-center font-bold px-8 mb-2">' + trick.name + ' ' + trick.category.name + '</h6></a>\n' +
+                        '<small class="block px-8 mb-4 text-center">\n' +
                         '<i class="fas fa-star text-blue-400"></i><i class="fas fa-star text-blue-400"></i><i class="far fa-star text-blue-400"></i>' +
-                    '</small>';
-            }else if(trick.difficulty == 3) {
-                child.innerHTML = '' +
-                    '<figure class="w-full h-48 mb-5 overflow-hidden">\n' +
-                    '<img class="object-cover min-h-full" src="/upload/japan-air-1.jpg" alt="">\n' +
-                    '</figure>\n' +
-                    '<a href="/show/' + trick.id + '"><h6 class="text-xl text-center font-bold px-8 mb-2">' + trick.name + ' ' + trick.category.name + '</h6></a>\n' +
-                    '<small class="block px-8 mb-4 text-center">\n' +
+                        '</small>';
+                }else if(trick.difficulty == 3) {
+                    child.innerHTML = '' +
+                        '<figure class="w-full h-48 mb-5 overflow-hidden">\n' +
+                        '<img class="object-cover min-h-full" src="/upload/japan-air-1.jpg" alt="">\n' +
+                        '</figure>\n' +
+                        '<a href="/show/' + trick.id + '"><h6 class="text-xl text-center font-bold px-8 mb-2">' + trick.name + ' ' + trick.category.name + '</h6></a>\n' +
+                        '<small class="block px-8 mb-4 text-center">\n' +
                         '<i class="fas fa-star text-blue-400"></i><i class="fas fa-star text-blue-400"></i><i class="fas fa-star text-blue-400"></i>' +
-                    '</small>';
-            }
+                        '</small>';
+                }
 
-            target.appendChild(child);
+                target.appendChild(child);
+            })
         })
-    })
-    .then(function(){
-        sal_animation.reset({
-            threshold: 0.1
+        .then(function(){
+            sal_animation.reset({
+                threshold: 0.1
+            });
+        })
+        .then(function(){
+            document.getElementById('load-more').classList.remove('bg-blue-800');
+            document.getElementById('load-more').classList.add('bg-blue-400');
+            document.getElementById('load-more').innerHTML = "Load more tricks";
         });
-    })
-    .then(function(){
-        document.getElementById('load-more').classList.remove('bg-blue-800');
-        document.getElementById('load-more').classList.add('bg-blue-400');
-        document.getElementById('load-more').innerHTML = "Load more tricks";
-    });
 });

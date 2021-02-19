@@ -27,7 +27,7 @@ class TrickRepository extends ServiceEntityRepository
      * @param $nbItems
      * @return int|mixed|string
      */
-    public function findAllTenByTen($firstItem, $nbItems)
+    public function find5By5($firstItem, $nbItems)
     {
         return $this->createQueryBuilder('trick')
                       ->orderBy('trick.createdAt', 'ASC')

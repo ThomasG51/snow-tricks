@@ -2,30 +2,27 @@
 
 namespace App\Form;
 
-use App\Entity\Video;
+use App\Entity\Media;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\UrlType;
+use Symfony\Component\Form\Extension\Core\Type\RadioType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\UX\Dropzone\Form\DropzoneType;
 
-class VideoType extends AbstractType
+class MediaType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('url', UrlType::class, [
-                'label' => false,
-                'attr' => [
-                    'placeholder' => 'http://'
-                ]
-            ])
+            ->add('name', DropzoneType::class)
+            ->add('cover', RadioType::class)
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Video::class,
+            'data_class' => Media::class,
         ]);
     }
 }
