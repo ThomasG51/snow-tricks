@@ -39,3 +39,8 @@ header {
 button:focus, input:focus {
     outline: none;
 }
+
+.vh-80
+{
+    height: 80vh;
+}

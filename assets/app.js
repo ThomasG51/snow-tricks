@@ -15,7 +15,6 @@ import $ from 'jquery';
 import axios from "axios";
 import sal from 'sal.js';
 
-
 /*
  * Body : Show/hide side menu
  */
@@ -70,7 +69,6 @@ document.getElementById('load-more').addEventListener('click', function(){
 
     axios.get('/load/' + firstItem + '/' + nbItems)
         .then(function(response){
-            console.log('start: ' + firstItem + ' / ' + 'nbItems: ' + nbItems);
             console.log(response.data);
             response.data.forEach(function(trick){
                 let target = document.getElementById('tricks-container');

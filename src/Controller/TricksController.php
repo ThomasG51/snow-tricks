@@ -63,6 +63,15 @@ class TricksController extends AbstractController
         {
             $trick->setCreatedAt(new \DateTime());
 
+            foreach($trick->getVideos() as $video)
+            {
+                // Reformatting youtube url to be used in iframe
+                $url = explode('/', $video->getUrl());
+                $url = 'https://youtube.com/embed/' . array_pop($url);
+
+                $video->setUrl($url);
+            }
+
             $manager->persist($trick);
             $manager->flush();
 
@@ -88,6 +97,6 @@ class TricksController extends AbstractController
      */
     public function loadMore(int $firstItem, int $nbItems, TrickRepository $trickRepository) : JsonResponse
     {
-        return $this->json($trickRepository->find5By5($firstItem, $nbItems), '200', [], ['groups' => 'tricks:load']);
+        return $this->json($trickRepository->find5By5($firstItem, $nbItems), '200', [], ['groups' => ['tricks:load', "Default"]]);
     }
 }
