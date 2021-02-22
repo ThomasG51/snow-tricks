@@ -12,12 +12,11 @@ import './styles/app.css';
 import './bootstrap';
 
 import $ from 'jquery';
-import axios from "axios";
 import sal from 'sal.js';
-
-/*
+import axios from 'axios';
 import Dropzone from 'dropzone';
 
+/*
 let media_dropzone = new Dropzone("div#media_dropzone", {
     url: "/create/tricks",
     dictDefaultMessage: 'Drag and drop your files',
@@ -70,78 +69,118 @@ const sal_animation = sal();
 
 
 /*
+ * Show Tricks Page : Show/Hide responsive menu
+ */
+
+$('#show-media').click(function(){
+    $('#media').slideToggle();
+    if($(this).hasClass('btn-blue'))
+    {
+        $(this).removeClass('btn-blue');
+        $(this).addClass('btn-red');
+        $(this).text('Masquer les médias');
+    }
+    else
+    {
+        $(this).removeClass('btn-red');
+        $(this).addClass('btn-blue');
+        $(this).text('Afficher les médias');
+    }
+});
+
+
+/*
  * Home Page : Load more tricks
  */
 
 let firstItem = 0;
 let nbItems = 5;
 
-document.getElementById('load-more').addEventListener('click', function(){
+$('#load-more').click(function(){
     event.preventDefault();
 
-    this.classList.remove('bg-blue-400');
-    this.classList.add('bg-blue-800');
-    this.innerHTML = "<i class=\"fas fa-spinner animate-spin mr-2\"></i> Loading";
+    $(this).removeClass('bg-blue-400');
+    $(this).addClass('bg-blue-800');
+    $(this).html('<i class="fas fa-spinner animate-spin mr-2"></i> Loading');
 
     firstItem += 5;
 
     axios.get('/load/' + firstItem + '/' + nbItems)
-        .then(function(response){
-            console.log(response.data);
-            response.data.forEach(function(trick){
-                let target = document.getElementById('tricks-container');
+    .then(function(response){
+        console.log(response.data);
+        response.data.forEach(function(trick){
+            let target = document.getElementById('tricks-container');
 
-                let child = document.createElement('div');
-                child.classList.add('trick-card');
-                child.classList.add('sal-animate');
-                child.setAttribute('data-sal', 'slide-up');
-                child.setAttribute('data-sal-delay', '100');
-                child.setAttribute('data-sal-duration', '600');
-                child.setAttribute('data-sal-easing', 'ease-out-back');
-                child.setAttribute('data-sal-repeat', '');
+            let child = document.createElement('div');
+            child.classList.add('trick-card');
+            child.classList.add('sal-animate');
+            child.setAttribute('data-sal', 'slide-up');
+            child.setAttribute('data-sal-delay', '100');
+            child.setAttribute('data-sal-duration', '600');
+            child.setAttribute('data-sal-easing', 'ease-out-back');
+            child.setAttribute('data-sal-repeat', '');
 
-                if(trick.difficulty == 1)
-                {
-                    child.innerHTML = '' +
-                        '<figure class="w-full h-48 mb-5 overflow-hidden">\n' +
-                        '<img class="object-cover min-h-full" src="/upload/japan-air-1.jpg" alt="">\n' +
-                        '</figure>\n' +
-                        '<a href="/show/' + trick.id + '"><h6 class="text-xl text-center font-bold px-8 mb-2">' + trick.name + ' ' + trick.category.name + '</h6></a>\n' +
-                        '<small class="block px-8 mb-4 text-center">\n'+
-                        '<i class="fas fa-star text-blue-400"></i><i class="far fa-star text-blue-400"></i><i class="far fa-star text-blue-400"></i>' +
-                        '</small>';
-                }else if(trick.difficulty == 2)
-                {
-                    child.innerHTML = '' +
-                        '<figure class="w-full h-48 mb-5 overflow-hidden">\n' +
-                        '<img class="object-cover min-h-full" src="/upload/japan-air-1.jpg" alt="">\n' +
-                        '</figure>\n' +
-                        '<a href="/show/' + trick.id + '"><h6 class="text-xl text-center font-bold px-8 mb-2">' + trick.name + ' ' + trick.category.name + '</h6></a>\n' +
-                        '<small class="block px-8 mb-4 text-center">\n' +
-                        '<i class="fas fa-star text-blue-400"></i><i class="fas fa-star text-blue-400"></i><i class="far fa-star text-blue-400"></i>' +
-                        '</small>';
-                }else if(trick.difficulty == 3) {
-                    child.innerHTML = '' +
-                        '<figure class="w-full h-48 mb-5 overflow-hidden">\n' +
-                        '<img class="object-cover min-h-full" src="/upload/japan-air-1.jpg" alt="">\n' +
-                        '</figure>\n' +
-                        '<a href="/show/' + trick.id + '"><h6 class="text-xl text-center font-bold px-8 mb-2">' + trick.name + ' ' + trick.category.name + '</h6></a>\n' +
-                        '<small class="block px-8 mb-4 text-center">\n' +
-                        '<i class="fas fa-star text-blue-400"></i><i class="fas fa-star text-blue-400"></i><i class="fas fa-star text-blue-400"></i>' +
-                        '</small>';
-                }
+            if(trick.difficulty == 1)
+            {
+                child.innerHTML = '' +
+                    '<figure class="w-full h-48 mb-5 overflow-hidden">\n' +
+                    '<img class="object-cover min-h-full" src="/upload/japan-air-1.jpg" alt="">\n' +
+                    '</figure>\n' +
+                    '<a href="/show/' + trick.id + '"><h6 class="text-xl text-center font-bold px-8 mb-2">' + trick.name + ' ' + trick.category.name + '</h6></a>\n' +
+                    '<small class="block px-8 mb-4 text-center">\n'+
+                    '<i class="fas fa-star text-blue-400"></i><i class="far fa-star text-blue-400"></i><i class="far fa-star text-blue-400"></i>' +
+                    '</small>';
+            }else if(trick.difficulty == 2)
+            {
+                child.innerHTML = '' +
+                    '<figure class="w-full h-48 mb-5 overflow-hidden">\n' +
+                    '<img class="object-cover min-h-full" src="/upload/japan-air-1.jpg" alt="">\n' +
+                    '</figure>\n' +
+                    '<a href="/show/' + trick.id + '"><h6 class="text-xl text-center font-bold px-8 mb-2">' + trick.name + ' ' + trick.category.name + '</h6></a>\n' +
+                    '<small class="block px-8 mb-4 text-center">\n' +
+                    '<i class="fas fa-star text-blue-400"></i><i class="fas fa-star text-blue-400"></i><i class="far fa-star text-blue-400"></i>' +
+                    '</small>';
+            }else if(trick.difficulty == 3) {
+                child.innerHTML = '' +
+                    '<figure class="w-full h-48 mb-5 overflow-hidden">\n' +
+                    '<img class="object-cover min-h-full" src="/upload/japan-air-1.jpg" alt="">\n' +
+                    '</figure>\n' +
+                    '<a href="/show/' + trick.id + '"><h6 class="text-xl text-center font-bold px-8 mb-2">' + trick.name + ' ' + trick.category.name + '</h6></a>\n' +
+                    '<small class="block px-8 mb-4 text-center">\n' +
+                    '<i class="fas fa-star text-blue-400"></i><i class="fas fa-star text-blue-400"></i><i class="fas fa-star text-blue-400"></i>' +
+                    '</small>';
+            }
 
-                target.appendChild(child);
-            })
+            target.appendChild(child);
         })
-        .then(function(){
-            sal_animation.reset({
-                threshold: 0.1
-            });
-        })
-        .then(function(){
-            document.getElementById('load-more').classList.remove('bg-blue-800');
-            document.getElementById('load-more').classList.add('bg-blue-400');
-            document.getElementById('load-more').innerHTML = "Load more tricks";
+    })
+    .then(function(){
+        sal_animation.reset({
+            threshold: 0.1
         });
+
+        $('#load-more').removeClass('bg-blue-800');
+        $('#load-more').addClass('bg-blue-400');
+        $('#load-more').html('Load more tricks');
+    });
+});
+
+
+/*
+ * Create Tricks Page : Add videos row
+ */
+
+$(document).ready(function () {
+    $('.add-video-widget, .add-media-widget').click(function (e) {
+        var list = $(jQuery(this).attr('data-list-selector'));
+        var counter = list.data('widget-counter') || list.children().length;
+
+        var newWidget = list.attr('data-prototype');
+        newWidget = newWidget.replace(/__name__/g, counter);
+        counter++;
+        list.data('widget-counter', counter);
+
+        var newElem = $(list.attr('data-widget-tags')).html(newWidget);
+        newElem.appendTo(list);
+    });
 });
