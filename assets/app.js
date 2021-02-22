@@ -16,6 +16,24 @@ import axios from "axios";
 import sal from 'sal.js';
 
 /*
+import Dropzone from 'dropzone';
+
+let media_dropzone = new Dropzone("div#media_dropzone", {
+    url: "/create/tricks",
+    dictDefaultMessage: 'Drag and drop your files',
+    addRemoveLinks: true,
+    dictRemoveFile: '&times;',
+    maxFiles: 3,
+    dictMaxFilesExceeded: 'Ce fichier ne sera pas uploadé'
+});
+
+media_dropzone.on("addedfile", function(file) {
+    console.log(file);
+});
+ */
+
+
+/*
  * Body : Show/hide side menu
  */
 

@@ -17,6 +17,8 @@
     <input type="text" id="rangeValue" class="font-semibold text-blue-400" value=" : Intermédiaire">
     {{ form_widget(formTricks.difficulty) }}
 </div>
+<div class="dropzone w-10/12 mx-auto mb-8 border border-dashed border-blue-400 rounded" id="media_dropzone"></div>
+
 <div id="videos"
      class="w-10/12 mx-auto mb-8 videos"
      data-prototype="{{ form_widget(formTricks.videos.vars.prototype)|e('html_attr') }}"

@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Comment;
 use App\Entity\Trick;
+use App\Form\CommentType;
 use App\Form\TrickType;
 use App\Repository\TrickRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -18,6 +20,7 @@ class TricksController extends AbstractController
      * Show all tricks on home page
      *
      * @Route("/", name="home")
+     *
      * @param TrickRepository $trickRepository
      * @return Response
      */
@@ -33,14 +36,37 @@ class TricksController extends AbstractController
      * Show specific tricks
      *
      * @Route("/show/{id}", name="show_tricks")
+     *
      * @param $id
      * @param TrickRepository $trickRepository
+     * @param Request $request
+     * @param EntityManagerInterface $manager
      * @return Response
      */
-    public function show($id, TrickRepository $trickRepository): Response
+    public function show($id, TrickRepository $trickRepository, Request $request, EntityManagerInterface $manager): Response
     {
+        $trick = $trickRepository->find($id);
+        $comment = new Comment();
+
+        $formComment = $this->createForm(CommentType::class, $comment);
+        $formComment->handleRequest($request);
+
+        if($formComment->isSubmitted() && $formComment->isValid())
+        {
+            $comment->setCreatedAt(new \DateTime());
+            $comment->setTrick($trick);
+
+            $manager->persist($comment);
+            $manager->flush();
+
+            return $this->redirectToRoute('show_tricks', [
+                'id' =>$id
+            ]);
+        }
+
         return $this->render('tricks/show.html.twig', [
-            'trick' => $trickRepository->find($id)
+            'trick' => $trick,
+            'formComment' => $formComment->createView()
         ]);
     }
 

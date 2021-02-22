@@ -34,6 +34,11 @@ class TrickType extends AbstractType
                     'onchange' => 'showRangeValue(this.value);'
                 ]
             ])
+            ->add('media', CollectionType::class, [
+                'entry_type' => MediaType::class,
+                'by_reference' => false,
+                'label' => false
+            ])
             ->add('videos', CollectionType::class, [
                 'entry_type' => VideoType::class,
                 'entry_options' => [

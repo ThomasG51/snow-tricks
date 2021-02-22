@@ -1,7 +1,7 @@
 {%  extends 'base.html.twig' %}
 
 {% block body %}
-    <figure class="vh-80 w-full xl:w-4/5 xl:mx-auto xl:mt-32 xl:mb-20 shadow-lg overflow-hidden relative">
+    <figure class="vh-80 w-full xl:w-4/5 xl:mx-auto xl:mt-32 xl:mb-16 shadow-lg overflow-hidden relative">
         <img class="object-cover min-h-full min-w-full" src="{{ asset('upload/nose.jpg') }}" alt="{{ trick.name }} {{ trick.category.name }}">
         <figcaption class="absolute top-0 h-full w-full text-8xl flex justify-center items-center">
             <h1 class="text-white font-semibold snowtricks-title bg-blue-400 py-3 pl-8 pr-4 rounded-l-full shadow-lg">{{ trick.name }}</h1>
@@ -9,7 +9,7 @@
         </figcaption>
     </figure>
     <main class="xl:container xl:mx-auto w-full xl:w-3/5 min-h-screen shadow">
-        <div class="col-start-2 pt-8 xl:pt-28 pb-3 mb-8 bg-white">
+        <div class="col-start-2 pt-8 xl:pt-16 pb-3 mb-8 bg-white">
             <h1 class="text-4xl font-bold mx-8">{{ trick.name }} {{ trick.category.name }}</h1>
             <h6 class="inline-block text-sm italic text-gray-500 mx-8">
                 {% if trick.difficulty == 1 %}
@@ -57,28 +57,25 @@
 
             <h3 class="text-blue-400 text-xl px-8 mt-10">Vos réactions</h3>
 
-            <form action="" class="px-8 mb-8">
-                <textarea class="block border border-gray-200 rounded w-full h-40" name=""></textarea>
+            <div class="px-8 mb-8">
+            {{ form_start(formComment) }}
+                {{ form_errors(formComment) }}
+                {{ form_widget(formComment) }}
                 <button class="block bg-blue-400 text-white rounded w-full pt-2 pb-1 mt-3" type="submit">Valider</button>
-            </form>
+            {{ form_end(formComment) }}
+            </div>
 
+            {% for comment in trick.comment %}
             <div class="border border-gray-200 mx-8 md:grid md:grid-cols-6 mb-8">
                 <figure class="pt-4 pb-0 px-4 md:p-4">
                     <img class="rounded-full w-1/4 md:w-full mx-auto" src="http://placehold.it/800x800" alt="">
                 </figure>
-                <div class="md:col-span-5 flex justify-center items-center text-center md:text-left p-4">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi deleniti ea eligendi est fugiat itaque maxime necessitatibus nihil non nostrum quis, rem sed tempore, voluptatum.</p>
+                <div class="md:col-span-5 flex flex-col justify-center items-start text-center md:text-left p-4">
+                    <small class="text-blue-400">Rédigé le {{ comment.createdAt | date('d-m-Y') }}</small>
+                    <p>{{ comment.message }}</p>
                 </div>
             </div>
-
-            <div class="border border-gray-200 mx-8 md:grid md:grid-cols-6 mb-8">
-                <figure class="pt-4 pb-0 px-4 md:p-4">
-                    <img class="rounded-full w-1/4 md:w-full mx-auto" src="http://placehold.it/800x800" alt="">
-                </figure>
-                <div class="md:col-span-5 flex justify-center items-center text-center md:text-left p-4">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi deleniti ea eligendi est fugiat itaque maxime necessitatibus nihil non nostrum quis, rem sed tempore, voluptatum.</p>
-                </div>
-            </div>
+            {% endfor %}
         </div>
     </main>
     <footer class="w-full h-16 bg-gray-800 text-white flex justify-center items-center"><p class="hidden md:block">Copyright &copy; <span class="text-blue-400">S</span>now<span class="text-blue-400">T</span>ricks 2021</p></footer>
