@@ -5,6 +5,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Permanent+Marker&display=swap');
 
 @import '~sal.js/dist/sal.css';
+@import '~trumbowyg/dist/ui/trumbowyg.min.css';
 @import '~dropzone/dist/dropzone.css';
 
 .trick-card {
@@ -44,4 +45,11 @@ button:focus, input:focus {
 .vh-80
 {
     height: 80vh;
+}
+
+#login_screen
+{
+    background-image: url("../../public/assets/images/login-bg.jpg");
+    background-size: cover;
+    background-position: center;
 }

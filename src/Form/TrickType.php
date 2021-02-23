@@ -52,6 +52,7 @@ class TrickType extends AbstractType
             ])
             ->add('content', TextareaType::class, [
                 'attr' => [
+                    'id' => 'trumbowyg',
                     'class' => 'tw-form-field',
                     'rows' => 14
                 ]

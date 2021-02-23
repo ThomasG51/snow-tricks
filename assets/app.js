@@ -14,7 +14,12 @@ import './bootstrap';
 import $ from 'jquery';
 import sal from 'sal.js';
 import axios from 'axios';
-import Dropzone from 'dropzone';
+
+//import trumbowyg from 'trumbowyg';
+// require ??
+//import Dropzone from 'dropzone';
+
+//$('#trumbowyg').trumbowyg();
 
 /*
 let media_dropzone = new Dropzone("div#media_dropzone", {
