@@ -21,7 +21,7 @@
 }
 
 .tw-form-field {
-    @apply border border-gray-400 shadow-inner rounded w-full px-2 py-1;
+    @apply border border-gray-200 bg-gray-100 focus:border-blue-400 focus:bg-blue-100 focus:text-blue-400 shadow-inner rounded w-full px-2 py-1;
 }
 
 * {
@@ -47,7 +47,7 @@ button:focus, input:focus {
     height: 80vh;
 }
 
-#login_screen
+.bg-connection
 {
     background-image: url("../../public/assets/images/login-bg.jpg");
     background-size: cover;

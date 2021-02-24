@@ -4,10 +4,13 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @UniqueEntity(fields={"email"}, message="* Un compte existe déjà avec cette email")
  */
 class User implements UserInterface
 {
@@ -20,6 +23,8 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Assert\NotBlank(message="* L'adresse email ne peut pas être vide.")
+     * @Assert\Email(message="* L'adresse email n'est pas valide")
      */
     private $email;
 
@@ -31,8 +36,52 @@ class User implements UserInterface
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
+     * @Assert\Length(
+     *     min=8,
+     *     max=12,
+     *     minMessage="* Le mot de passe doit contenir au moins {{ limit }} caractères",
+     *     maxMessage="* Le mot de passe doit contenir moins de {{ limit }} caractères"
+     * )
+     * @Assert\Regex("/[a-z]+/", message="* Le mot de passe doit contenir au moins une minuscule")
+     * @Assert\Regex("/[A-Z]+/", message="* Le mot de passe doit contenir au moins une majuscule")
+     * @Assert\Regex("/[0-9]+/", message="* Le mot de passe doit contenir au moins un chiffre")
      */
     private $password;
+
+    /**
+     * @var string The hashed password
+     * @Assert\EqualTo(propertyPath="password", message="* Les deux mots de passe ne correspondent pas")
+     */
+    private $confirm_password;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\Length(
+     *     min=2,
+     *     max=20,
+     *     minMessage="* Le prénom doit contenir au moins {{ limit }} caractères",
+     *     maxMessage="* Le prénom doit contenir moins de {{ limit }} caractères"
+     * )
+     * @Assert\NotBlank(message="* Le prénom ne peut pas être vide.")
+     */
+    private $firstname;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\Length(
+     *     min=2,
+     *     max=20,
+     *     minMessage="* Le nom doit contenir au moins {{ limit }} caractères",
+     *     maxMessage="* Le nom doit contenir moins de {{ limit }} caractères"
+     * )
+     * @Assert\NotBlank(message="* Le nom ne peut pas être vide.")
+     */
+    private $lastname;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $avatar;
 
     public function getId(): ?int
     {
@@ -96,6 +145,22 @@ class User implements UserInterface
     }
 
     /**
+     * @return string
+     */
+    public function getConfirmPassword(): string
+    {
+        return $this->confirm_password;
+    }
+
+    /**
+     * @param string $confirm_password
+     */
+    public function setConfirmPassword(string $confirm_password): void
+    {
+        $this->confirm_password = $confirm_password;
+    }
+
+    /**
      * @see UserInterface
      */
     public function getSalt()
@@ -110,5 +175,41 @@ class User implements UserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    public function getFirstname(): ?string
+    {
+        return $this->firstname;
+    }
+
+    public function setFirstname(string $firstname): self
+    {
+        $this->firstname = $firstname;
+
+        return $this;
+    }
+
+    public function getLastname(): ?string
+    {
+        return $this->lastname;
+    }
+
+    public function setLastname(string $lastname): self
+    {
+        $this->lastname = $lastname;
+
+        return $this;
+    }
+
+    public function getAvatar(): ?string
+    {
+        return $this->avatar;
+    }
+
+    public function setAvatar(string $avatar): self
+    {
+        $this->avatar = $avatar;
+
+        return $this;
     }
 }

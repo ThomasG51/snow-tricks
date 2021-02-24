@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+    <div class="w-full h-screen flex justify-center items-center bg-connection">
+        <form method="post" class="w-2/6 bg-white shadow">
+
+            <h1 class="bg-blue-400 text-white font-semibold text-2xl p-5">Créer un compte</h1>
+            {% for flashError in app.flashes('verify_email_error') %}
+                <div class="border border-red-600 bg-red-300 text-red-600">{{ flashError }}</div>
+            {% endfor %}
+
+            {{ form_start(registrationForm) }}
+                <div class="grid grid-cols-2 gap-5 pt-5 pb-3 px-8">
+                    <div>
+                        <div class="text-blue-400">{{ form_label(registrationForm.firstname) }}</div>
+                        <small class="text-red-600">{{ form_errors(registrationForm.firstname) }}</small>
+                        {{ form_widget(registrationForm.firstname) }}
+                    </div>
+                    <div>
+                        <div class="text-blue-400">{{ form_label(registrationForm.lastname) }}</div>
+                        <small class="text-red-600">{{ form_errors(registrationForm.lastname) }}</small>
+                        {{ form_widget(registrationForm.lastname) }}
+                    </div>
+                </div>
+
+                <div class="py-3 px-8">
+                    <div class="text-blue-400">{{ form_label(registrationForm.email) }}</div>
+                    <small class="text-red-600">{{ form_errors(registrationForm.email) }}</small>
+                    {{ form_widget(registrationForm.email) }}
+                </div>
+
+                <div class="py-3 px-8">
+                    <div class="text-blue-400">{{ form_label(registrationForm.password) }}</div>
+                    <small class="text-red-600">{{ form_errors(registrationForm.password) }}</small>
+                    {{ form_widget(registrationForm.password) }}
+                </div>
+                <div class="py-3 px-8">
+                    <div class="text-blue-400">{{ form_label(registrationForm.confirm_password) }}</div>
+                    <small class="text-red-600">{{ form_errors(registrationForm.confirm_password) }}</small>
+                    {{ form_widget(registrationForm.confirm_password) }}
+                </div>
+
+                <div class="py-3 px-8">
+                    <div class="col-start-2">{{ form_widget(registrationForm.avatar) }}</div>
+                </div>
+
+                <div class="py-2 px-8">
+                    {{ form_widget(registrationForm.agreeTerms) }} <small class="text-blue-400">J'accepte les termes</small>
+                </div>
+
+                <div class="py-5 px-8">
+                    <button class="btn-blue w-full" type="submit">Je m'inscris</button>
+                </div>
+            {{ form_end(registrationForm) }}
+        </form>
+    </div>
+{% endblock %}

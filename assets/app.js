@@ -41,7 +41,7 @@ media_dropzone.on("addedfile", function(file) {
  * Body : Show/hide side menu
  */
 
-$('#login-btn, #register-btn, #nav-btn').click(function(){
+$('#sidebar-btn, #mobile-nav-btn').click(function(){
     $('nav').css('right', '0px');
 });
 

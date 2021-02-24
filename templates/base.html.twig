@@ -25,10 +25,16 @@
             </a>
         </div>
 
-        <div>
-            <button id="register-btn" class="bg-white hover:bg-blue-400 text-blue-400 hover:text-white border border-blue-400 rounded-none py-2 px-3 mr-3"><i class="fas fa-user-plus"></i> Inscription</button>
-            <a href="{{ path('app_login') }}" class="bg-blue-400 hover:bg-white text-white hover:text-blue-400 border border-blue-400 rounded-none py-2 px-3"><i class="fas fa-sign-in-alt"></i> Connexion</a>
-        </div>
+        {% if(app.user) %}
+            <div>
+                <button id="sidebar-btn" class="bg-blue-400 hover:bg-white text-white hover:text-blue-400 border border-blue-400 rounded-none py-2 px-3"><i class="fas fa-bars"></i></button>
+            </div>
+        {% else %}
+            <div class="flex">
+                <a href="{{ path('app_register') }}" id="register-btn" class=" block bg-white hover:bg-blue-400 text-blue-400 hover:text-white border border-blue-400 rounded-none py-2 px-3 mr-3"><i class="fas fa-user-plus"></i> Inscription</a>
+                <a href="{{ path('app_login') }}" class=" block bg-blue-400 hover:bg-white text-white hover:text-blue-400 border border-blue-400 rounded-none py-2 px-3"><i class="fas fa-sign-in-alt"></i> Connexion</a>
+            </div>
+        {% endif %}
     </div>
 
     <div id="bottombar" class="fixed bottom-0 w-full h-16 block md:hidden bg-gray-800 grid grid-cols-3 z-40">
@@ -39,26 +45,24 @@
             <a href="#tricks"><i class="fas fa-snowboarding text-3xl"></i></a>
         </div>
         <div class="text-white flex justify-center items-center">
-            <button id="nav-btn" class="text-white text-3xl"><i class="fas fa-sign-in-alt"></i></button>
+            {% if(app.user) %}
+                <button id="mobile-nav-btn" class="text-white text-3xl"><i class="fas fa-bars"></i></button>
+            {% else %}
+                <a href="{{ path('app_login') }}" id="mobile-nav-btn" class="text-white text-3xl"><i class="fas fa-sign-in-alt"></i></a>
+            {% endif %}
         </div>
     </div>
 
+    {% if(app.user) %}
     <nav class="fixed top-0 -right-full w-full xl:w-1/5 h-screen bg-gray-800 z-50 transition-all duration-500">
         <i id="close-nav" class="fas fa-times text-white text-lg border-2 border-white px-3 py-1 rounded-full absolute top-3 right-3 cursor-pointer"></i>
-        <h6 class="text-white text-2xl mt-20 ml-5 mb-5">Se connecter.</h6>
-        <form action="" class="w-11/12 mx-auto">
-            <label for="login_email" class="text-white pl-2">Adresse email</label>
-            <input id="login_email" type="email" class="rounded-full w-full h-7 mb-3">
 
-            <label for="login_password" class="text-white pl-2">Mot de passe</label>
-            <input id="login_password" type="email" class="rounded-full w-full h-7 mb-5">
+        <h6 class="text-white text-2xl mt-20 ml-5 mb-5">{{ app.user.firstname }} {{ app.user.lastname }}</h6>
+        <a href="{{ path('create_tricks') }}" class="block bg-blue-400 text-white text-center rounded-none w-11/12 h-7 mx-auto mt-5">Ajouter un tricks</a>
 
-            <button class="bg-blue-400 text-white w-full rounded-full w-full h-7">Connexion</button>
-        </form>
-
-        <h6 class="text-white text-2xl mt-20 ml-5 mb-5">Thomas George</h6>
-        <a href="{{ path('create_tricks') }}" class="block bg-blue-400 text-white text-center rounded-full w-11/12 h-7 mx-auto mt-5">Create new tricks</a>
+        <a href="{{ path('app_logout') }}"><i class="fas fa-sign-out-alt text-red-600 text-lg border-2 border-red-600 bg-red-300 px-3 py-1 rounded-none absolute bottom-3 right-3 cursor-pointer"></i></a>
     </nav>
+    {% endif %}
 
     {% block body %}{% endblock %}
 

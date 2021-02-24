@@ -4,18 +4,12 @@
 
 {% block body %}
 
-    <div id="login_screen" class="w-full h-screen flex justify-center items-center">
+    <div class="w-full h-screen flex justify-center items-center bg-connection">
         <form method="post" class="w-96 bg-white shadow">
 
             <h1 class="bg-blue-400 text-white font-semibold text-2xl p-5">Se connecter !</h1>
             {% if error %}
                 <div class="border border-red-600 bg-red-300 text-red-600">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-            {% endif %}
-
-            {% if app.user %}
-                <div class="mb-3">
-                    You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
-                </div>
             {% endif %}
 
             <div class="px-5 pt-5 pb-3">
