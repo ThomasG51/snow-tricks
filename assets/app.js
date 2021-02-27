@@ -14,27 +14,7 @@ import './bootstrap';
 import $ from 'jquery';
 import sal from 'sal.js';
 import axios from 'axios';
-
-//import trumbowyg from 'trumbowyg';
-// require ??
-//import Dropzone from 'dropzone';
-
-//$('#trumbowyg').trumbowyg();
-
-/*
-let media_dropzone = new Dropzone("div#media_dropzone", {
-    url: "/create/tricks",
-    dictDefaultMessage: 'Drag and drop your files',
-    addRemoveLinks: true,
-    dictRemoveFile: '&times;',
-    maxFiles: 3,
-    dictMaxFilesExceeded: 'Ce fichier ne sera pas uploadé'
-});
-
-media_dropzone.on("addedfile", function(file) {
-    console.log(file);
-});
- */
+import Dropzone from 'dropzone';
 
 
 /*
@@ -176,7 +156,8 @@ $('#load-more').click(function(){
  */
 
 $(document).ready(function () {
-    $('.add-video-widget, .add-media-widget').click(function (e) {
+    $('#add-video-widget').click(function (e) {
+        console.log(this);
         var list = $(jQuery(this).attr('data-list-selector'));
         var counter = list.data('widget-counter') || list.children().length;
 
@@ -189,3 +170,24 @@ $(document).ready(function () {
         newElem.appendTo(list);
     });
 });
+
+
+/*
+ * Create Tricks Page : media dropzone
+ */
+if($("#media_dropzone").length > 0)
+{
+    Dropzone.autoDiscover = false;
+
+    let media_dropzone = new Dropzone("#media_dropzone", {
+        url: "/create/tricks",
+        dictDefaultMessage: 'Drag and drop your files',
+        addRemoveLinks: true,
+        dictRemoveFile: '&times;',
+        maxFiles: 3,
+        dictMaxFilesExceeded: 'Ce fichier ne sera pas uploadé'
+    });
+
+    media_dropzone.on("addedfile", function(file) {
+    });
+}

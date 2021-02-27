@@ -6,7 +6,61 @@
         <main class="w-3/5 py-12 mx-auto bg-white shadow">
             <h1 class="text-3xl text-blue-400 w-1/2 mx-auto text-center mb-10"><i class="fas fa-plus mr-1"></i> Ajouter un nouveau trick</h1>
 
-            {%  include 'form/_trick_form.html.twig' %}
+            {{ form_start(formTricks) }}
+            <div class="w-10/12 mx-auto mb-8">
+                {{ form_label(formTricks.name, null, {
+                    'label': 'Titre',
+                    'label_attr': {'class': 'font-semibold text-blue-400'}
+                }) }}
+                {{ form_errors(formTricks.name) }}
+                {{ form_widget(formTricks.name) }}
+            </div>
+            <div class="w-10/12 mx-auto mb-8">
+                {{ form_label(formTricks.content, null, {
+                    'label': 'Difficulté',
+                    'label_attr': {'class': 'font-semibold text-blue-400'}
+                }) }}
+                {{ form_errors(formTricks.content) }}
+
+                <input type="text" id="rangeValue" class="font-semibold text-blue-400" value=" : Intermédiaire">
+                {{ form_widget(formTricks.difficulty) }}
+            </div>
+            <div class="dropzone w-10/12 mx-auto mb-8 border border-dashed border-blue-400 rounded" id="media_dropzone"></div>
+            <div id="videos"
+                 class="w-10/12 mx-auto mb-8 videos"
+                 data-prototype="{{ form_widget(formTricks.videos.vars.prototype)|e('html_attr') }}"
+                 data-widget-tags="{{ '<div></div>'|e }}"
+                 data-widget-counter="{{ formTricks.videos|length }}">
+                {{ form_label(formTricks.videos, null, {
+                    'label': 'Vidéos (share url)',
+                    'label_attr': {'class': 'font-semibold text-blue-400'}
+                }) }}
+                <button id="add-video-widget" type="button" class="bg-blue-400 text-white px-2 py-1 ml-3" data-list-selector="#videos"><i class="fas fa-plus"></i></button>
+                {% for video in formTricks.videos %}
+                    {{ form_errors(video) }}
+                    {{ form_widget(video) }}
+                {% endfor %}
+            </div>
+            <div class="w-10/12 mx-auto mb-8">
+                {{ form_label(formTricks.category, null, {
+                    'label': 'Category du tricks',
+                    'label_attr': {'class': 'font-semibold text-blue-400'}
+                }) }}
+                {{ form_errors(formTricks.category) }}
+                {{ form_widget(formTricks.category) }}
+            </div>
+            <div class="w-10/12 mx-auto mb-8">
+                {{ form_label(formTricks.content, null, {
+                    'label': 'Description',
+                    'label_attr': {'class': 'font-semibold text-blue-400'}
+                }) }}
+                {{ form_errors(formTricks.content) }}
+                {{ form_widget(formTricks.content) }}
+            </div>
+            <div class="w-10/12 mx-auto">
+                <button type="submit" class="bg-blue-400 text-white rounded w-full px-2 py-2">Enregistrer</button>
+            </div>
+            {{ form_end(formTricks) }}
         </main>
     </div>
 {% endblock %}
