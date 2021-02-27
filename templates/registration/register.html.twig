@@ -4,14 +4,13 @@
 
 {% block body %}
     <div class="w-full h-screen flex justify-center items-center bg-connection">
-        <form method="post" class="w-2/6 bg-white shadow">
 
+            {{ form_start(registrationForm) }}
             <h1 class="bg-blue-400 text-white font-semibold text-2xl p-5">Créer un compte</h1>
             {% for flashError in app.flashes('verify_email_error') %}
                 <div class="border border-red-600 bg-red-300 text-red-600">{{ flashError }}</div>
             {% endfor %}
 
-            {{ form_start(registrationForm) }}
                 <div class="grid grid-cols-2 gap-5 pt-5 pb-3 px-8">
                     <div>
                         <div class="text-blue-400">{{ form_label(registrationForm.firstname) }}</div>
@@ -54,6 +53,5 @@
                     <button class="btn-blue w-full" type="submit">Je m'inscris</button>
                 </div>
             {{ form_end(registrationForm) }}
-        </form>
     </div>
 {% endblock %}

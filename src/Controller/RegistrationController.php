@@ -17,6 +17,14 @@ class RegistrationController extends AbstractController
 {
     /**
      * @Route("/register", name="app_register")
+     *
+     * @param Request $request
+     * @param UserPasswordEncoderInterface $passwordEncoder
+     * @param GuardAuthenticatorHandler $guardHandler
+     * @param LoginFormAuthenticator $authenticator
+     * @param EntityManagerInterface $manager
+     *
+     * @return Response
      */
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, LoginFormAuthenticator $authenticator, EntityManagerInterface $manager): Response
     {
@@ -27,7 +35,15 @@ class RegistrationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid())
         {
             $user->setPassword($passwordEncoder->encodePassword($user, $form->get('password')->getData()));
-            $user->setAvatar('test');
+            $user->setRoles(['ROLE_USER']);
+
+            $file = $form->get('avatar')->getData();
+            if($file)
+            {
+                $fileName = 'avatar-'.strtolower($user->getFirstname()).'-'.strtolower($user->getLastname()).'-'.uniqid().'.'.$file->guessExtension();
+                $file->move('upload/avatar', $fileName);
+                $user->setAvatar($fileName);
+            }
 
             $manager->persist($user);
             $manager->flush();

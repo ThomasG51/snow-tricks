@@ -31,7 +31,9 @@ class RegistrationFormType extends AbstractType
                     'class' => 'tw-form-field'
                 ]
             ])
-            ->add('avatar', FileType::class, [])
+            ->add('avatar', FileType::class, [
+                'label' => 'Avatar'
+            ])
             ->add('email', EmailType::class, [
                 'attr' => [
                     'class' => 'tw-form-field'
@@ -64,6 +66,9 @@ class RegistrationFormType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => User::class,
+            'attr' => [
+                'class' => 'w-2/6 bg-white shadow'
+            ]
         ]);
     }
 }
