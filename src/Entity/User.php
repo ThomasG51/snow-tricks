@@ -80,6 +80,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Image(mimeTypesMessage="* Le fichier doit être une image")
      */
     private $avatar;
 

@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\CategoryRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=CategoryRepository::class)
@@ -22,6 +23,7 @@ class Category
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups("tricks:load")
+     * @Assert\NotBlank(message="Le nom ne peut pas être vide")
      */
     private $name;
 
