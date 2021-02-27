@@ -4,10 +4,12 @@ namespace App\Controller;
 
 use App\Entity\Comment;
 use App\Entity\Trick;
+use App\Entity\User;
 use App\Form\CommentType;
 use App\Form\TrickType;
 use App\Repository\TrickRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,7 +22,6 @@ class TricksController extends AbstractController
      * Show all tricks on home page
      *
      * @Route("/", name="home")
-     *
      * @param TrickRepository $trickRepository
      * @return Response
      */
@@ -36,7 +37,6 @@ class TricksController extends AbstractController
      * Show specific tricks
      *
      * @Route("/show/{id}", name="show_tricks")
-     *
      * @param $id
      * @param TrickRepository $trickRepository
      * @param Request $request
@@ -55,6 +55,7 @@ class TricksController extends AbstractController
         {
             $comment->setCreatedAt(new \DateTime());
             $comment->setTrick($trick);
+            $comment->setUser($this->getUser());
 
             $manager->persist($comment);
             $manager->flush();
@@ -74,7 +75,8 @@ class TricksController extends AbstractController
     /**
      * Create new tricks
      *
-     * @Route("/create/tricks", name="create_tricks")
+     * @Route("/trick/create", name="trick_create")
+     * @IsGranted("ROLE_USER")
      * @param Request $request
      * @param EntityManagerInterface $manager
      * @return Response
@@ -87,7 +89,10 @@ class TricksController extends AbstractController
 
         if ($formTrick->isSubmitted() && $formTrick->isValid())
         {
+            //dd($formTrick->getData());
+
             $trick->setCreatedAt(new \DateTime());
+            $trick->setUser($this->getUser());
 
             foreach($trick->getVideos() as $video)
             {
@@ -124,5 +129,29 @@ class TricksController extends AbstractController
     public function loadMore(int $firstItem, int $nbItems, TrickRepository $trickRepository) : JsonResponse
     {
         return $this->json($trickRepository->find5By5($firstItem, $nbItems), '200', [], ['groups' => ['tricks:load', "Default"]]);
+    }
+
+
+    /**
+     * Delete trick
+     *
+     * @Route("trick/delete/{id}", name="trick_delete")
+     * @param Request $request
+     * @param Trick $trick
+     * @param EntityManagerInterface $manager
+     * @return Response
+     * @throws \Exception
+     */
+    public function delete(Request $request, Trick $trick, EntityManagerInterface $manager): Response
+    {
+        if($this->isCsrfTokenValid('delete_trick_'.$trick->getId(), $request->request->get('token')))
+        {
+            $manager->remove($trick);
+            $manager->flush();
+
+            return $this->redirectToRoute('home');
+        }
+
+        throw new \Exception('Delete trick failed', 400);
     }
 }
