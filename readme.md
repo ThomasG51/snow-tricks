@@ -9,9 +9,11 @@
 
     composer install
 
-    npm install
+    yarn install
 
 ###### Frameworks/Libraries
 * Symfony
 * Tailwind.css
-* Dropzone (Symfony UX)
+* Dropzone.js
+* Sal.js
+* Axios (ajax)
