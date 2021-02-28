@@ -156,8 +156,7 @@ $('#load-more').click(function(){
  */
 
 $(document).ready(function () {
-    $('#add-video-widget').click(function (e) {
-        console.log(this);
+    $('#add-video-widget, #add-media-widget').click(function (e) {
         var list = $(jQuery(this).attr('data-list-selector'));
         var counter = list.data('widget-counter') || list.children().length;
 
@@ -175,19 +174,58 @@ $(document).ready(function () {
 /*
  * Create Tricks Page : media dropzone
  */
-if($("#media_dropzone").length > 0)
-{
-    Dropzone.autoDiscover = false;
+ if($("#media_dropzone").length > 0)
+ {
+     Dropzone.autoDiscover = false;
 
-    let media_dropzone = new Dropzone("#media_dropzone", {
-        url: "/create/tricks",
-        dictDefaultMessage: 'Drag and drop your files',
-        addRemoveLinks: true,
-        dictRemoveFile: '&times;',
-        maxFiles: 3,
-        dictMaxFilesExceeded: 'Ce fichier ne sera pas uploadé'
-    });
+     let media_dropzone = new Dropzone("#media_dropzone", {
+         url: "/upload",
+         dictDefaultMessage: 'Drag and drop your files',
+         addRemoveLinks: true,
+         dictRemoveFile: '&times;',
+         maxFiles: 3,
+         dictMaxFilesExceeded: 'Ce fichier ne sera pas uploadé',
+         renameFile: true
+     });
 
-    media_dropzone.on("addedfile", function(file) {
-    });
-}
+     let counter = 0
+
+     media_dropzone.on("addedfile", function(file) {
+
+         if($('#trick_name').val() == '')
+         {
+             media_dropzone.removeFile(file);
+             $('#trick_name').removeClass('tw-form-field');
+             $('#trick_name').addClass('border border-red-200 bg-red-100 focus:border-blue-400 focus:bg-blue-100 focus:text-blue-400 shadow-inner rounded w-full px-2 py-1');
+             $('#trick_name').attr('placeholder', 'Veuillez remplir le titre');
+             return;
+         }
+
+         $('#add-media-widget').trigger('click');
+         counter += 1;
+
+         let fileName = $('#trick_name').val();
+         fileName = fileName.replaceAll(' ', '-');
+         fileName = fileName.toLocaleLowerCase();
+
+         let extension = file.type.split('/');
+         extension = extension.pop();
+
+         file.upload.filename = fileName + '-' + counter + '-' + Date.now() + '.' + extension;
+
+         $('#trick_media_'+counter+'_name').val(file.upload.filename);
+         $('#trick_media_'+1+'_cover').val(true);
+
+         $('#cover_container').fadeIn();
+         $('#cover').append('<option value="'+counter+'">'+file.upload.filename+'</option>');
+     });
+
+     $('#cover').change(function(){
+         for (let i = 1; i <= this.length; i++)
+         {
+             $('#trick_media_'+i+'_cover').val(null);
+         }
+
+         $('#trick_media_'+$(this).val()+'_cover').val(true);
+     });
+ }

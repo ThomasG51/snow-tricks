@@ -16,7 +16,8 @@ class VideoType extends AbstractType
             ->add('url', UrlType::class, [
                 'label' => false,
                 'attr' => [
-                    'placeholder' => 'http://'
+                    'placeholder' => 'http://',
+                    'class' => 'w-full bg-gray-100'
                 ]
             ])
         ;

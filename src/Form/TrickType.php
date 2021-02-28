@@ -7,14 +7,12 @@ use App\Entity\Trick;
 use App\Entity\Category;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\RangeType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\UX\Dropzone\Form\DropzoneType;
 
 class TrickType extends AbstractType
 {
@@ -37,6 +35,8 @@ class TrickType extends AbstractType
             ->add('media', CollectionType::class, [
                 'entry_type' => MediaType::class,
                 'by_reference' => false,
+                'allow_add' => true,
+                'allow_delete' => true,
                 'label' => false
             ])
             ->add('videos', CollectionType::class, [
@@ -48,11 +48,11 @@ class TrickType extends AbstractType
                 ],
                 'by_reference' => false,
                 'allow_add' => true,
+                'allow_delete' => true,
                 'label' => false
             ])
             ->add('content', TextareaType::class, [
                 'attr' => [
-                    'id' => 'trumbowyg',
                     'class' => 'tw-form-field',
                     'rows' => 14
                 ]
@@ -71,6 +71,9 @@ class TrickType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Trick::class,
+            'attr' => [
+                'id' => 'trick_form'
+            ]
         ]);
     }
 }

@@ -13,9 +13,7 @@ class MediaType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', HiddenType::class, [
-                'data' => 'abcdef',
-            ])
+            ->add('name', HiddenType::class)
             ->add('cover', HiddenType::class)
         ;
     }

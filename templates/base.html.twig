@@ -61,7 +61,7 @@
             <img src="{{ asset('upload/avatar/') }}{{ app.user.avatar }}" alt="">
         </figure>
         <h6 class="text-white text-2xl text-center mt-8 ml-5 mb-5">{{ app.user.firstname }} {{ app.user.lastname }}</h6>
-        <a href="{{ path('create_tricks') }}" class="block bg-blue-400 text-white text-center rounded-none w-11/12 h-7 mx-auto mt-5">Ajouter un tricks</a>
+        <a href="{{ path('trick_create') }}" class="block bg-blue-400 text-white text-center rounded-none w-11/12 h-7 mx-auto mt-5">Ajouter un tricks</a>
 
         <a href="{{ path('app_logout') }}"><i class="fas fa-sign-out-alt text-red-600 text-lg border-2 border-red-600 bg-red-300 px-3 py-1 rounded-none absolute bottom-3 right-3 cursor-pointer"></i></a>
     </nav>

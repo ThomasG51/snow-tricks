@@ -26,6 +26,19 @@
                 {{ form_widget(formTricks.difficulty) }}
             </div>
             <div class="dropzone w-10/12 mx-auto mb-8 border border-dashed border-blue-400 rounded" id="media_dropzone"></div>
+            <div id="cover_container" class="w-10/12 mx-auto mb-8 hidden">
+                <label for="cover" class="font-semibold text-blue-400">Couverture</label>
+                <select name="cover" id="cover" class="tw-form-field"></select>
+            </div>
+            <div id="media"
+                 data-prototype="{{ form_widget(formTricks.media.vars.prototype)|e('html_attr') }}"
+                 data-widget-tags="{{ '<div></div>'|e }}"
+                 data-widget-counter="{{ formTricks.media|length }}">
+                <button id="add-media-widget" type="button" class="hidden" data-list-selector="#media">test</button>
+                {% for media in formTricks.media %}
+                    {{ form_widget(media) }}
+                {% endfor %}
+            </div>
             <div id="videos"
                  class="w-10/12 mx-auto mb-8 videos"
                  data-prototype="{{ form_widget(formTricks.videos.vars.prototype)|e('html_attr') }}"

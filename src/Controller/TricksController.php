@@ -11,6 +11,7 @@ use App\Repository\TrickRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -89,8 +90,6 @@ class TricksController extends AbstractController
 
         if ($formTrick->isSubmitted() && $formTrick->isValid())
         {
-            //dd($formTrick->getData());
-
             $trick->setCreatedAt(new \DateTime());
             $trick->setUser($this->getUser());
 
@@ -153,5 +152,26 @@ class TricksController extends AbstractController
         }
 
         throw new \Exception('Delete trick failed', 400);
+    }
+
+
+    /**
+     * Upload media with dropzone
+     *
+     * @Route("/upload", name="upload")
+     * @param Request $request
+     * @return JsonResponse
+     * @throws \Exception
+     */
+    public function uploadMedia(Request $request): JsonResponse
+    {
+        $file = $request->files->get('file');
+
+        if(!$file->move('upload/tricks', $file->getClientOriginalName()))
+        {
+            throw new \Exception('L\'upload n\'a pas pu être effectué');
+        }
+
+        return $this->json('Upload effectué');
     }
 }
