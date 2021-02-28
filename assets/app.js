@@ -184,7 +184,7 @@ $(document).ready(function () {
          addRemoveLinks: true,
          dictRemoveFile: '&times;',
          maxFiles: 3,
-         dictMaxFilesExceeded: 'Ce fichier ne sera pas uploadé',
+         dictMaxFilesExceeded: 'Vous ne pouvez ajouter que 3 images maximum',
          renameFile: true
      });
 
@@ -201,23 +201,27 @@ $(document).ready(function () {
              return;
          }
 
-         $('#add-media-widget').trigger('click');
          counter += 1;
 
-         let fileName = $('#trick_name').val();
-         fileName = fileName.replaceAll(' ', '-');
-         fileName = fileName.toLocaleLowerCase();
+         if(counter <= 3)
+         {
+            $('#add-media-widget').trigger('click');
 
-         let extension = file.type.split('/');
-         extension = extension.pop();
+             let fileName = $('#trick_name').val();
+             fileName = fileName.replaceAll(' ', '-');
+             fileName = fileName.toLocaleLowerCase();
 
-         file.upload.filename = fileName + '-' + counter + '-' + Date.now() + '.' + extension;
+             let extension = file.type.split('/');
+             extension = extension.pop();
 
-         $('#trick_media_'+counter+'_name').val(file.upload.filename);
-         $('#trick_media_'+1+'_cover').val(true);
+             file.upload.filename = fileName + '-' + counter + '-' + Date.now() + '.' + extension;
 
-         $('#cover_container').fadeIn();
-         $('#cover').append('<option value="'+counter+'">'+file.upload.filename+'</option>');
+             $('#trick_media_'+counter+'_name').val(file.upload.filename);
+             $('#trick_media_'+1+'_cover').val(true);
+
+             $('#cover_container').fadeIn();
+             $('#cover').append('<option value="'+counter+'">'+file.upload.filename+'</option>');
+         }
      });
 
      $('#cover').change(function(){
