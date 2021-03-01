@@ -233,3 +233,12 @@ $(document).ready(function () {
          $('#trick_media_'+$(this).val()+'_cover').val(true);
      });
  }
+
+/*
+ * Global : Show user details
+ */
+
+$('#user_detail_btn').click(function(){
+    $('#user_detail').slideToggle();
+    console.log(this);
+});

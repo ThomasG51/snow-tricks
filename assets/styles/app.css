@@ -53,3 +53,11 @@ button:focus, input:focus {
     background-size: cover;
     background-position: center;
 }
+
+.menu-item {
+    width: 100%;
+    border-top: 1px solid rgb(55, 65, 81);
+    border-bottom: 1px solid rgb(17, 24, 39);
+    color: #FFFFFF;
+    @apply px-5 py-3 transition-all hover:bg-gray-900;
+}

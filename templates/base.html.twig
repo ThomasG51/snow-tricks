@@ -57,13 +57,28 @@
     <nav class="fixed top-0 -right-full w-full xl:w-1/5 h-screen bg-gray-800 z-50 transition-all duration-500">
         <i id="close-nav" class="fas fa-times text-white text-lg border-2 border-white px-3 py-1 rounded-full absolute top-3 right-3 cursor-pointer"></i>
 
-        <figure class="w-2/6 mx-auto rounded-full overflow-hidden mt-20">
-            <img src="{{ asset('upload/avatar/') }}{{ app.user.avatar }}" alt="">
+        <figure class="w-32 h-32 mx-auto rounded-full overflow-hidden mt-20">
+            <img src="{{ asset('upload/avatar/') }}{{ app.user.avatar }}" alt="" class="min-h-full min-w-full object-cover">
         </figure>
-        <h6 class="text-white text-2xl text-center mt-8 ml-5 mb-5">{{ app.user.firstname }} {{ app.user.lastname }}</h6>
-        <a href="{{ path('trick_create') }}" class="block bg-blue-400 text-white text-center rounded-none w-11/12 h-7 mx-auto mt-5">Ajouter un tricks</a>
+        <h6 class="text-white text-2xl text-center my-5">{{ app.user.firstname }} {{ app.user.lastname }}</h6>
+
+        <div id="user_detail_btn" class="menu-item">
+            <span class="cursor-pointer"><i class="fas fa-user-alt mr-1"></i> Mon compte</span>
+        </div>
+
+            <div id="user_detail" class="w-full hidden p-5 text-white">
+                <p>{{ app.user.firstname }}</p>
+                <p>{{ app.user.lastname }}</p>
+                <p>{{ app.user.email }}</p>
+                <div class="mt-5">{{ include('form/_delete_user.html.twig') }}</div>
+            </div>
+
+        <div class="menu-item">
+            <a href="{{ path('trick_create') }}"><i class="fas fa-pen mr-1"></i> Ajouter un trick</a>
+        </div>
 
         <a href="{{ path('app_logout') }}"><i class="fas fa-sign-out-alt text-red-600 text-lg border-2 border-red-600 bg-red-300 px-3 py-1 rounded-none absolute bottom-3 right-3 cursor-pointer"></i></a>
+
     </nav>
     {% endif %}
 
