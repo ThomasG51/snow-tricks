@@ -148,6 +148,11 @@ class TricksController extends AbstractController
             $manager->remove($trick);
             $manager->flush();
 
+            foreach($trick->getMedia() as $media)
+            {
+                unlink('upload/tricks/'.$media->getName());
+            }
+
             return $this->redirectToRoute('home');
         }
 
@@ -173,5 +178,18 @@ class TricksController extends AbstractController
         }
 
         return $this->json('Upload effectué');
+    }
+
+
+    /**
+     * Edit trick
+     *
+     * @Route("trick/edit/{id}", name="trick_edit")
+     * @param Trick $trick
+     * @return Response
+     */
+    public function edit(Trick $trick): Response
+    {
+
     }
 }
