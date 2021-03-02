@@ -66,11 +66,9 @@
             <span class="cursor-pointer"><i class="fas fa-user-alt mr-1"></i> Mon compte</span>
         </div>
 
-            <div id="user_detail" class="w-full hidden p-5 text-white">
-                <p>{{ app.user.firstname }}</p>
-                <p>{{ app.user.lastname }}</p>
-                <p>{{ app.user.email }}</p>
-                <div class="mt-5">{{ include('form/_delete_user.html.twig') }}</div>
+            <div id="user_detail" class="w-full hidden p-3 text-white">
+                {{ include('form/_edit_user.html.twig') }}
+                <div class="mt-2">{{ include('form/_delete_user.html.twig') }}</div>
             </div>
 
         <div class="menu-item">

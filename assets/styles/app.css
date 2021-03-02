@@ -61,3 +61,7 @@ button:focus, input:focus {
     color: #FFFFFF;
     @apply px-5 py-3 transition-all hover:bg-gray-900;
 }
+
+.menu-input {
+    @apply bg-gray-800 border border-gray-800 focus:border-blue-400 text-white focus:text-blue-400 p-2 rounded w-full;
+}

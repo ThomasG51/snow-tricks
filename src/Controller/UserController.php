@@ -43,4 +43,26 @@ class UserController extends AbstractController
 
         throw new \Exception('Impossible de supprimer l\'utilisateur');
     }
+
+
+    /**
+     * Edit user
+     *
+     * @Route("/user/edit/{id}", name="user_edit")
+     * @param User $user
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @return Response
+     */
+    public function edit(User $user, Request $request, EntityManagerInterface $manager): Response
+    {
+        $user->setFirstname($request->request->get('firstname'));
+        $user->setLastname($request->request->get('lastname'));
+        $user->setEmail($request->request->get('email'));
+
+        $manager->flush();
+
+        return $this->redirectToRoute('home');
+    }
+
 }
