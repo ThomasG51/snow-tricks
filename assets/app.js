@@ -15,6 +15,11 @@ import $ from 'jquery';
 import sal from 'sal.js';
 import axios from 'axios';
 import Dropzone from 'dropzone';
+import 'trumbowyg/dist/trumbowyg.min';
+import 'trumbowyg/dist/plugins/colors/trumbowyg.colors.min';
+import icons from 'trumbowyg/dist/ui/icons.svg';
+import 'trumbowyg/dist/plugins/emoji/trumbowyg.emoji.min';
+
 
 
 /*
@@ -217,7 +222,15 @@ $(document).ready(function () {
              file.upload.filename = fileName + '-' + counter + '-' + Date.now() + '.' + extension;
 
              $('#trick_media_'+counter+'_name').val(file.upload.filename);
-             $('#trick_media_'+1+'_cover').val(true);
+
+             if(counter == 1)
+             {
+                $('#trick_media_'+counter+'_cover').val(1);
+             }
+             else
+             {
+                 $('#trick_media_'+counter+'_cover').val(0);
+             }
 
              $('#cover_container').fadeIn();
              $('#cover').append('<option value="'+counter+'">'+file.upload.filename+'</option>');
@@ -227,10 +240,10 @@ $(document).ready(function () {
      $('#cover').change(function(){
          for (let i = 1; i <= this.length; i++)
          {
-             $('#trick_media_'+i+'_cover').val(null);
+             $('#trick_media_'+i+'_cover').val(0);
          }
 
-         $('#trick_media_'+$(this).val()+'_cover').val(true);
+         $('#trick_media_'+$(this).val()+'_cover').val(1);
      });
  }
 
@@ -241,4 +254,25 @@ $(document).ready(function () {
 $('#user_detail_btn').click(function(){
     $('#user_detail').slideToggle();
     console.log(this);
+});
+
+/*
+ * Create Trick : Wysiwyg
+ */
+
+$('#trick_content').trumbowyg({
+    svgPath: icons,
+    btns: [
+        ['viewHTML'],
+        ['undo', 'redo'],
+        ['strong', 'em', 'del'],
+        ['foreColor', 'backColor'],
+        ['emoji'],
+        ['superscript', 'subscript'],
+        ['link'],
+        ['justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull'],
+        ['unorderedList', 'orderedList'],
+        ['horizontalRule'],
+        ['fullscreen'],
+    ]
 });

@@ -6,6 +6,8 @@
 
 @import '~sal.js/dist/sal.css';
 @import '~trumbowyg/dist/ui/trumbowyg.min.css';
+@import '~trumbowyg/dist/plugins/colors/ui/trumbowyg.colors.css';
+@import '~trumbowyg/dist/plugins/emoji/ui/trumbowyg.emoji.min.css';
 @import '~dropzone/dist/dropzone.css';
 
 .trick-card {
