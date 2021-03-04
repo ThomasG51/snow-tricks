@@ -4943,6 +4943,11 @@ slash@^3.0.0:
   resolved "https://registry.yarnpkg.com/slash/-/slash-3.0.0.tgz#6539be870c165adbd5240220dbe361f1bc4d4634"
   integrity sha512-g9Q1haeby36OSStwb4ntCGGGaKsaVSjQ68fBxoQcutl5fS1vuY18H3wSt3jFyFtrkx+Kz0V1G85A4MyAdDMi2Q==
 
+smooth-zoom@^0.0.11:
+  version "0.0.11"
+  resolved "https://registry.yarnpkg.com/smooth-zoom/-/smooth-zoom-0.0.11.tgz#0fa0932ce8c2058f2283b81ec4f3d8fb0936e31a"
+  integrity sha512-nQEMElI6aNNqQdmA80PIi5xvYtT8zcekNI0dWONBpwxIYWek/YyMZbe3HnTB5CR0lOk0b1C0/xIe4APl2vmpoQ==
+
 sockjs-client@1.5.0:
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/sockjs-client/-/sockjs-client-1.5.0.tgz#2f8ff5d4b659e0d092f7aba0b7c386bd2aa20add"

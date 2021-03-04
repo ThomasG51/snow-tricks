@@ -19,7 +19,7 @@ import 'trumbowyg/dist/trumbowyg.min';
 import 'trumbowyg/dist/plugins/colors/trumbowyg.colors.min';
 import icons from 'trumbowyg/dist/ui/icons.svg';
 import 'trumbowyg/dist/plugins/emoji/trumbowyg.emoji.min';
-
+import Zoom from "smooth-zoom";
 
 
 /*
@@ -276,3 +276,9 @@ $('#trick_content').trumbowyg({
         ['fullscreen'],
     ]
 });
+
+/*
+ * Show Trick : Zoom media
+ */
+
+Zoom(".zoomable");
