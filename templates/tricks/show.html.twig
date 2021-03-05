@@ -24,14 +24,14 @@
                     <i class="fas fa-star text-blue-400"></i><i class="fas fa-star text-blue-400"></i><i class="fas fa-star text-blue-400"></i>
                 {% endif %}
             </h6>
-            <h6 class="text-sm text-gray-400 mx-8 mt-5">Créé le: <i class="far fa-clock ml-1"></i> {{ trick.createdAt | date("d/m/Y") }} par {{ trick.user.firstname }} {{ trick.user.lastname }}</h6>
+            <h6 class="text-sm text-gray-400 mx-8 mt-5">Créé le: <i class="far fa-clock ml-1"></i> {{ trick.createdAt | date("d/m/Y") }} {% if trick.user != null %}par {{ trick.user.firstname }} {{ trick.user.lastname }}{% endif %}</h6>
             {% if trick.modifiedAt != null %}
                 <h6 class="text-sm text-gray-400 mx-8">Modifié: <i class="far fa-clock ml-1"></i> {{ trick.modifiedAt | date("d/m/Y") }}</h6>
             {% endif %}
 
-            <p class="mx-8 my-10 text-justify text-gray-800">
-                {{ trick.content | raw }}
-            </p>
+            <div class="mx-8 my-10 text-justify text-gray-800">
+                {{ trick.content | raw  }}
+            </div>
 
             <button id="show-media" class="btn-blue block xl:hidden mx-auto">Afficher les médias</button>
 
@@ -39,7 +39,7 @@
                 <div class="grid grid-col-1 xl:grid-cols-3 gap-5 mx-6 my-6">
                     {% for media in trick.media %}
                     <figure class="w-full mx-auto mb-5 md:mb-0">
-                        <img class="object-cover min-w-full  max-h-52 md:min-h-full" src="{{ asset('upload/tricks/' ~ media.name) }}" alt="{{ media.name }}">
+                        <img class="object-cover min-w-full max-h-52 md:min-h-full zoomable" src="{{ asset('upload/tricks/' ~ media.name) }}" alt="{{ media.name }}">
                     </figure>
                     {% endfor %}
                 </div>
@@ -58,6 +58,7 @@
 
             <h3 class="text-blue-400 text-xl px-8 mt-10">Vos réactions</h3>
 
+            {% if trick.modifiedAt != null %}
             <div class="px-8 mb-8">
             {{ form_start(formComment) }}
                 {{ form_errors(formComment) }}
@@ -65,17 +66,20 @@
                 <button class="block bg-blue-400 text-white rounded w-full pt-2 pb-1 mt-3" type="submit">Valider</button>
             {{ form_end(formComment) }}
             </div>
+            {% endif %}
 
             {% for comment in trick.comment %}
-            <div class="border border-gray-200 mx-8 md:grid md:grid-cols-6 mb-8">
-                <figure class="pt-4 pb-0 px-4 md:p-4">
-                    {% if comment.user.avatar %}
-                        <img class="rounded-full w-1/4 md:w-full mx-auto" src="{{ asset('upload/avatar/') }}{{ comment.user.avatar }}" alt="">
-                    {% else %}
-                        <i class="fas fa-user block w-1/4 md:w-full mx-auto mb-4 md:mb-0 text-center text-7xl text-blue-400"></i>
-                    {% endif %}
-                </figure>
-                <div class="md:col-span-5 flex flex-col justify-center items-start text-justify md:text-left p-4">
+            <div class="border border-gray-200 mx-8 md:grid md:grid-cols-9 mb-8">
+                <div class="md:col-span-2 pt-4 pb-0 px-4 md:p-4 flex justify-center items-center">
+                    <figure class="w-32 h-32 rounded-full overflow-hidden">
+                        {% if comment.user.avatar %}
+                            <img class="min-h-full min-w-full object-cover" src="{{ asset('upload/avatar/') }}{{ comment.user.avatar }}" alt="">
+                        {% else %}
+                            <i class="fas fa-user block w-1/4 md:w-full mx-auto mb-4 md:mb-0 text-center text-7xl text-blue-400"></i>
+                        {% endif %}
+                    </figure>
+                </div>
+                <div class="md:col-span-7 flex flex-col justify-center items-start text-justify md:text-left p-4">
                     <small class="text-blue-400"><i class="far fa-clock"></i> {{ comment.createdAt | date('d-m-Y') }}</small>
                     <small class="text-blue-400 mb-2 mt-1"><i class="far fa-user"></i> {{ comment.user.firstname }} {{ comment.user.lastname }}</small>
                     <p>{{ comment.message }}</p>

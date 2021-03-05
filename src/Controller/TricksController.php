@@ -186,10 +186,23 @@ class TricksController extends AbstractController
      *
      * @Route("trick/edit/{id}", name="trick_edit")
      * @param Trick $trick
+     * @param Request $request
+     * @param EntityManagerInterface $manager
      * @return Response
      */
-    public function edit(Trick $trick): Response
+    public function edit(Trick $trick, Request $request, EntityManagerInterface $manager): Response
     {
+        $formTrick = $this->createForm(TrickType::class, $trick);
+        $formTrick->handleRequest($request);
 
+        if($formTrick->isSubmitted() && $formTrick->isValid())
+        {
+            dd($formTrick->getData());
+        }
+
+        return $this->render('tricks/create.html.twig', [
+            'trick' => $trick,
+            'formTricks' => $formTrick->createView()
+        ]);
     }
 }
