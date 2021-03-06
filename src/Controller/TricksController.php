@@ -143,6 +143,8 @@ class TricksController extends AbstractController
      */
     public function delete(Request $request, Trick $trick, EntityManagerInterface $manager): Response
     {
+        $this->denyAccessUnlessGranted('CAN_DELETE', $trick, 'Vous ne pouvez pas supprimer un trick qui ne vous appartient pas.');
+
         if($this->isCsrfTokenValid('delete_trick_'.$trick->getId(), $request->request->get('token')))
         {
             $manager->remove($trick);
