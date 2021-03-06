@@ -38,7 +38,7 @@
                             <i class="fas fa-star text-blue-400"></i><i class="fas fa-star text-blue-400"></i><i class="fas fa-star text-blue-400"></i>
                         {% endif %}
                     </small>
-                    {% if app.user %}
+                    {% if app.user and app.user == trick.user %}
                         <div class="flex justify-evenly items-center">
                             <a href="{{ path('trick_edit', {'id': trick.id}) }}" class="border border-blue-400 bg-blue-200 text-blue-400 text-sm rounded px-2 mb-5">modifier</a>
                             {{ include('form/_delete_trick.html.twig') }}

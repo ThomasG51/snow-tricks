@@ -97,8 +97,9 @@ $('#load-more').click(function(){
 
     axios.get('/load/' + firstItem + '/' + nbItems)
     .then(function(response){
-        console.log(response.data);
+        console.log(response);
         response.data.forEach(function(trick){
+
             let target = document.getElementById('tricks-container');
 
             let child = document.createElement('div');
@@ -110,36 +111,27 @@ $('#load-more').click(function(){
             child.setAttribute('data-sal-easing', 'ease-out-back');
             child.setAttribute('data-sal-repeat', '');
 
+            child.insertAdjacentHTML('beforeend', '<figure class="w-full h-48 mb-5 overflow-hidden"><img class="object-cover min-h-full" src="/upload/japan-air-1.jpg" alt=""></figure>');
+            child.insertAdjacentHTML('beforeend', '<a href="/show/' + trick.id + '"><h6 class="text-xl text-center font-bold px-8 mb-2">' + trick.name + ' ' + trick.category.name + '</h6></a>');
+
+
             if(trick.difficulty == 1)
             {
-                child.innerHTML = '' +
-                    '<figure class="w-full h-48 mb-5 overflow-hidden">\n' +
-                    '<img class="object-cover min-h-full" src="/upload/japan-air-1.jpg" alt="">\n' +
-                    '</figure>\n' +
-                    '<a href="/show/' + trick.id + '"><h6 class="text-xl text-center font-bold px-8 mb-2">' + trick.name + ' ' + trick.category.name + '</h6></a>\n' +
-                    '<small class="block px-8 mb-4 text-center">\n'+
-                    '<i class="fas fa-star text-blue-400"></i><i class="far fa-star text-blue-400"></i><i class="far fa-star text-blue-400"></i>' +
-                    '</small>';
-            }else if(trick.difficulty == 2)
-            {
-                child.innerHTML = '' +
-                    '<figure class="w-full h-48 mb-5 overflow-hidden">\n' +
-                    '<img class="object-cover min-h-full" src="/upload/japan-air-1.jpg" alt="">\n' +
-                    '</figure>\n' +
-                    '<a href="/show/' + trick.id + '"><h6 class="text-xl text-center font-bold px-8 mb-2">' + trick.name + ' ' + trick.category.name + '</h6></a>\n' +
-                    '<small class="block px-8 mb-4 text-center">\n' +
-                    '<i class="fas fa-star text-blue-400"></i><i class="fas fa-star text-blue-400"></i><i class="far fa-star text-blue-400"></i>' +
-                    '</small>';
-            }else if(trick.difficulty == 3) {
-                child.innerHTML = '' +
-                    '<figure class="w-full h-48 mb-5 overflow-hidden">\n' +
-                    '<img class="object-cover min-h-full" src="/upload/japan-air-1.jpg" alt="">\n' +
-                    '</figure>\n' +
-                    '<a href="/show/' + trick.id + '"><h6 class="text-xl text-center font-bold px-8 mb-2">' + trick.name + ' ' + trick.category.name + '</h6></a>\n' +
-                    '<small class="block px-8 mb-4 text-center">\n' +
-                    '<i class="fas fa-star text-blue-400"></i><i class="fas fa-star text-blue-400"></i><i class="fas fa-star text-blue-400"></i>' +
-                    '</small>';
+                child.insertAdjacentHTML('beforeend', '<small class="block px-8 mb-4 text-center"><i class="fas fa-star text-blue-400"></i><i class="far fa-star text-blue-400"></i><i class="far fa-star text-blue-400"></i></small>');
             }
+            else if(trick.difficulty == 2)
+            {
+                child.insertAdjacentHTML('beforeend', '<small class="block px-8 mb-4 text-center"><i class="fas fa-star text-blue-400"></i><i class="fas fa-star text-blue-400"></i><i class="far fa-star text-blue-400"></i></small>');
+            }
+            else if(trick.difficulty == 3)
+            {
+                child.append('<small class="block px-8 mb-4 text-center"><i class="fas fa-star text-blue-400"></i><i class="fas fa-star text-blue-400"></i><i class="fas fa-star text-blue-400"></i></small>');
+            }
+
+            child.insertAdjacentHTML('beforeend', '' +
+                '<div class="flex justify-evenly items-center">' +
+                '<a href="trick/edit/'+ trick.id +'" class="border border-blue-400 bg-blue-200 text-blue-400 text-sm rounded px-2 mb-5">modifier</a>' +
+                '</div>');
 
             target.appendChild(child);
         })
@@ -237,14 +229,39 @@ $(document).ready(function () {
          }
      });
 
-     $('#cover').change(function(){
-         for (let i = 1; i <= this.length; i++)
-         {
-             $('#trick_media_'+i+'_cover').val(0);
-         }
+     if($('#trick_media_0').length > 0)
+     {
+         $('#cover_container').fadeIn();
 
-         $('#trick_media_'+$(this).val()+'_cover').val(1);
-     });
+         let counter = 0;
+
+         let inputs = document.getElementById('media').querySelectorAll('input');
+
+         inputs.forEach(input => {
+             if(input.getAttribute('id').indexOf('_name') != -1)
+             {
+                 $('#cover').append('<option value="'+counter+'">'+input.getAttribute('value')+'</option>');
+                 counter += 1;
+             }
+
+             if(input.getAttribute('id').indexOf('_cover') != -1)
+             {
+                 if(input.getAttribute('value') != '1')
+                 {
+                     input.setAttribute('value', '0');
+                 }
+             }
+         });
+
+         $('#cover').change(function(){
+             for (let i = 0; i <= this.length; i++)
+             {
+                 $('#trick_media_'+i+'_cover').val(0);
+             }
+
+             $('#trick_media_'+$(this).val()+'_cover').val(1);
+         });
+     }
  }
 
 /*
