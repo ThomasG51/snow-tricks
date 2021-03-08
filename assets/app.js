@@ -171,6 +171,7 @@ $(document).ready(function () {
 /*
  * Create Tricks Page : media dropzone
  */
+
  if($("#media_dropzone").length > 0)
  {
      Dropzone.autoDiscover = false;
@@ -233,8 +234,6 @@ $(document).ready(function () {
      {
          $('#cover_container').fadeIn();
 
-         let counter = 0;
-
          let inputs = document.getElementById('media').querySelectorAll('input');
 
          inputs.forEach(input => {
@@ -263,6 +262,10 @@ $(document).ready(function () {
          });
      }
  }
+
+ $('.remove-media-widget').click(function(){
+     $(this).parents('figure').hide();
+ })
 
 /*
  * Global : Show user details

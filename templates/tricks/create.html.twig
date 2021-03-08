@@ -1,9 +1,21 @@
 {% extends 'base.html.twig' %}
 
+{% import _self as formMacros %}
+
+{% macro macroVideo(video) %}
+    <div class="flex items-center">
+        <div class="tw-form-field mt-3">
+        {{ form_errors(video.url) }}
+        {{ form_widget(video.url) }}
+        </div>
+        <a href="" class="ml-3 block mt-3 text-red-600 text-xl">&times;</a>
+    </div>
+{% endmacro %}
+
 {% block body %}
     <div class="bg-gray-100 pt-32 pb-14">
     <!-- TODO responsive -->
-        <main class="w-3/5 py-12 mx-auto bg-white shadow">
+        <main class="w-11/12 xl:w-3/5 py-12 mx-auto bg-white shadow">
             <h1 class="text-3xl text-blue-400 w-1/2 mx-auto text-center mb-10"><i class="fas fa-plus mr-1"></i> Ajouter un nouveau trick</h1>
 
             {{ form_start(formTricks) }}
@@ -25,6 +37,16 @@
                 <input type="text" id="rangeValue" class="font-semibold text-blue-400" value=" : Intermédiaire">
                 {{ form_widget(formTricks.difficulty) }}
             </div>
+            {% if trick is defined %}
+            <div class="w-10/12 mx-auto mb-8 grid grid-cols-3 gap-5">
+                {% for media in trick.media %}
+                <figure>
+                    <img src="{{ asset('upload/tricks/' ~ media.name) }}" alt="">
+                    <figcaption class="text-red-600 text-center text-xl"><span class="cursor-pointer remove-media-widget">&times;</span></figcaption>
+                </figure>
+                {% endfor %}
+            </div>
+            {% endif %}
             <div class="dropzone w-10/12 mx-auto mb-8 border border-dashed border-blue-400 rounded" id="media_dropzone"></div>
             <div id="cover_container" class="w-10/12 mx-auto mb-8 hidden">
                 <label for="cover" class="font-semibold text-blue-400">Couverture</label>
@@ -41,7 +63,7 @@
             </div>
             <div id="videos"
                  class="w-10/12 mx-auto mb-8 videos"
-                 data-prototype="{{ form_widget(formTricks.videos.vars.prototype)|e('html_attr') }}"
+                 data-prototype="{{ formMacros.macroVideo(formTricks.videos.vars.prototype)|e('html_attr') }}"
                  data-widget-tags="{{ '<div></div>'|e }}"
                  data-widget-counter="{{ formTricks.videos|length }}">
                 {{ form_label(formTricks.videos, null, {
@@ -50,8 +72,7 @@
                 }) }}
                 <button id="add-video-widget" type="button" class="bg-blue-400 text-white px-2 py-1 ml-3" data-list-selector="#videos"><i class="fas fa-plus"></i></button>
                 {% for video in formTricks.videos %}
-                    {{ form_errors(video) }}
-                    {{ form_widget(video) }}
+                    {{ formMacros.macroVideo(video) }}
                 {% endfor %}
             </div>
             <div class="w-10/12 mx-auto mb-8">
