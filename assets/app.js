@@ -149,7 +149,7 @@ $('#load-more').click(function(){
 
 
 /*
- * Create Tricks Page : Add videos row
+ * Create Tricks Page : Add/Remove videos row
  */
 
 $(document).ready(function () {
@@ -165,6 +165,11 @@ $(document).ready(function () {
         var newElem = $(list.attr('data-widget-tags')).html(newWidget);
         newElem.appendTo(list);
     });
+});
+
+$('.remove-video-widget').click(function(){
+    event.preventDefault();
+    $(this).closest('.video-item').fadeOut().remove();
 });
 
 
@@ -265,7 +270,14 @@ $(document).ready(function () {
 
  $('.remove-media-widget').click(function(){
      $(this).parents('figure').hide();
+
+     let media = $(this).parents('figure').children('img').attr('alt');
+     let input = $('input[value = "'+media+'"]').attr('id');
+     let id = input.replace('_name', '');
+
+     $('#'+id).remove();
  })
+
 
 /*
  * Global : Show user details
@@ -275,6 +287,7 @@ $('#user_detail_btn').click(function(){
     $('#user_detail').slideToggle();
     console.log(this);
 });
+
 
 /*
  * Create Trick : Wysiwyg
@@ -296,6 +309,7 @@ $('#trick_content').trumbowyg({
         ['fullscreen'],
     ]
 });
+
 
 /*
  * Show Trick : Zoom media

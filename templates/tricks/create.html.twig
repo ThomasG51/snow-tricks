@@ -3,18 +3,17 @@
 {% import _self as formMacros %}
 
 {% macro macroVideo(video) %}
-    <div class="flex items-center">
+    <div class="flex items-center video-item">
         <div class="tw-form-field mt-3">
         {{ form_errors(video.url) }}
         {{ form_widget(video.url) }}
         </div>
-        <a href="" class="ml-3 block mt-3 text-red-600 text-xl">&times;</a>
+        <a href="" class="ml-3 block mt-3 text-red-600 text-xl remove-video-widget">&times;</a>
     </div>
 {% endmacro %}
 
 {% block body %}
     <div class="bg-gray-100 pt-32 pb-14">
-    <!-- TODO responsive -->
         <main class="w-11/12 xl:w-3/5 py-12 mx-auto bg-white shadow">
             <h1 class="text-3xl text-blue-400 w-1/2 mx-auto text-center mb-10"><i class="fas fa-plus mr-1"></i> Ajouter un nouveau trick</h1>
 
@@ -41,7 +40,7 @@
             <div class="w-10/12 mx-auto mb-8 grid grid-cols-3 gap-5">
                 {% for media in trick.media %}
                 <figure>
-                    <img src="{{ asset('upload/tricks/' ~ media.name) }}" alt="">
+                    <img src="{{ asset('upload/tricks/' ~ media.name) }}" alt="{{ media.name }}">
                     <figcaption class="text-red-600 text-center text-xl"><span class="cursor-pointer remove-media-widget">&times;</span></figcaption>
                 </figure>
                 {% endfor %}

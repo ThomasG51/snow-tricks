@@ -199,7 +199,7 @@ class TricksController extends AbstractController
 
         if($formTrick->isSubmitted() && $formTrick->isValid())
         {
-            dd($formTrick->getData());
+            $manager->flush();
         }
 
         return $this->render('tricks/create.html.twig', [
