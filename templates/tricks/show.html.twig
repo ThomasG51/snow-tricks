@@ -58,7 +58,7 @@
 
             <h3 class="text-blue-400 text-xl px-8 mt-10">Vos réactions</h3>
 
-            {% if trick.modifiedAt != null %}
+            {% if app.user %}
             <div class="px-8 mb-8">
             {{ form_start(formComment) }}
                 {{ form_errors(formComment) }}
@@ -82,7 +82,8 @@
                 <div class="md:col-span-7 flex flex-col justify-center items-start text-justify md:text-left p-4">
                     <small class="text-blue-400"><i class="far fa-clock"></i> {{ comment.createdAt | date('d-m-Y') }}</small>
                     <small class="text-blue-400 mb-2 mt-1"><i class="far fa-user"></i> {{ comment.user.firstname }} {{ comment.user.lastname }}</small>
-                    <p>{{ comment.message }}</p>
+                    <p class="mb-3">{{ comment.message }}</p>
+                    {{ include('form/_delete_comment.html.twig') }}
                 </div>
             </div>
             {% endfor %}
