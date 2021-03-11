@@ -143,7 +143,7 @@ class TricksController extends AbstractController
      */
     public function delete(Request $request, Trick $trick, EntityManagerInterface $manager): Response
     {
-        $this->denyAccessUnlessGranted('CAN_DELETE', $trick, 'Vous ne pouvez pas supprimer un trick qui ne vous appartient pas.');
+        $this->denyAccessUnlessGranted('CAN_DELETE', $trick, 'Vous ne pouvez pas supprimer le trick d\'un autre utilisateur.');
 
         if($this->isCsrfTokenValid('delete_trick_'.$trick->getId(), $request->request->get('token')))
         {
@@ -194,6 +194,8 @@ class TricksController extends AbstractController
      */
     public function edit(Trick $trick, Request $request, EntityManagerInterface $manager): Response
     {
+        $this->denyAccessUnlessGranted('CAN_EDIT', $trick, 'Vous ne pouvez pas modifier le trick d\'un autre utilisateur.');
+
         $formTrick = $this->createForm(TrickType::class, $trick);
         $formTrick->handleRequest($request);
 
