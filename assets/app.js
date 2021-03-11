@@ -316,3 +316,30 @@ $('#trick_content').trumbowyg({
  */
 
 Zoom(".zoomable");
+
+
+/*
+ * Smooth scroll
+ */
+
+$('.scroll_down').click(function(){
+
+    event.preventDefault();
+
+    let id = $(this).attr('href');
+    let section_scope = $(id).offset().top;
+    let nav_height = $('#topbar').height();
+
+    $('html,body').animate({
+        scrollTop: (section_scope - nav_height)
+    }, 500);
+});
+
+$('.scroll_top').click(function(){
+
+    event.preventDefault();
+
+    $('html,body').animate({
+        scrollTop: 0
+    }, 500);
+});
