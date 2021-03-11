@@ -12,6 +12,8 @@ use Symfony\Component\Routing\Annotation\Route;
 class CommentController extends AbstractController
 {
     /**
+     * Delete comment
+     *
      * @Route("/comment/delete/{id}", name="comment_delete")
      * @param Comment $comment
      * @param EntityManagerInterface $manager
@@ -21,6 +23,8 @@ class CommentController extends AbstractController
      */
     public function delete(Comment $comment, EntityManagerInterface $manager, Request $request): Response
     {
+        $this->denyAccessUnlessGranted('CAN_DELETE', $comment, 'Vous ne pouvez pas supprimer le commentaire d\'un autre utilisateur.');
+
         if($this->isCsrfTokenValid('delete_comment_'.$comment->getId(), $request->request->get('token')))
         {
             $manager->remove($comment);
