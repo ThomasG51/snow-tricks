@@ -44,7 +44,7 @@ class TricksController extends AbstractController
      * @param EntityManagerInterface $manager
      * @return Response
      */
-    public function show($id, TrickRepository $trickRepository, Request $request, EntityManagerInterface $manager): Response
+    public function show($id, TrickRepository $trickRepository, Request $request): Response
     {
         $trick = $trickRepository->find($id);
         $comment = new Comment();
@@ -58,8 +58,8 @@ class TricksController extends AbstractController
             $comment->setTrick($trick);
             $comment->setUser($this->getUser());
 
-            $manager->persist($comment);
-            $manager->flush();
+            $this->getDoctrine()->getManager()->persist($comment);
+            $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('show_tricks', [
                 'id' =>$id
@@ -82,7 +82,7 @@ class TricksController extends AbstractController
      * @param EntityManagerInterface $manager
      * @return Response
      */
-    public function create(Request $request, EntityManagerInterface $manager): Response
+    public function create(Request $request): Response
     {
         $trick = new Trick();
         $formTrick = $this->createForm(TrickType::class, $trick);
@@ -102,8 +102,8 @@ class TricksController extends AbstractController
                 $video->setUrl($url);
             }
 
-            $manager->persist($trick);
-            $manager->flush();
+            $this->getDoctrine()->getManager()->persist($trick);
+            $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('show_tricks', [
                 'id' => $trick->getId()
@@ -145,14 +145,14 @@ class TricksController extends AbstractController
      * @return Response
      * @throws \Exception
      */
-    public function delete(Request $request, Trick $trick, EntityManagerInterface $manager): Response
+    public function delete(Request $request, Trick $trick): Response
     {
         $this->denyAccessUnlessGranted('CAN_DELETE', $trick, 'Vous ne pouvez pas supprimer le trick d\'un autre utilisateur.');
 
         if($this->isCsrfTokenValid('delete_trick_'.$trick->getId(), $request->request->get('token')))
         {
-            $manager->remove($trick);
-            $manager->flush();
+            $this->getDoctrine()->getManager()->remove($trick);
+            $this->getDoctrine()->getManager()->flush();
 
             foreach($trick->getMedia() as $media)
             {
@@ -196,7 +196,7 @@ class TricksController extends AbstractController
      * @param EntityManagerInterface $manager
      * @return Response
      */
-    public function edit(Trick $trick, Request $request, EntityManagerInterface $manager): Response
+    public function edit(Trick $trick, Request $request): Response
     {
         $this->denyAccessUnlessGranted('CAN_EDIT', $trick, 'Vous ne pouvez pas modifier le trick d\'un autre utilisateur.');
 
@@ -206,7 +206,7 @@ class TricksController extends AbstractController
         if($formTrick->isSubmitted() && $formTrick->isValid())
         {
             $trick->setModifiedAt(new \DateTime());
-            $manager->flush();
+            $this->getDoctrine()->getManager()->flush();
         }
 
         return $this->render('tricks/create.html.twig', [

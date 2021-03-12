@@ -21,14 +21,14 @@ class CommentController extends AbstractController
      * @return Response
      * @throws \Exception
      */
-    public function delete(Comment $comment, EntityManagerInterface $manager, Request $request): Response
+    public function delete(Comment $comment, Request $request): Response
     {
         $this->denyAccessUnlessGranted('CAN_DELETE', $comment, 'Vous ne pouvez pas supprimer le commentaire d\'un autre utilisateur.');
 
         if($this->isCsrfTokenValid('delete_comment_'.$comment->getId(), $request->request->get('token')))
         {
-            $manager->remove($comment);
-            $manager->flush();
+            $this->getDoctrine()->getManager()->remove($comment);
+            $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('home');
         }
