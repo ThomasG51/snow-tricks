@@ -26,7 +26,7 @@
             </h6>
             <h6 class="text-sm text-gray-400 mx-8 mt-5">Créé le: <i class="far fa-clock ml-1"></i> {{ trick.createdAt | date("d/m/Y") }} {% if trick.user != null %}par {{ trick.user.firstname }} {{ trick.user.lastname }}{% endif %}</h6>
             {% if trick.modifiedAt != null %}
-                <h6 class="text-sm text-gray-400 mx-8">Modifié: <i class="far fa-clock ml-1"></i> {{ trick.modifiedAt | date("d/m/Y") }}</h6>
+                <h6 class="text-sm text-gray-400 mx-8 mt-1">Modifié le: <i class="far fa-clock ml-1"></i> {{ trick.modifiedAt | date("d/m/Y") }}</h6>
             {% endif %}
 
             {% if app.user and app.user == trick.user %}

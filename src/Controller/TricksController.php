@@ -201,6 +201,7 @@ class TricksController extends AbstractController
 
         if($formTrick->isSubmitted() && $formTrick->isValid())
         {
+            $trick->setModifiedAt(new \DateTime());
             $manager->flush();
         }
 
