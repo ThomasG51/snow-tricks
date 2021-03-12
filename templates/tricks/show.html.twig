@@ -54,7 +54,7 @@
                 <div class="grid grid-col-1 md:grid-cols-2 gap-5 mx-6 my-8">
                     {% for video in trick.videos %}
                         <iframe class="w-full h-64"
-                                src="{{ video.url }}"
+                                src="https://youtube.com/embed/{{ video.url }}"
                                 frameborder="0"
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                 allowfullscreen>

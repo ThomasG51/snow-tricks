@@ -95,11 +95,9 @@ class TricksController extends AbstractController
 
             foreach($trick->getVideos() as $video)
             {
-                // Reformatting youtube url to be used in iframe
-                $url = explode('/', $video->getUrl());
-                $url = 'https://youtube.com/embed/' . array_pop($url);
-
-                $video->setUrl($url);
+                // Pattern for youtube url
+                preg_match('/^(\w+:\/\/\w+\.\w+\.*\w+\/(\w+\?v=)*)(\w+)((\&\S+)*)$/',$video->getUrl(), $videoId);
+                $video->setUrl($videoId[3]);
             }
 
             $this->getDoctrine()->getManager()->persist($trick);
