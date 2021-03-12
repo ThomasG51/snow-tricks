@@ -1,0 +1,32 @@
+{% for trick in tricks %}
+    <div class="trick-card"
+         data-sal="slide-up"
+         data-sal-delay="100"
+         data-sal-duration="600"
+         data-sal-easing="ease-out-back"
+         data-sal-repeat>
+        <figure class="w-full h-48 mb-5 overflow-hidden">
+            {% for media in trick.media %}
+                {% if media.cover %}
+                    <img class="object-cover min-h-full" src="{{ asset('upload/tricks/') ~ media.name }}" alt="">
+                {% endif %}
+            {% endfor %}
+        </figure>
+        <a href="/show/{{ trick.id }}"><h6 class="text-xl text-center font-bold px-8 mb-2">{{ trick.name }} {{ trick.category.name }}</h6></a>
+        <small class="block px-8 mb-4 text-center">
+            {% if trick.difficulty == 1 %}
+                <i class="fas fa-star text-blue-400"></i><i class="far fa-star text-blue-400"></i><i class="far fa-star text-blue-400"></i>
+            {% elseif trick.difficulty == 2 %}
+                <i class="fas fa-star text-blue-400"></i><i class="fas fa-star text-blue-400"></i><i class="far fa-star text-blue-400"></i>
+            {% elseif trick.difficulty == 3 %}
+                <i class="fas fa-star text-blue-400"></i><i class="fas fa-star text-blue-400"></i><i class="fas fa-star text-blue-400"></i>
+            {% endif %}
+        </small>
+        {% if app.user and app.user == trick.user %}
+            <div class="flex justify-evenly items-center">
+                <a href="{{ path('trick_edit', {'id': trick.id}) }}" class="border border-blue-400 bg-blue-200 text-blue-400 text-sm rounded px-2 mb-5">modifier</a>
+                {{ include('form/_delete_trick.html.twig') }}
+            </div>
+        {% endif %}
+    </div>
+{% endfor %}

@@ -97,44 +97,8 @@ $('#load-more').click(function(){
 
     axios.get('/load/' + firstItem + '/' + nbItems)
     .then(function(response){
-        console.log(response);
-        response.data.forEach(function(trick){
-
-            let target = document.getElementById('tricks-container');
-
-            let child = document.createElement('div');
-            child.classList.add('trick-card');
-            child.classList.add('sal-animate');
-            child.setAttribute('data-sal', 'slide-up');
-            child.setAttribute('data-sal-delay', '100');
-            child.setAttribute('data-sal-duration', '600');
-            child.setAttribute('data-sal-easing', 'ease-out-back');
-            child.setAttribute('data-sal-repeat', '');
-
-            child.insertAdjacentHTML('beforeend', '<figure class="w-full h-48 mb-5 overflow-hidden"><img class="object-cover min-h-full" src="/upload/japan-air-1.jpg" alt=""></figure>');
-            child.insertAdjacentHTML('beforeend', '<a href="/show/' + trick.id + '"><h6 class="text-xl text-center font-bold px-8 mb-2">' + trick.name + ' ' + trick.category.name + '</h6></a>');
-
-
-            if(trick.difficulty == 1)
-            {
-                child.insertAdjacentHTML('beforeend', '<small class="block px-8 mb-4 text-center"><i class="fas fa-star text-blue-400"></i><i class="far fa-star text-blue-400"></i><i class="far fa-star text-blue-400"></i></small>');
-            }
-            else if(trick.difficulty == 2)
-            {
-                child.insertAdjacentHTML('beforeend', '<small class="block px-8 mb-4 text-center"><i class="fas fa-star text-blue-400"></i><i class="fas fa-star text-blue-400"></i><i class="far fa-star text-blue-400"></i></small>');
-            }
-            else if(trick.difficulty == 3)
-            {
-                child.append('<small class="block px-8 mb-4 text-center"><i class="fas fa-star text-blue-400"></i><i class="fas fa-star text-blue-400"></i><i class="fas fa-star text-blue-400"></i></small>');
-            }
-
-            child.insertAdjacentHTML('beforeend', '' +
-                '<div class="flex justify-evenly items-center">' +
-                '<a href="trick/edit/'+ trick.id +'" class="border border-blue-400 bg-blue-200 text-blue-400 text-sm rounded px-2 mb-5">modifier</a>' +
-                '</div>');
-
-            target.appendChild(child);
-        })
+        let target = document.getElementById('tricks-container');
+        target.insertAdjacentHTML('beforeend', response.data);
     })
     .then(function(){
         sal_animation.reset({
@@ -167,7 +131,7 @@ $(document).ready(function () {
     });
 });
 
-$('.remove-video-widget').click(function(){
+$('body').on('click', '.remove-video-widget', function(){
     event.preventDefault();
     $(this).closest('.video-item').fadeOut().remove();
 });

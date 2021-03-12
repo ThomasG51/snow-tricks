@@ -127,7 +127,11 @@ class TricksController extends AbstractController
      */
     public function loadMore(int $firstItem, int $nbItems, TrickRepository $trickRepository) : JsonResponse
     {
-        return $this->json($trickRepository->find5By5($firstItem, $nbItems), '200', [], ['groups' => ['tricks:load', "Default"]]);
+        $view = $this->renderView('tricks/_load_tricks.html.twig', [
+            'tricks' => $trickRepository->find5By5($firstItem, $nbItems)
+        ]);
+
+        return $this->json($view, '200');
     }
 
 
