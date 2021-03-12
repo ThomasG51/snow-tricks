@@ -29,6 +29,13 @@
                 <h6 class="text-sm text-gray-400 mx-8">Modifié: <i class="far fa-clock ml-1"></i> {{ trick.modifiedAt | date("d/m/Y") }}</h6>
             {% endif %}
 
+            {% if app.user and app.user == trick.user %}
+                <div class="flex justify-start items-center mx-8 mt-5">
+                    <a href="{{ path('trick_edit', {'id': trick.id}) }}" class="border border-blue-400 bg-blue-200 text-blue-400 text-sm rounded px-2 mb-5 mr-3">modifier</a>
+                    {{ include('form/_delete_trick.html.twig') }}
+                </div>
+            {% endif %}
+
             <div class="mx-8 my-10 text-justify text-gray-800">
                 {{ trick.content | raw  }}
             </div>

@@ -280,7 +280,7 @@ $('.remove-video-widget').click(function(){
 
 
 /*
- * Global : Show user details
+ * Menu Sidebar : Show user details
  */
 
 $('#user_detail_btn').click(function(){
@@ -328,10 +328,9 @@ $('.scroll_down').click(function(){
 
     let id = $(this).attr('href');
     let section_scope = $(id).offset().top;
-    let nav_height = $('#topbar').height();
 
     $('html,body').animate({
-        scrollTop: (section_scope - nav_height)
+        scrollTop: (section_scope - 110)
     }, 500);
 });
 
