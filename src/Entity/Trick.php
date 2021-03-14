@@ -6,11 +6,12 @@ use App\Repository\TrickRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=TrickRepository::class)
+ * @UniqueEntity(fields={"slug"}, message="* Ce trick existe déjà")
  */
 class Trick
 {
@@ -18,38 +19,32 @@ class Trick
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups("tricks:load")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups("tricks:load")
      * @Assert\NotBlank(message="Le nom ne peut pas être vide")
      */
     private $name;
 
     /**
      * @ORM\Column(type="integer")
-     * @Groups("tricks:load")
      */
     private $difficulty;
 
     /**
      * @ORM\Column(type="datetime")
-     * @Groups("tricks:load")
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
-     * @Groups("tricks:load")
      */
     private $modifiedAt;
 
     /**
      * @ORM\Column(type="text")
-     * @Groups("tricks:load")
      * @Assert\NotBlank(message="La description ne peut pas être vide")
      */
     private $content;
@@ -57,14 +52,12 @@ class Trick
     /**
      * @ORM\ManyToOne(targetEntity=Category::class)
      * @ORM\JoinColumn(nullable=false)
-     * @Groups("tricks:load")
      */
     private $category;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class)
      * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
-     * @Groups("tricks:load")
      */
     private $user;
 
@@ -82,6 +75,11 @@ class Trick
      * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="trick", orphanRemoval=true)
      */
     private $comment;
+
+    /**
+     * @ORM\Column(type="string", length=255, unique=true)
+     */
+    private $slug;
 
     public function __construct()
     {
@@ -264,6 +262,18 @@ class Trick
                 $comment->setTrick(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }

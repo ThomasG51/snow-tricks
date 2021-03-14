@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class TricksController extends AbstractController
 {
@@ -37,16 +38,16 @@ class TricksController extends AbstractController
     /**
      * Show specific tricks
      *
-     * @Route("/show/{id}", name="show_tricks")
-     * @param $id
+     * @Route("/show/{slug}", name="show_tricks")
+     * @param $slug
      * @param TrickRepository $trickRepository
      * @param Request $request
      * @param EntityManagerInterface $manager
      * @return Response
      */
-    public function show($id, TrickRepository $trickRepository, Request $request): Response
+    public function show($slug, TrickRepository $trickRepository, Request $request): Response
     {
-        $trick = $trickRepository->find($id);
+        $trick = $trickRepository->findOneBySlug($slug);
         $comment = new Comment();
 
         $formComment = $this->createForm(CommentType::class, $comment);
@@ -61,9 +62,7 @@ class TricksController extends AbstractController
             $this->getDoctrine()->getManager()->persist($comment);
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('show_tricks', [
-                'id' =>$id
-            ]);
+            return $this->redirectToRoute('show_tricks', ['slug' =>$slug]);
         }
 
         return $this->render('tricks/show.html.twig', [
@@ -79,10 +78,10 @@ class TricksController extends AbstractController
      * @Route("/trick/create", name="trick_create")
      * @IsGranted("ROLE_USER")
      * @param Request $request
-     * @param EntityManagerInterface $manager
+     * @param SluggerInterface $slugger
      * @return Response
      */
-    public function create(Request $request): Response
+    public function create(Request $request, SluggerInterface $slugger): Response
     {
         $trick = new Trick();
         $formTrick = $this->createForm(TrickType::class, $trick);
@@ -90,6 +89,7 @@ class TricksController extends AbstractController
 
         if ($formTrick->isSubmitted() && $formTrick->isValid())
         {
+            $trick->setSlug(strtolower($slugger->slug($trick->getName() . ' ' . $trick->getCategory()->getName(), '-')));
             $trick->setCreatedAt(new \DateTime());
             $trick->setUser($this->getUser());
 
@@ -104,7 +104,7 @@ class TricksController extends AbstractController
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('show_tricks', [
-                'id' => $trick->getId()
+                'slug' => $trick->getSlug()
             ]);
         }
 
@@ -188,13 +188,13 @@ class TricksController extends AbstractController
     /**
      * Edit trick
      *
-     * @Route("trick/edit/{id}", name="trick_edit")
+     * @Route("trick/edit/{slug}", name="trick_edit")
      * @param Trick $trick
      * @param Request $request
-     * @param EntityManagerInterface $manager
+     * @param SluggerInterface $slugger
      * @return Response
      */
-    public function edit(Trick $trick, Request $request): Response
+    public function edit(Trick $trick, Request $request, SluggerInterface $slugger): Response
     {
         $this->denyAccessUnlessGranted('CAN_EDIT', $trick, 'Vous ne pouvez pas modifier le trick d\'un autre utilisateur.');
 
@@ -203,8 +203,11 @@ class TricksController extends AbstractController
 
         if($formTrick->isSubmitted() && $formTrick->isValid())
         {
+            $trick->setSlug(strtolower($slugger->slug($trick->getName() . ' ' . $trick->getCategory()->getName(), '-')));
             $trick->setModifiedAt(new \DateTime());
             $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('show_tricks', ['slug' => $trick->getSlug()]);
         }
 
         return $this->render('tricks/create.html.twig', [
