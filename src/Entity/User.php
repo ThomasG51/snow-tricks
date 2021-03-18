@@ -84,6 +84,11 @@ class User implements UserInterface
      */
     private $avatar;
 
+    /**
+     * @ORM\OneToOne(targetEntity=ResetPasswordRequest::class, mappedBy="user", cascade={"persist"})
+     */
+    private $resetPasswordRequest;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -210,6 +215,23 @@ class User implements UserInterface
     public function setAvatar(string $avatar): self
     {
         $this->avatar = $avatar;
+
+        return $this;
+    }
+
+    public function getResetPasswordRequest(): ?ResetPasswordRequest
+    {
+        return $this->resetPasswordRequest;
+    }
+
+    public function setResetPasswordRequest(ResetPasswordRequest $resetPasswordRequest): self
+    {
+        // set the owning side of the relation if necessary
+        if ($resetPasswordRequest->getUser() !== $this) {
+            $resetPasswordRequest->setUser($this);
+        }
+
+        $this->resetPasswordRequest = $resetPasswordRequest;
 
         return $this;
     }

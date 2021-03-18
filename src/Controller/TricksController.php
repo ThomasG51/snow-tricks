@@ -4,11 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Comment;
 use App\Entity\Trick;
-use App\Entity\User;
 use App\Form\CommentType;
 use App\Form\TrickType;
 use App\Repository\TrickRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -42,7 +40,6 @@ class TricksController extends AbstractController
      * @param $slug
      * @param TrickRepository $trickRepository
      * @param Request $request
-     * @param EntityManagerInterface $manager
      * @return Response
      */
     public function show($slug, TrickRepository $trickRepository, Request $request): Response
@@ -139,7 +136,6 @@ class TricksController extends AbstractController
      * @Route("trick/delete/{id}", name="trick_delete")
      * @param Request $request
      * @param Trick $trick
-     * @param EntityManagerInterface $manager
      * @return Response
      * @throws \Exception
      */
