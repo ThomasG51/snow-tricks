@@ -13,12 +13,26 @@ use Symfony\Component\Form\Extension\Core\Type\RangeType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class TrickType extends AbstractType
 {
+    /**
+     * @var SluggerInterface
+     */
+    private SluggerInterface $slugger;
+
+    public function __construct(SluggerInterface $slugger)
+    {
+        $this->slugger = $slugger;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $slugger = $this->slugger;
         $builder
             ->add('name', TextType::class, [
                 'attr' => [

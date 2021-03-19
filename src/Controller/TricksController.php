@@ -84,11 +84,12 @@ class TricksController extends AbstractController
         $formTrick = $this->createForm(TrickType::class, $trick);
         $formTrick->handleRequest($request);
 
+
         if ($formTrick->isSubmitted() && $formTrick->isValid())
         {
-            $trick->setSlug(strtolower($slugger->slug($trick->getName() . ' ' . $trick->getCategory()->getName(), '-')));
             $trick->setCreatedAt(new \DateTime());
             $trick->setUser($this->getUser());
+
 
             foreach($trick->getVideos() as $video)
             {
