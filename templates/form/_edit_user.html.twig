@@ -1,0 +1,6 @@
+<form action="{{ path('user_edit', {'id': app.user.id}) }}" method="post" autocomplete="off">
+    <input type="text" name="firstname" value="{{ app.user.firstname }}" class="menu-input">
+    <input type="text" name="lastname" value="{{ app.user.lastname }}" class="menu-input">
+    <input type="text" name="email" value="{{ app.user.email }}" class="menu-input mb-3">
+    <button type="submit" class="btn-blue w-full">Modifier mon compte</button>
+</form>

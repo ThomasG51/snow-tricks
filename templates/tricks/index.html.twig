@@ -7,19 +7,28 @@
             <h6 class="text-md xl:text-2xl font-light text-white italic"><i class="fas fa-snowboarding mr-3"></i>Let's get riding</h6>
         </div>
 
-        <a href="#tricks" class="block bg-blue-400 hover:bg-white text-white hover:text-blue-400 text-lg font-light shadow hover:shadow-lg rounded-none py-3 px-4 ml-5 mt-5">Découvrir les tricks</a>
+        <a href="#tricks" class="scroll_down block bg-blue-400 hover:bg-white text-white hover:text-blue-400 text-lg font-light shadow hover:shadow-lg rounded-none py-3 px-4 ml-5 mt-5">Découvrir les tricks</a>
 
-        <a href="" class="hidden md:block absolute bottom-3 right-6"><i class="fas fa-chevron-down text-white text-5xl"></i></a>
+        <a href="#tricks" class="hidden md:block absolute bottom-3 right-6 scroll_down"><i class="fas fa-chevron-down text-white text-5xl"></i></a>
     </header>
 
     <main id="tricks" class="relative container mx-auto mt-10 mb-5">
         <div id="tricks-container" class="w-full grid grid-cols-1 xl:grid-cols-5">
             {% for trick in tricks %}
-                <div class="trick-card">
-                    <figure class="w-full h-48 mb-5 overflow-hidden">
-                        <img class="object-cover min-h-full" src="{{ asset('media/images/japan-air-1.jpg') }}" alt="">
-                    </figure>
-                    <a href="/show/{{ trick.id }}"><h6 class="text-xl text-center font-bold px-8 mb-2">{{ trick.name }} {{ trick.category.name }}</h6></a>
+                <div class="trick-card"
+                     data-sal="slide-up"
+                     data-sal-delay="100"
+                     data-sal-duration="600"
+                     data-sal-easing="ease-out-back"
+                     data-sal-repeat>
+                    <a href="/show/{{ trick.slug }}"><figure class="w-full h-48 mb-5 overflow-hidden">
+                        {% for media in trick.media %}
+                            {% if media.cover %}
+                                <img class="object-cover min-h-full" src="{{ asset('upload/tricks/') ~ media.name }}" alt="">
+                            {% endif %}
+                        {% endfor %}
+                        </figure></a>
+                    <a href="/show/{{ trick.slug }}"><h6 class="text-xl text-center font-bold px-8 mb-2">{{ trick.name }} {{ trick.category.name }}</h6></a>
                     <small class="block px-8 mb-4 text-center">
                         {% if trick.difficulty == 1 %}
                             <i class="fas fa-star text-blue-400"></i><i class="far fa-star text-blue-400"></i><i class="far fa-star text-blue-400"></i>
@@ -29,6 +38,12 @@
                             <i class="fas fa-star text-blue-400"></i><i class="fas fa-star text-blue-400"></i><i class="fas fa-star text-blue-400"></i>
                         {% endif %}
                     </small>
+                    {% if app.user and app.user == trick.user %}
+                        <div class="flex justify-evenly items-center">
+                            <a href="{{ path('trick_edit', {'slug': trick.slug}) }}" class="border border-blue-400 bg-blue-200 text-blue-400 text-sm rounded px-2 mb-5">modifier</a>
+                            {{ include('form/_delete_trick.html.twig') }}
+                        </div>
+                    {% endif %}
                 </div>
             {% endfor %}
         </div>
@@ -37,10 +52,8 @@
             Load more tricks
         </button>
 
-        <a href="" class="hidden md:block absolute bottom-3 right-6"><i class="fas fa-chevron-up text-blue-400 text-5xl"></i></a>
+        <a href="" class="hidden md:block absolute bottom-3 right-6 scroll_top"><i class="fas fa-chevron-up text-blue-400 text-5xl"></i></a>
     </main>
 
     <footer class="w-full h-16 bg-gray-800 text-white flex justify-center items-center"><p class="hidden md:block">Copyright &copy; <span class="text-blue-400">S</span>now<span class="text-blue-400">T</span>ricks 2021</p></footer>
 {% endblock %}
-
-{% block javascripts %}{% endblock %}

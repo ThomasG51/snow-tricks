@@ -1,12 +1,20 @@
 {%  extends 'base.html.twig' %}
 
 {% block body %}
-    <main class="xl:grid xl:grid-cols-2 min-h-screen">
-        <figure class="h-96 xl:fixed xl:h-screen xl:w-1/2 overflow-hidden">
-            <img class="object-cover min-h-full min-w-full" src="{{ asset('media/images/nose.jpg') }}" alt="">
-        </figure>
-        <div class="col-start-2 pt-8 xl:pt-28 bg-white">
-            <h1 class="text-4xl font-bold mx-8">{{ trick.name }} </h1>
+    <figure class="vh-80 w-full xl:w-4/5 xl:mx-auto xl:mt-32 xl:mb-16 shadow-lg overflow-hidden relative">
+        {% for media in trick.media %}
+            {% if media.cover %}
+                <img class="object-cover min-h-full min-w-full" src="{{ asset('upload/tricks/') ~ media.name }}" alt="{{ trick.name }} {{ trick.category.name }}">
+            {% endif %}
+        {% endfor %}
+        <figcaption class="absolute top-0 h-full w-full text-4xl xl:text-8xl flex justify-center items-center">
+            <h1 class="text-white font-semibold snowtricks-title bg-blue-400 py-3 pl-8 pr-4 rounded-l-full shadow-lg">{{ trick.name }}</h1>
+            <h1 class="text-blue-400 font-semibold snowtricks-title bg-white py-3 pr-8 pl-4 rounded-r-full shadow-lg">{{ trick.category.name }}</h1>
+        </figcaption>
+    </figure>
+    <main class="xl:container xl:mx-auto w-full xl:w-3/5 min-h-screen shadow">
+        <div class="col-start-2 pt-8 xl:pt-16 pb-3 mb-8 bg-white">
+            <h1 class="text-4xl font-bold mx-8">{{ trick.name }} {{ trick.category.name }}</h1>
             <h6 class="inline-block text-sm italic text-gray-500 mx-8">
                 {% if trick.difficulty == 1 %}
                     <i class="fas fa-star text-blue-400"></i><i class="far fa-star text-blue-400"></i><i class="far fa-star text-blue-400"></i>
@@ -16,139 +24,83 @@
                     <i class="fas fa-star text-blue-400"></i><i class="fas fa-star text-blue-400"></i><i class="fas fa-star text-blue-400"></i>
                 {% endif %}
             </h6>
+            <h6 class="text-sm text-gray-400 mx-8 mt-5">Créé le: <i class="far fa-clock ml-1"></i> {{ trick.createdAt | date("d/m/Y") }} {% if trick.user != null %}par {{ trick.user.firstname }} {{ trick.user.lastname }}{% endif %}</h6>
             {% if trick.modifiedAt != null %}
-                <h6 class="text-sm italic text-gray-500  mx-8">Modification: <i class="far fa-clock ml-1"></i> {{ trick.modifiedAt | date("d/m/Y") }}</h6>
+                <h6 class="text-sm text-gray-400 mx-8 mt-1">Modifié le: <i class="far fa-clock ml-1"></i> {{ trick.modifiedAt | date("d/m/Y") }}</h6>
             {% endif %}
 
-            <p class="mx-8 my-10 text-justify text-gray-800">
-                {{ trick.content | raw }}
-            </p>
+            {% if app.user and app.user == trick.user %}
+                <div class="flex justify-start items-center mx-8 mt-5">
+                    <a href="{{ path('trick_edit', {'slug': trick.slug}) }}" class="border border-blue-400 bg-blue-200 text-blue-400 text-sm rounded px-2 mb-5 mr-3">modifier</a>
+                    {{ include('form/_delete_trick.html.twig') }}
+                </div>
+            {% endif %}
+
+            <div class="mx-8 my-10 text-justify text-gray-800">
+                {{ trick.content | raw  }}
+            </div>
 
             <button id="show-media" class="btn-blue block xl:hidden mx-auto">Afficher les médias</button>
 
             <div id="media" class="hidden xl:block">
-                <div class="grid grid-col-1 xl:grid-cols-3 mx-6 my-6">
-                    <figure class="w-full md:w-11/12 mx-auto mb-5 md:mb-0">
-                        <img class="object-cover min-w-full  max-h-52 md:min-h-full" src="http://placehold.it/200x150" alt="">
+                <div class="grid grid-col-1 xl:grid-cols-3 gap-5 mx-6 my-6">
+                    {% for media in trick.media %}
+                    <figure class="w-full mx-auto mb-5 md:mb-0">
+                        <img class="object-cover min-w-full max-h-52 md:min-h-full zoomable" src="{{ asset('upload/tricks/' ~ media.name) }}" alt="{{ media.name }}">
                     </figure>
-                    <figure class="w-full md:w-11/12 mx-auto mb-5 md:mb-0">
-                        <img class="object-cover min-w-full  max-h-52 md:min-h-full" src="http://placehold.it/200x150" alt="">
-                    </figure>
-                    <figure class="w-full md:w-11/12 mx-auto mb-5 md:mb-0">
-                        <img class="object-cover min-w-full  max-h-52 md:min-h-full" src="http://placehold.it/200x150" alt="">
-                    </figure>
+                    {% endfor %}
                 </div>
 
-                <div class="grid grid-col-1 md:grid-cols-2 mx-6 my-8">
-                    <iframe class="w-full md:w-11/12 h-48 mx-auto mb-5 md:mb-0" src="https://www.youtube.com/embed/gZFWW4Vus-Q" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                    <iframe class="w-full md:w-11/12 h-48 mx-auto mb-5 md:mb-0" src="https://www.youtube.com/embed/_Qq-YoXwNQY" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <div class="grid grid-col-1 md:grid-cols-2 gap-5 mx-6 my-8">
+                    {% for video in trick.videos %}
+                        <iframe class="w-full h-64"
+                                src="https://youtube.com/embed/{{ video.url }}"
+                                frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen>
+                        </iframe>
+                    {% endfor %}
                 </div>
             </div>
 
             <h3 class="text-blue-400 text-xl px-8 mt-10">Vos réactions</h3>
 
-            <form action="" class="px-8 mb-8">
-                <textarea class="block border border-gray-200 rounded w-full h-40" name=""></textarea>
+            {% if app.user %}
+            <div class="px-8 mb-8">
+            {{ form_start(formComment) }}
+                {{ form_errors(formComment) }}
+                {{ form_widget(formComment) }}
                 <button class="block bg-blue-400 text-white rounded w-full pt-2 pb-1 mt-3" type="submit">Valider</button>
-            </form>
+            {{ form_end(formComment) }}
+            </div>
+            {% endif %}
 
-            <div class="border border-gray-200 mx-8 md:grid md:grid-cols-6 mb-5">
-                <figure class="pt-4 pb-0 px-4 md:p-4">
-                    <img class="rounded-full w-1/4 md:w-full mx-auto" src="http://placehold.it/800x800" alt="">
-                </figure>
-                <div class="md:col-span-5 flex justify-center items-center text-center md:text-left p-4">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi deleniti ea eligendi est fugiat itaque maxime necessitatibus nihil non nostrum quis, rem sed tempore, voluptatum.</p>
+            {% for comment in trick.comment %}
+            <div class="border border-gray-200 mx-8 md:grid md:grid-cols-9 mb-8">
+                <div class="md:col-span-2 pt-4 pb-0 px-4 md:p-4 flex justify-center items-center">
+                    <figure class="w-32 h-32 rounded-full overflow-hidden">
+                        {% if comment.user.avatar %}
+                            <img class="min-h-full min-w-full object-cover" src="{{ asset('upload/avatar/') }}{{ comment.user.avatar }}" alt="">
+                        {% else %}
+                            <i class="fas fa-user block w-1/4 md:w-full mx-auto mb-4 md:mb-0 text-center text-7xl text-blue-400"></i>
+                        {% endif %}
+                    </figure>
+                </div>
+                <div class="md:col-span-7 flex flex-col justify-center items-start text-justify md:text-left p-4">
+                    <small class="text-blue-400"><i class="far fa-clock"></i> {{ comment.createdAt | date('d-m-Y') }}</small>
+                    <small class="text-blue-400 mb-2 mt-1"><i class="far fa-user"></i> {{ comment.user.firstname }} {{ comment.user.lastname }}</small>
+                    <p class="mb-3">{{ comment.message }}</p>
+                    {{ include('form/_delete_comment.html.twig') }}
                 </div>
             </div>
-
-            <footer class="w-full h-16 bg-gray-800 text-white flex justify-center items-center"><p class="hidden md:block">Copyright &copy; <span class="text-blue-400">S</span>now<span class="text-blue-400">T</span>ricks 2021</p></footer>
+            {% endfor %}
         </div>
     </main>
+    <footer class="w-full h-16 bg-gray-800 text-white flex justify-center items-center"><p class="hidden md:block">Copyright &copy; <span class="text-blue-400">S</span>now<span class="text-blue-400">T</span>ricks 2021</p></footer>
 {% endblock %}
 
 {% block javascripts %}
     <script type="text/javascript">
-
-        let slideUp = (target, duration=800) => {
-            target.style.transitionProperty = 'height, margin, padding';
-            target.style.transitionDuration = duration + 'ms';
-            target.style.boxSizing = 'border-box';
-            target.style.height = target.offsetHeight + 'px';
-            target.offsetHeight;
-            target.style.overflow = 'hidden';
-            target.style.height = 0;
-            target.style.paddingTop = 0;
-            target.style.paddingBottom = 0;
-            target.style.marginTop = 0;
-            target.style.marginBottom = 0;
-            window.setTimeout( () => {
-                target.style.display = 'none';
-                target.style.removeProperty('height');
-                target.style.removeProperty('padding-top');
-                target.style.removeProperty('padding-bottom');
-                target.style.removeProperty('margin-top');
-                target.style.removeProperty('margin-bottom');
-                target.style.removeProperty('overflow');
-                target.style.removeProperty('transition-duration');
-                target.style.removeProperty('transition-property');
-            }, duration);
-        }
-
-        let slideDown = (target, duration=800) => {
-            target.style.removeProperty('display');
-            let display = window.getComputedStyle(target).display;
-            if (display === 'none') display = 'block';
-            target.style.display = display;
-            let height = target.offsetHeight;
-            target.style.overflow = 'hidden';
-            target.style.height = 0;
-            target.style.paddingTop = 0;
-            target.style.paddingBottom = 0;
-            target.style.marginTop = 0;
-            target.style.marginBottom = 0;
-            target.offsetHeight;
-            target.style.boxSizing = 'border-box';
-            target.style.transitionProperty = "height, margin, padding";
-            target.style.transitionDuration = duration + 'ms';
-            target.style.height = height + 'px';
-            target.style.removeProperty('padding-top');
-            target.style.removeProperty('padding-bottom');
-            target.style.removeProperty('margin-top');
-            target.style.removeProperty('margin-bottom');
-            window.setTimeout( () => {
-                target.style.removeProperty('height');
-                target.style.removeProperty('overflow');
-                target.style.removeProperty('transition-duration');
-                target.style.removeProperty('transition-property');
-            }, duration);
-        }
-
-        var slideToggle = (target, duration = 800) => {
-            if (window.getComputedStyle(target).display === 'none') {
-                return slideDown(target, duration);
-            } else {
-                return slideUp(target, duration);
-            }
-        }
-
-        document.getElementById('show-media').addEventListener('click', function(){
-            slideToggle(document.getElementById('media'), 1000);
-            if(this.classList.contains('btn-blue'))
-            {
-                this.classList.remove('btn-blue');
-                this.classList.add('btn-red');
-                this.innerText = 'Hide';
-                this.innerText = 'Masquer les médias';
-            }
-            else
-            {
-                setTimeout(function(){
-                    document.getElementById('show-media').classList.remove('btn-red');
-                    document.getElementById('show-media').classList.add('btn-blue');
-                    document.getElementById('show-media').innerText = 'Afficher les médias';
-                }, 1000);
-            }
-        });
-
+        document.getElementById('topbar').classList.add('bg-gray-800');
     </script>
 {% endblock %}

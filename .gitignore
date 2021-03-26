@@ -17,7 +17,7 @@
 ###< symfony/phpunit-bridge ###
 
 ### Upload files ###
-/public/media
+/public/upload
 ###> symfony/webpack-encore-bundle ###
 /node_modules/
 /public/build/

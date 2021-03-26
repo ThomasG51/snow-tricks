@@ -2,31 +2,26 @@
 
 namespace App\Form;
 
-use App\Entity\Video;
+use App\Entity\Media;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class VideoType extends AbstractType
+class MediaType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('url', TextType::class, [
-                'label' => false,
-                'attr' => [
-                    'placeholder' => 'http://',
-                    'class' => 'w-full bg-gray-100'
-                ]
-            ])
+            ->add('name', HiddenType::class)
+            ->add('cover', HiddenType::class)
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Video::class,
+            'data_class' => Media::class,
         ]);
     }
 }

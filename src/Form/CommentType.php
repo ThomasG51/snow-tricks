@@ -2,23 +2,22 @@
 
 namespace App\Form;
 
-use App\Entity\Video;
+use App\Entity\Comment;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class VideoType extends AbstractType
+class CommentType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('url', TextType::class, [
-                'label' => false,
+            ->add('message', TextareaType::class, [
                 'attr' => [
-                    'placeholder' => 'http://',
-                    'class' => 'w-full bg-gray-100'
-                ]
+                    'class' => 'block border border-gray-200 rounded w-full h-40 p-3'
+                ],
+                'label' => false
             ])
         ;
     }
@@ -26,7 +25,7 @@ class VideoType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Video::class,
+            'data_class' => Comment::class,
         ]);
     }
 }

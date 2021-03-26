@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\VideoRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=VideoRepository::class)
@@ -19,6 +20,8 @@ class Video
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="L'url ne peut pas être vide")
+     * @Assert\Url(message="L'url n'a pas un format valide")
      */
     private $url;
 
@@ -26,7 +29,7 @@ class Video
      * @ORM\ManyToOne(targetEntity=Trick::class, inversedBy="videos")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $Trick;
+    private $trick;
 
     public function getId(): ?int
     {
@@ -47,12 +50,12 @@ class Video
 
     public function getTrick(): ?Trick
     {
-        return $this->Trick;
+        return $this->trick;
     }
 
-    public function setTrick(?Trick $Trick): self
+    public function setTrick(?Trick $trick): self
     {
-        $this->Trick = $Trick;
+        $this->trick = $trick;
 
         return $this;
     }

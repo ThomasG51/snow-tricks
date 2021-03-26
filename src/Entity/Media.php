@@ -28,10 +28,10 @@ class Media
     private $cover;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Trick::class)
+     * @ORM\ManyToOne(targetEntity=Trick::class, inversedBy="media")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $tricks;
+    private $trick;
 
     public function getId(): ?int
     {
@@ -62,14 +62,14 @@ class Media
         return $this;
     }
 
-    public function getTricks(): ?Trick
+    public function getTrick(): ?Trick
     {
-        return $this->tricks;
+        return $this->trick;
     }
 
-    public function setTricks(?Trick $tricks): self
+    public function setTrick(?Trick $trick): self
     {
-        $this->tricks = $tricks;
+        $this->trick = $trick;
 
         return $this;
     }

@@ -6,14 +6,15 @@ use App\Repository\TrickRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Validator\UniqueTrick;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=TrickRepository::class)
+ * @UniqueTrick()
  */
 class Trick
 {
-    // TODO assert constrain
-
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -23,6 +24,7 @@ class Trick
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Le nom ne peut pas être vide")
      */
     private $name;
 
@@ -43,6 +45,7 @@ class Trick
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotBlank(message="La description ne peut pas être vide")
      */
     private $content;
 
@@ -54,18 +57,35 @@ class Trick
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class)
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
      */
     private $user;
 
     /**
-     * @ORM\OneToMany(targetEntity=Video::class, mappedBy="Trick", orphanRemoval=true, cascade={"persist"})
+     * @ORM\OneToMany(targetEntity=Video::class, mappedBy="trick", orphanRemoval=true, cascade={"persist", "remove"})
      */
     private $videos;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Media::class, mappedBy="trick", orphanRemoval=true, cascade={"persist", "remove"})
+     */
+    private $media;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="trick", orphanRemoval=true)
+     */
+    private $comment;
+
+    /**
+     * @ORM\Column(type="string", length=255, unique=true)
+     */
+    private $slug;
 
     public function __construct()
     {
         $this->videos = new ArrayCollection();
+        $this->media = new ArrayCollection();
+        $this->comment = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -178,11 +198,82 @@ class Trick
     public function removeVideo(Video $video): self
     {
         if ($this->videos->removeElement($video)) {
-            // set the owning side to null (unless already changed)
             if ($video->getTrick() === $this) {
                 $video->setTrick(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Media[]
+     */
+    public function getMedia(): Collection
+    {
+        return $this->media;
+    }
+
+    public function addMedium(Media $medium): self
+    {
+        if (!$this->media->contains($medium)) {
+            $this->media[] = $medium;
+            $medium->setTrick($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMedium(Media $medium): self
+    {
+        if ($this->media->removeElement($medium)) {
+            // set the owning side to null (unless already changed)
+            if ($medium->getTrick() === $this) {
+                $medium->setTrick(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Comment[]
+     */
+    public function getComment(): Collection
+    {
+        return $this->comment;
+    }
+
+    public function addComment(Comment $comment): self
+    {
+        if (!$this->comment->contains($comment)) {
+            $this->comment[] = $comment;
+            $comment->setTrick($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): self
+    {
+        if ($this->comment->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getTrick() === $this) {
+                $comment->setTrick(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }
