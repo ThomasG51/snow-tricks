@@ -20,19 +20,8 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 
 class TrickType extends AbstractType
 {
-    /**
-     * @var SluggerInterface
-     */
-    private SluggerInterface $slugger;
-
-    public function __construct(SluggerInterface $slugger)
-    {
-        $this->slugger = $slugger;
-    }
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $slugger = $this->slugger;
         $builder
             ->add('name', TextType::class, [
                 'attr' => [
