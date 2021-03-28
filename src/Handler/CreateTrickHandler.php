@@ -7,7 +7,6 @@ namespace App\Handler;
 use App\Entity\Trick;
 use App\Form\TrickType;
 use Doctrine\ORM\EntityManagerInterface;
-use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -30,7 +29,7 @@ class CreateTrickHandler
      * @param Trick $trick
      * @return bool
      */
-    public function processing(Request $request, Trick $trick): Boolean
+    public function processing(Request $request, Trick $trick): bool
     {
         $this->formTrick = $this->formFactory->create(TrickType::class, $trick);
         $this->formTrick->handleRequest($request);
