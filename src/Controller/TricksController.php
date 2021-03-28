@@ -6,6 +6,7 @@ use App\Entity\Comment;
 use App\Entity\Trick;
 use App\Form\CommentType;
 use App\Form\TrickType;
+use App\Handler\CreateTrickHandler;
 use App\Repository\TrickRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -75,39 +76,22 @@ class TricksController extends AbstractController
      * @Route("/trick/create", name="trick_create")
      * @IsGranted("ROLE_USER")
      * @param Request $request
-     * @param SluggerInterface $slugger
+     * @param CreateTrickHandler $trickHandler
      * @return Response
      */
-    public function create(Request $request, SluggerInterface $slugger): Response
+    public function create(Request $request, CreateTrickHandler $trickHandler): Response
     {
         $trick = new Trick();
-        $formTrick = $this->createForm(TrickType::class, $trick);
-        $formTrick->handleRequest($request);
 
-
-        if ($formTrick->isSubmitted() && $formTrick->isValid())
+        if ($trickHandler->processing($request, $trick))
         {
-            $trick->setCreatedAt(new \DateTime());
-            $trick->setUser($this->getUser());
-
-
-            foreach($trick->getVideos() as $video)
-            {
-                // Pattern for youtube url
-                preg_match('/^(\w+:\/\/\w+\.\w+\.*\w+\/(\w+\?v=)*)(\w+)((\&\S+)*)$/',$video->getUrl(), $videoId);
-                $video->setUrl($videoId[3]);
-            }
-
-            $this->getDoctrine()->getManager()->persist($trick);
-            $this->getDoctrine()->getManager()->flush();
-
             return $this->redirectToRoute('show_tricks', [
                 'slug' => $trick->getSlug()
             ]);
         }
 
         return $this->render('tricks/create.html.twig', [
-            'formTricks' => $formTrick->createView()
+            'formTricks' => $trickHandler->form()->createView()
         ]);
     }
 
