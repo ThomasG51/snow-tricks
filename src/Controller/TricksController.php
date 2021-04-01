@@ -6,6 +6,7 @@ use App\Entity\Comment;
 use App\Entity\Trick;
 use App\Form\CommentType;
 use App\Form\TrickType;
+use App\Handler\CreateCommentHandler;
 use App\Handler\CreateTrickHandler;
 use App\Handler\EditTrickHandler;
 use App\Repository\TrickRepository;
@@ -43,29 +44,19 @@ class TricksController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    public function show($slug, TrickRepository $trickRepository, Request $request): Response
+    public function show($slug, TrickRepository $trickRepository, Request $request, CreateCommentHandler $commentHandler): Response
     {
         $trick = $trickRepository->findOneBySlug($slug);
         $comment = new Comment();
 
-        $formComment = $this->createForm(CommentType::class, $comment);
-        $formComment->handleRequest($request);
-
-        if($formComment->isSubmitted() && $formComment->isValid())
+        if($commentHandler->processing($request,$comment, $trick))
         {
-            $comment->setCreatedAt(new \DateTime());
-            $comment->setTrick($trick);
-            $comment->setUser($this->getUser());
-
-            $this->getDoctrine()->getManager()->persist($comment);
-            $this->getDoctrine()->getManager()->flush();
-
             return $this->redirectToRoute('show_tricks', ['slug' =>$slug]);
         }
 
         return $this->render('tricks/show.html.twig', [
             'trick' => $trick,
-            'formComment' => $formComment->createView()
+            'formComment' => $commentHandler->form()->createView()
         ]);
     }
 
