@@ -7,6 +7,7 @@ use App\Entity\Trick;
 use App\Form\CommentType;
 use App\Form\TrickType;
 use App\Handler\CreateTrickHandler;
+use App\Handler\EditTrickHandler;
 use App\Repository\TrickRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,7 +16,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\String\Slugger\SluggerInterface;
 
 class TricksController extends AbstractController
 {
@@ -172,28 +172,21 @@ class TricksController extends AbstractController
      * @Route("trick/edit/{slug}", name="trick_edit")
      * @param Trick $trick
      * @param Request $request
-     * @param SluggerInterface $slugger
+     * @param EditTrickHandler $trickHandler
      * @return Response
      */
-    public function edit(Trick $trick, Request $request, SluggerInterface $slugger): Response
+    public function edit(Trick $trick, Request $request, EditTrickHandler $trickHandler): Response
     {
         $this->denyAccessUnlessGranted('CAN_EDIT', $trick, 'Vous ne pouvez pas modifier le trick d\'un autre utilisateur.');
 
-        $formTrick = $this->createForm(TrickType::class, $trick);
-        $formTrick->handleRequest($request);
-
-        if($formTrick->isSubmitted() && $formTrick->isValid())
+        if($trickHandler->processing($request, $trick))
         {
-            $trick->setSlug(strtolower($slugger->slug($trick->getName() . ' ' . $trick->getCategory()->getName(), '-')));
-            $trick->setModifiedAt(new \DateTime());
-            $this->getDoctrine()->getManager()->flush();
-
             return $this->redirectToRoute('show_tricks', ['slug' => $trick->getSlug()]);
         }
 
         return $this->render('tricks/create.html.twig', [
             'trick' => $trick,
-            'formTricks' => $formTrick->createView()
+            'formTricks' => $trickHandler->form()->createView()
         ]);
     }
 }
