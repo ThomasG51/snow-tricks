@@ -39,7 +39,6 @@ class CreateCommentHandler
         if($this->formComment->isSubmitted() && $this->formComment->isValid())
         {
             $comment->setCreatedAt(new \DateTime());
-            $comment->setTrick($trick);
             $comment->setUser($this->getUser());
 
             $this->manager->persist($comment);

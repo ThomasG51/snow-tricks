@@ -12,6 +12,7 @@ use App\Handler\EditTrickHandler;
 use App\Repository\TrickRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -40,14 +41,15 @@ class TricksController extends AbstractController
      *
      * @Route("/show/{slug}", name="show_tricks")
      * @param $slug
-     * @param TrickRepository $trickRepository
+     * @param Trick $trick
      * @param Request $request
+     * @param CreateCommentHandler $commentHandler
      * @return Response
      */
-    public function show($slug, TrickRepository $trickRepository, Request $request, CreateCommentHandler $commentHandler): Response
+    public function show($slug, Trick $trick, Request $request, CreateCommentHandler $commentHandler): Response
     {
-        $trick = $trickRepository->findOneBySlug($slug);
         $comment = new Comment();
+        $comment->setTrick($trick);
 
         if($commentHandler->processing($request,$comment, $trick))
         {
@@ -66,15 +68,14 @@ class TricksController extends AbstractController
      *
      * @Route("/trick/create", name="trick_create")
      * @IsGranted("ROLE_USER")
-     * @param Request $request
      * @param CreateTrickHandler $trickHandler
      * @return Response
      */
-    public function create(Request $request, CreateTrickHandler $trickHandler): Response
+    public function create(CreateTrickHandler $trickHandler): Response
     {
         $trick = new Trick();
 
-        if ($trickHandler->processing($request, $trick))
+        if ($trickHandler->handle(FormType::class, $trick))
         {
             return $this->redirectToRoute('show_tricks', [
                 'slug' => $trick->getSlug()
