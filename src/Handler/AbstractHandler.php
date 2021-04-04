@@ -8,45 +8,45 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 abstract class AbstractHandler
 {
-    private Request $request;
+    private TokenStorageInterface $token;
     private FormFactoryInterface $formFactory;
     private EntityManagerInterface $manager;
     private FormInterface $form;
 
     /**
      * @Required
-     * @param Request $request
      * @param FormFactoryInterface $formFactory
      * @param EntityManagerInterface $manager
-     * @param FormInterface $form
+     * @param TokenStorageInterface $token
      */
-    public function load(Request $request, FormFactoryInterface $formFactory, EntityManagerInterface $manager, FormInterface $form)
+    public function load(FormFactoryInterface $formFactory, EntityManagerInterface $manager, TokenStorageInterface $token)
     {
-        $this->request = $request;
+        $this->token = $token;
         $this->formFactory = $formFactory;
         $this->manager = $manager;
-        $this->form = $form;
     }
 
-    abstract public function process($entity);
+    abstract public function process($entity, $token);
 
     /**
      * Handle form
+     * @param Request $request
      * @param $formType
      * @param $entity
      * @return bool
      */
-    public function handle($formType, $entity): bool
+    public function handle(Request $request, $formType, $entity): bool
     {
         $this->form = $this->formFactory->create($formType, $entity);
-        $this->form->handleRequest($this->request);
+        $this->form->handleRequest($request);
 
         if ($this->form->isSubmitted() && $this->form->isValid())
         {
-            $this->process($entity);
+            $this->process($entity, $this->token);
 
             $this->manager->persist($entity);
             $this->manager->flush();

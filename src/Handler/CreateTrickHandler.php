@@ -5,22 +5,19 @@ namespace App\Handler;
 
 
 use App\Entity\Trick;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class CreateTrickHandler extends AbstractHandler
 {
-    private TokenStorageInterface $token;
-
     /**
      * Form data processing
      *
      * @param Trick $trick
-     * @return bool
+     * @param $token
      */
-    public function process($trick)
+    public function process($trick, $token)
     {
             $trick->setCreatedAt(new \DateTime());
-            $trick->setUser($this->token->getToken()->getUser());
+            $trick->setUser($token->getToken()->getUser());
 
             foreach($trick->getVideos() as $video)
             {

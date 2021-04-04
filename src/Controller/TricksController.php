@@ -12,8 +12,6 @@ use App\Handler\EditTrickHandler;
 use App\Repository\TrickRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\FormType;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -51,7 +49,7 @@ class TricksController extends AbstractController
         $comment = new Comment();
         $comment->setTrick($trick);
 
-        if($commentHandler->processing($request,$comment, $trick))
+        if($commentHandler->handle($request, CommentType::class, $comment))
         {
             return $this->redirectToRoute('show_tricks', ['slug' =>$slug]);
         }
@@ -68,14 +66,15 @@ class TricksController extends AbstractController
      *
      * @Route("/trick/create", name="trick_create")
      * @IsGranted("ROLE_USER")
+     * @param Request $request
      * @param CreateTrickHandler $trickHandler
      * @return Response
      */
-    public function create(CreateTrickHandler $trickHandler): Response
+    public function create(Request $request, CreateTrickHandler $trickHandler): Response
     {
         $trick = new Trick();
 
-        if ($trickHandler->handle(FormType::class, $trick))
+        if ($trickHandler->handle($request, TrickType::class, $trick))
         {
             return $this->redirectToRoute('show_tricks', [
                 'slug' => $trick->getSlug()
@@ -83,7 +82,7 @@ class TricksController extends AbstractController
         }
 
         return $this->render('tricks/create.html.twig', [
-            'formTricks' => $trickHandler->form()->createView()
+            'form' => $trickHandler->form()->createView()
         ]);
     }
 
@@ -171,14 +170,14 @@ class TricksController extends AbstractController
     {
         $this->denyAccessUnlessGranted('CAN_EDIT', $trick, 'Vous ne pouvez pas modifier le trick d\'un autre utilisateur.');
 
-        if($trickHandler->processing($request, $trick))
+        if($trickHandler->handle($request, TrickType::class, $trick))
         {
             return $this->redirectToRoute('show_tricks', ['slug' => $trick->getSlug()]);
         }
 
         return $this->render('tricks/create.html.twig', [
             'trick' => $trick,
-            'formTricks' => $trickHandler->form()->createView()
+            'form' => $trickHandler->form()->createView()
         ]);
     }
 }
