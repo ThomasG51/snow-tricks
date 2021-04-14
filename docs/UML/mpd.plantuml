@@ -9,6 +9,8 @@
             difficulty : FLOAT NOT NULL
             created_at : DATETIME NOT NULL
             modified_at : DATETIME
+            content : TEXTE NOT NULL
+            slug : VARCHAR NOT NULL
             --
             type_id : INT NOT NULL [FK]
             user_id : INT NOT NULL [FK]
@@ -44,6 +46,15 @@
             role : JSON NOT NULL
         }
 
+        Class ResetPasswordRequest {
+            id : INT NOT NULL [PK]
+            created_at : DATETIME NOT NULL
+            expired_at : DATETIME NOT NULL
+            token : VARCHAR NOT NULL
+            --
+            user_id : INT NOT NULL [FK]
+        }
+
         Class Comment {
             id : INT NOT NULL [PK]
             message : TEXT NOT NULL
@@ -61,6 +72,8 @@
 
         Comment }|--o| Tricks
         Comment }|--o| User
+
+        ResetPasswordRequest |o--o| User
     }
 
 @enduml

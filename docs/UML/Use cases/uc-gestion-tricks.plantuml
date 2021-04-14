@@ -1,0 +1,20 @@
+@startuml uc-gestion-tricks
+
+    left to right direction
+
+    actor user
+
+    package gestion_des_trick {
+        usecase se_connecter
+        usecase creer_un_trick
+        usecase editer_un_trick
+        usecase supprimer_un_trick
+    }
+
+    creer_un_trick ..> se_connecter : <<include>>
+
+    user -- creer_un_trick
+    user -- editer_un_trick
+    user -- supprimer_un_trick
+
+@enduml

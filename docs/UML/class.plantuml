@@ -9,6 +9,8 @@
             {field} -difficulty : float
             {field} -createdAt : DateTime
             {field} -modifiedAt : DateTime
+            {field} -content : text
+            {field} -slug : string
             --
             {field} -type_id : integer
             {field} -user_id : integer
@@ -35,6 +37,15 @@
             {field} -email : string
             {field} -password : string
             {field} -role : json
+        }
+
+        Class ResetPasswordRequest {
+            {field} -id : integer
+            {field} -created_at : datetime
+            {field} -expired_at : datetime
+            {field} -token : string
+            --
+            {field} -user_id : integer
         }
 
         Class Comment {

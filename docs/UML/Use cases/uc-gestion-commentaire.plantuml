@@ -1,0 +1,18 @@
+@startuml uc-gestion-commentaires
+
+    left to right direction
+
+    actor user
+
+    package gestion_des_commentaires {
+        usecase se_connecter
+        usecase creer_un_commentaire
+        usecase supprimer_un_commentaire
+    }
+
+    creer_un_commentaire ..> se_connecter : <<include>>
+
+    user -- creer_un_commentaire
+    user -- supprimer_un_commentaire
+
+@enduml

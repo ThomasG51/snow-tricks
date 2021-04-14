@@ -1,0 +1,19 @@
+@startuml uc-gestion-des-users
+    
+    left to right direction
+    
+    actor visiteur
+
+    package gestion_des_users {
+        usecase se_connecter
+        usecase s_enregistrer
+        usecase reinitialiser_mot_de_passe
+    }
+
+    reinitialiser_mot_de_passe ..> se_connecter : <<include>>
+
+    visiteur -- se_connecter
+    visiteur -- s_enregistrer
+    visiteur -- reinitialiser_mot_de_passe
+
+@enduml
