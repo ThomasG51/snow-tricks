@@ -1,0 +1,23 @@
+@startuml connexion
+    actor Client
+    control System
+    database Database
+
+    Client -> System : Demande de la page de connexion
+    Client <- System : Affichage du formulaire de connexion
+    Client -> System : Remplissage du formulaire
+    System -> System : Test de validité des informations du formulaire
+        alt Formulaire validé
+            System -> Database : Recherche de l'utilisateur
+            Database -> System : Renvoi de l'utilisateur
+            alt Utilisateur trouvé
+                System -> System : Verification de la coherence avec le mot de passe de la BDD
+                System -> System : Création de la session
+                System -> Client : Redirection vers la page d'accueil
+            else connexion refusé
+                Client <- System : Affichage d'un message d'erreur
+            end
+        else Formulaire érroné
+            Client <- System : Affichage d'un message d'erreur
+        end
+@enduml

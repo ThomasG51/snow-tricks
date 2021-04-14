@@ -1,0 +1,17 @@
+@startuml creer un commentaire
+
+    actor Client
+    control System
+    database Database
+
+    Client -> System : Demande de la page d'affichage d'un trick
+    Client <- System : Affichage du de la page du trick et du formulaire d'ajout de commentaire
+    Client -> System : Remplissage du formulaire
+    System -> System : Teste la validité des informations
+        alt Formulaire validé
+            System -> Database : Enregistrement des données dans la BDD
+            Client <- System : Redirection vers la page du trick
+        else Informations erronées
+            Client <- System : Affichage d'un message d'erreur
+        end
+@enduml
